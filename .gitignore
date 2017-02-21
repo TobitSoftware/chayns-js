@@ -1,0 +1,9 @@
+# IntelliJ
+.idea
+
+# Build and deps
+node_modules
+build
+
+# npm logs
+*.log

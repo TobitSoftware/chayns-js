@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1, maximum-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+
+    <title>V3 JS</title>
+
+    <!--<link rel="stylesheet" href="http://x-le-w81.tobit.ag:3000/dist/chayns.css"/>-->
+    <link rel="stylesheet" href="//chayns-res.tobit.com/api/v3.1/intern/qa/css/chayns.css"/>
+    <style>
+        .tapp {
+            height: 20000px;
+        }
+    </style>
+</head>
+<body>
+<div class="tapp">
+    <div class="tapp__content">
+        <input id="test" type="text" class="input" finder="site" />
+        <input id="test2" type="text" class="input" finder="person" />
+    </div>
+    <div class="tapp__intro">
+        <div>Mobile: <span class="red" id="mobile">false</span></div>
+        <div>Tablet: <span class="red" id="tablet">false</span></div>
+        <div>Desktop: <span class="red" id="desktop">false</span></div>
+        <div style="margin-top: 10px;">Browser: <span class="red" id="browser">false</span></div>
+        <div style="margin-top: 10px;">Android: <span class="red" id="android">false</span></div>
+        <div>iOS: <span class="red" id="ios">false</span></div>
+        <div style="margin-top: 10px;">ChaynsWeb: <span class="red" id="chaynsWeb">false</span></div>
+        <div>ChaynsWebDesktop: <span class="red" id="chaynsWebDesktop">false</span></div>
+        <div>ChaynsWebMobile: <span class="red" id="chaynsWebMobile">false</span></div>
+        <div>Color: <span id="color">undefined</span></div>
+        <div>ColorMode: <span id="color-mode">undefined</span></div>
+        <div style="margin-top: 40px;" id="log"></div>
+    </div>
+    <div class="tapp__content">
+        <div class="image-upload">
+            <div class="image-upload__image" style="background-image: url('//images.ichkoche.at/data/image/variations/365x283/1/gurke-img-9590.jpg')">
+                <div class="image-upload__remove"></div>
+            </div>
+
+            <div class="image-upload__upload" onClick="upload()">
+                <div class="image-upload__add">Bild</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="chayns.js"></script>
+<script>
+chayns.ui.modeSwitch.init({
+	items: [
+		{
+			name: 'Hallo',
+			id: 'mode-switch__user',
+			default: true
+		},
+		{
+			name: 'Administrator',
+			id: 'mode-switch__admin'
+		}
+	],
+	callback: console.log.bind(console)
+});
+
+    chayns.ready
+            .then(function () {
+            	chayns.showWaitCursor();
+
+                if (chayns.env.isMobile) {
+                    document.querySelector('#mobile').innerHTML = 'true';
+                    document.querySelector('#mobile').classList.add('green');
+                    document.querySelector('#mobile').classList.remove('red');
+                }
+                if (chayns.env.isTablet) {
+                    document.querySelector('#tablet').innerHTML = 'true';
+                    document.querySelector('#tablet').classList.add('green');
+                    document.querySelector('#tablet').classList.remove('red');
+                }
+                if (chayns.env.isDesktop) {
+                    document.querySelector('#desktop').innerHTML = 'true';
+                    document.querySelector('#desktop').classList.add('green');
+                    document.querySelector('#desktop').classList.remove('red');
+                }
+                if (chayns.env.isBrowser) {
+                    document.querySelector('#browser').innerHTML = 'true';
+                    document.querySelector('#browser').classList.add('green');
+                    document.querySelector('#browser').classList.remove('red');
+                }
+                if (chayns.env.isAndroid) {
+                    document.querySelector('#android').innerHTML = 'true';
+                    document.querySelector('#android').classList.add('green');
+                    document.querySelector('#android').classList.remove('red');
+                }
+                if (chayns.env.isIOS) {
+                    document.querySelector('#ios').innerHTML = 'true';
+                    document.querySelector('#ios').classList.add('green');
+                    document.querySelector('#ios').classList.remove('red');
+                }
+                if (chayns.env.isChaynsWeb) {
+                    document.querySelector('#chaynsWeb').innerHTML = 'true';
+                    document.querySelector('#chaynsWeb').classList.add('green');
+                    document.querySelector('#chaynsWeb').classList.remove('red');
+                }
+                if (chayns.env.isChaynsWebDesktop) {
+                    document.querySelector('#chaynsWebDesktop').innerHTML = 'true';
+                    document.querySelector('#chaynsWebDesktop').classList.add('green');
+                    document.querySelector('#chaynsWebDesktop').classList.remove('red');
+                }
+                if (chayns.env.isChaynsWebMobile) {
+                    document.querySelector('#chaynsWebMobile').innerHTML = 'true';
+                    document.querySelector('#chaynsWebMobile').classList.add('green');
+                    document.querySelector('#chaynsWebMobile').classList.remove('red');
+                }
+
+                document.querySelector('#color').innerHTML = chayns.env.site.color;
+                document.querySelector('#color-mode').innerHTML = chayns.env.site.colorMode;
+            });
+</script>
+</body>
+</html>
