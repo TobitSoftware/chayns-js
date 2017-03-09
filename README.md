@@ -30,4 +30,4 @@ If you want to use the chayns® JavaScript API in your own tapps, we suggest usi
 ```
 
 Once the chayns® API is implemented, you only need to run the chayns.ready-Promise and are ready to use it. <br>
-Watch [this](https://github.com/TobitSoftware/chayns-backend/wiki/Getting-Started) more information on chayns.ready.
+Watch [this](https://github.com/TobitSoftware/chayns-backend/wiki/Getting-Started) getting started tutorial for more information on chayns.ready.
