@@ -20,7 +20,7 @@ If you want to use the chayns® JavaScript API in your own tapps, we suggest usi
 
 ```HTML
 <!-- To get started.. -->
-Load the chayns API styles and JavaScript from the CDN
+<!-- Load the chayns API styles and JavaScript from the CDN -->
 
 <!-- styles -->
 <link rel="stylesheet" href="https://chayns-res.tobit.com/API/V3.1/css/chayns.min.css">
