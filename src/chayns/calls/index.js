@@ -19,6 +19,7 @@ export * from './scanQRCode'; // 34
 export * from './getBeaconHistory'; // 36
 export * from './setNfcCallback'; // 37/38
 export * from './getLocationBeacons'; // 39
+export * from './getBeaconMonitoringStatus'; // 46
 export * from './addToWallet'; // 47
 export * from './login'; // 54/56
 export * from './refreshAccessToken'; // 55
