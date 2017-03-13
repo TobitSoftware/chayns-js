@@ -63,4 +63,6 @@ export * from './sendEventToTopFrame'; // 112
 export * from './setWebsiteTitle'; // 114
 export * from './setOverlay'; // 116
 export * from './setInteractionIdentification'; // 117
+export * from './uploadCloudImage';
+
 

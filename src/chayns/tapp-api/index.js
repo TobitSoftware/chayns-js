@@ -6,4 +6,6 @@ export * from './isUserAdminOfLocation';
 export * from './setTappVisibility';
 export * from './uploadImageToServer';
 export * as intercom from './intercom';
+export * from './uploadToCloud';
+
 
