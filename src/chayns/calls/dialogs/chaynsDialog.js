@@ -8,18 +8,18 @@ export const buttonText = {
 		'de': 'Ja',
 		'en': 'Yes',
 		'nl': 'Ja'
-	}[environment.language],
+	}[environment.language] || 'Yes',
 	'NO': {
 		'de': 'Nein',
 		'en': 'No',
 		'nl': 'Nee'
-	}[environment.language],
+	}[environment.language] || 'No',
 	'OK': 'OK',
 	'CANCEL': {
 		'de': 'Abbrechen',
 		'en': 'Cancel',
 		'nl': 'Annuleren'
-	}[environment.language]
+	}[environment.language] || 'Cancel'
 };
 
 export const buttonType = {
