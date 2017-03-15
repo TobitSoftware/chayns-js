@@ -1,6 +1,4 @@
-/**
- * Created by SHoltkamp on 09.03.2017.
- */
+
 import { imageUploadToCloud } from '../tapp-api';
 import {uploadFile} from './uploadFile';
 
