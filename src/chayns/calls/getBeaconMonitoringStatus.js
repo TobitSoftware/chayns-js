@@ -1,6 +1,4 @@
-/**
- * Created by SHoltkamp on 08.03.2017.
- */
+
 import { chaynsCall } from '../chaynsCall';
 import { getCallbackName } from '../callback';
 import { propTypes } from '../propTypes';

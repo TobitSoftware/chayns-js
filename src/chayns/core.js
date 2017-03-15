@@ -13,7 +13,7 @@ import * as validate from '../ui/validate';
 import * as slider from '../ui/slider';
 import { getLogger } from '../utils/logger';
 import DOM from '../utils/Dom';
-import { isObject, isPresent } from '../utils/is';
+import { isObject, isPresent, isNumber } from '../utils/is';
 import { defer } from '../utils/defer';
 
 const log = getLogger('chayns.core'),
@@ -184,7 +184,7 @@ export function setupEnvironment(data) {
 	let site = {'tapp': {}};
 	if (isObject(data.AppInfo)) {
 		const appInfo = data.AppInfo;
-
+		let colorMode = isPresent(environment._parameters.colormode) ? (isNumber(parseInt(environment._parameters.colormode, 10)) ? parseInt(environment._parameters.colormode, 10) : undefined) : undefined;
 		site = {
 			'id': appInfo.SiteID,
 			'locationId': appInfo.LocationID,
@@ -195,7 +195,7 @@ export function setupEnvironment(data) {
 			'facebookPageId': appInfo.FacebookPageID,
 			'colorScheme': appInfo.ColorScheme || environment.site.colorScheme || 0,
 			'color': appInfo.color || `#${environment.parameters.color}`,
-			'colorMode': isPresent(appInfo.colorMode) ? parseInt(appInfo.colorMode, 10) : environment.parameters.colorMode,
+			'colorMode': isPresent(colorMode) ? colorMode : parseInt(appInfo.colorMode, 10),
 			'version': appInfo.Version,
 			'domain': appInfo.domain,
 			'tapp': {},
