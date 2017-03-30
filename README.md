@@ -1,3 +1,5 @@
+[![license](https://img.shields.io/github/license/TobitSoftware/chayns-js.svg)]() [![GitHub pull requests](https://img.shields.io/github/issues-pr/TobitSoftware/chayns-js.svg)]() [![](https://img.shields.io/github/issues-pr-closed-raw/TobitSoftware/chayns-js.svg)]()
+
 # chayns® JavaScript API
 In this section you will find general information about the chayns® JavaScript API. For more detailed information take a look at the [Wiki](https://github.com/TobitSoftware/chayns-js/wiki).
 
