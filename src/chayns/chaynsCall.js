@@ -23,8 +23,24 @@ export function chaynsCall(obj) {
 		});
 	}
 
+	if(environment.isWidget){
+
+		if(environment.isChaynsWeb && obj.web !== false || environment.isApp && obj.app !== false){
+			obj.call.isWidget = true;
+
+			log.debug('chaynsCall: attempt chayns web call');
+			const webObj = obj.web;
+
+			// if there is a function registered it will be executed instead of the call
+			if (!environment.isApp && webObj && webObj.fn && isFunction(webObj.fn)) {
+				log.debug('chaynsWebCall: fallback invoke will be attempted');
+				return webObj.fn();
+			}
+			return injectCallback(chaynsWebCall, obj);
+		}
+	}
 	// chayns call (native app)
-	if (environment.isApp && obj.app !== false) {
+	else if (environment.isApp && obj.app !== false) {
 		log.debug('chaynsCall: attempt chayns call');
 		const appObj = obj.app;
 
@@ -34,6 +50,7 @@ export function chaynsCall(obj) {
 		}
 
 		if (!appObj.support || isPermitted(appObj.support)) {
+			log.debug("supportedAppCall");
 			return injectCallback(chaynsAppCall, obj);
 		}
 
@@ -67,14 +84,14 @@ export function chaynsCall(obj) {
 function injectCallback(callFn, obj) {
 	if (obj.callbackFunction) {
 		setCallback(obj.callbackName, obj.callbackFunction);
-		return callFn(obj.call);
+		return callFn(obj);
 	} else if (obj.callbackName) {
 		const callPromise = defer();
 		setCallback(obj.callbackName, callPromise);
-		return callFn(obj.call).then(() => callPromise.promise);
+		return callFn(obj).then(() => callPromise.promise);
 	}
 
-	return callFn(obj.call);
+	return callFn(obj);
 }
 
 /**
@@ -82,22 +99,22 @@ function injectCallback(callFn, obj) {
  * @param call
  * @returns {Array|Promise|*}
  */
-function chaynsAppCall(call) {
+function chaynsAppCall(obj) {
 	try {
-		if (isObject(call)) {
-			call = JSON.stringify(call);
+		if (isObject(obj.call)) {
+			obj.call = JSON.stringify(obj.call);
 		}
 
-		log.debug('executeJsonChaynsCall:', call);
+		log.debug('executeJsonChaynsCall:', obj.call);
 		if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jsonCall) {
-			window.webkit.messageHandlers.jsonCall.postMessage(call);
+			window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
 		} else {
-			window.chaynsApp.jsonCall(call);
+			window.chaynsApp.jsonCall(obj.call);
 		}
 
 		return Promise.resolve();
 	} catch (e) {
-		log.error('executeJsonChaynsCall: could not execute call: ', call, e);
+		log.error('executeJsonChaynsCall: could not execute call: ', obj.call, e);
 		return Promise.reject(e);
 	}
 }
@@ -106,17 +123,31 @@ function chaynsAppCall(call) {
  * Execute a ChaynsWeb Call in the parent window.
  *
  * @private
- * @param {Object} call Call object
+ * @param {Object}  object
  * @returns {Promise} True if chaynsWebCall succeeded
  */
-function chaynsWebCall(call) {
-	if (environment.isInFrame && !Config.get('forceAjaxCalls')) {
+function chaynsWebCall(obj) {
+
+	if(environment.isWidget){
 		try {
-			if (isObject(call)) {
-				call = JSON.stringify(call);
+			if(isObject(obj)){
+				obj = JSON.stringify(obj);
+			}
+			const url = `chayns.widget.jsoncall${window.name ? `@${window.name}` : ''}:${obj}`;
+			log.debug(`chaynsWebCall: ${url}`);
+			window.parent.postMessage(url, '*');
+		} catch (e) {
+			log.error('chaynsWebCall: postMessage failed', e);
+			return Promise.reject(e);
+		}
+	}
+	else if (environment.isInFrame && !Config.get('forceAjaxCalls')) {
+		try {
+			if (isObject(obj.call)) {
+				obj.call = JSON.stringify(obj.call);
 			}
 
-			const url = `chayns.customTab.jsoncall${window.name ? `@${window.name}` : ''}:${call}`;
+			const url = `chayns.customTab.jsoncall${window.name ? `@${window.name}` : ''}:${obj.call}`;
 			log.debug(`chaynsWebCall: ${url}`);
 			window.parent.postMessage(url, '*');
 		} catch (e) {
@@ -124,9 +155,9 @@ function chaynsWebCall(call) {
 			return Promise.reject(e);
 		}
 	} else {
-		const func = window.JsonCalls[call.action];
+		const func = window.JsonCalls[obj.call.action];
 		if (func) {
-			func(call.value, [window, 'chayns.ajaxTab.']);
+			func(obj.call.value, [window, 'chayns.ajaxTab.']);
 		} else {
 			log.error('chaynsWebCall: no function found');
 			return Promise.reject();
@@ -137,11 +168,12 @@ function chaynsWebCall(call) {
 }
 
 export function invokeCall(call) {
+	let obj = {};
+	obj.call = call;
 	log.debug(`invokeCall: ${call}`);
-
 	if (environment.isApp) {
-		return chaynsAppCall(call);
+		return chaynsAppCall(obj);
 	} else if (environment.isChaynsWeb) {
-		return chaynsWebCall(call);
+		return chaynsWebCall(obj);
 	}
 }

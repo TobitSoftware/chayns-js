@@ -1,3 +1,4 @@
+
 const userAgent = (window.navigator && navigator.userAgent) || '',
 	chaynsInfo = window.ChaynsInfo,
 	INTERNAL_PARAMETERS = [
@@ -24,12 +25,13 @@ if (query[0] !== '') {
 	}
 }
 
-const isApp = ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && window === window.top,
+const isApp = ['android', 'ios', 'wp'].indexOf(parameters.os) > -1,
 	isMobile = (/(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent),
 	isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent),
 	isChaynsWebLight = parameters.os === 'webshadowlight',
 	isChaynsWebMobile = chaynsInfo ? chaynsInfo.IsMobile : parameters.os === 'webshadowmobile',
-	isChaynsWebDesktop = chaynsInfo ? !chaynsInfo.IsMobile : parameters.os === 'webshadow';
+	isChaynsWebDesktop = chaynsInfo ? !chaynsInfo.IsMobile : parameters.os === 'webshadow',
+	isWidget = publicParameters.isWidget === 'true';
 
 export const environment = {
 	'parameters': publicParameters,
@@ -56,6 +58,7 @@ export const environment = {
 	'isChaynsWebDesktop': isChaynsWebDesktop,
 	'isChaynsWeb': isChaynsWebMobile || isChaynsWebDesktop || isChaynsWebLight,
 	'isChaynsParent': !!chaynsInfo && window === window.top,
+	'isWidget': isWidget,
 	'isInFrame': (window !== window.top),
 	'isInFacebookFrame': false,
 	'appVersion': parseInt(parameters.appversion, 10),

@@ -8,8 +8,9 @@ import productionConfig from './webpack/prod.babel';
  * Path to release-directory
  * @type {string} RELEAST_PATH
  */
-const RELEAST_PATH = '//chayns1/SlitteRessource/API/v3.1/',
-	BUILD_PATH = './build/';
+const RELEAST_PATH = '',
+	BUILD_PATH = './build/',
+	PRERELEASE_PATH = '';
 
 /**
  * Builds and deploys to release path.
@@ -25,6 +26,14 @@ gulp.task('deploy:release', ['build'], () => {
 gulp.task('deploy:qa', ['build'], () => {
 	gulp.src(`${BUILD_PATH}*.*`)
 		.pipe(gulp.dest(path.resolve(RELEAST_PATH, 'intern/qa/js')));
+});
+
+/**
+ * Builds and deploys to LOCAL path.
+ */
+gulp.task('deploy:local', ['build'], () => {
+	gulp.src(`${BUILD_PATH}*.*`)
+		.pipe(gulp.dest(path.resolve(PRERELEASE_PATH, 'js')));
 });
 
 /**
