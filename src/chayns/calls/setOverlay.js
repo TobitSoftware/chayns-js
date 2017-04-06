@@ -30,6 +30,6 @@ export function showOverlay(color, transition) {
 	return setOverlay(true, color, transition);
 }
 
-export function hideOverlay() {
-	return setOverlay(false);
-}
+export function hideOverlay(transition) {
+	return setOverlay(false, undefined, transition);
+} 
