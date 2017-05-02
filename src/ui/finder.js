@@ -183,7 +183,7 @@ function createItem(result) {
 
 	if (currentFinder.type === PERSON) {
 		nameItem.innerHTML = result.name;
-		picture.setAttribute('src', `//graph.facebook.com/${result.facebookId}/picture?type=square`);
+		picture.setAttribute('src', `//sub60.tobit.com/u/${result.personId}?size=40`);
 
 		const personIdItem = document.createElement('div');
 		personIdItem.classList.add('person_id');
@@ -191,7 +191,7 @@ function createItem(result) {
 		textItem.appendChild(personIdItem);
 	} else {
 		nameItem.innerHTML = result.appstoreName;
-		picture.setAttribute('src', `//barforce.tobit.com/storage/${result.siteId}/Images/icon-75.png`);
+		picture.setAttribute('src', `//sub60.tobit.com/l/${result.siteId}?size=40`);
 		picture.setAttribute('onerror', `this.onerror=null; this.src = '//graph.facebook.com/${result.facebookId}/picture'`);
 	}
 
