@@ -42,7 +42,7 @@ function handleFocus(event) {
 	removeFinderPopup();
 	const container = createFinderPopup(event.target);
 	for (let i = 0; i < currentFinder.results.length; i++) {
-		container.append(createItem(currentFinder.results[i]));
+		container.appendChild(createItem(currentFinder.results[i]));
 	}
 }
 
@@ -110,14 +110,14 @@ const loadData = (target, clear) => new Promise((resolve, reject) => {
 				}
 
 				for (let i = 0; i < length; i++) {
-					container.append(createItem(res.Value[i]));
+					container.appendChild(createItem(res.Value[i]));
 				}
 
 				currentFinder.skip += length;
 				currentFinder.results = currentFinder.results.concat(res.Value);
 			} else if (res.Status.ResultCode === 1) {
 				DOM.clear(container);
-				container.append(createPlaceholder('Keine Treffer.'));
+				container.appendChild(createPlaceholder('Keine Treffer.'));
 
 				currentFinder.skip = 0;
 				currentFinder.results = [];
