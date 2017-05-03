@@ -24,7 +24,6 @@ export function chaynsCall(obj) {
 	}
 
 	if(environment.isWidget){
-
 		if(environment.isChaynsWeb && obj.web !== false || environment.isApp && obj.app !== false){
 			obj.call.isWidget = true;
 
@@ -38,10 +37,24 @@ export function chaynsCall(obj) {
 			}
 			return injectCallback(chaynsWebCall, obj);
 		}
-	}
-	// chayns call (native app)
-	else if (environment.isApp && obj.app !== false) {
-		log.debug('chaynsCall: attempt chayns call');
+	} else if(environment.isChaynsWebLight && obj.cwl !== undefined) { // chacing call for CWL important! Do not set CWL to false
+		log.debug('chaynsCall: attempt chayns cwl call');
+		const cwlObj = obj.cwl;
+
+		//will be executed instead of the call
+		if (cwlObj && cwlObj.fn && isFunction(cwlObj.fn)) {
+			log.debug('chaynsCall: fallback invoke will be attempted');
+			return cwlObj.fn();
+		}
+		if(cwlObj.version <= environment.appVersion) {
+			return injectCallback(chaynsWebCall, obj);
+		}
+		else{
+			return notSupported(obj);
+		}
+
+	} else if (environment.isApp && obj.app !== false ) { // chayns call (native app)
+		log.debug('chaynsCall: attempt chayns app call');
 		const appObj = obj.app;
 
 		if (appObj && appObj.fn && isFunction(appObj.fn)) {
@@ -53,9 +66,7 @@ export function chaynsCall(obj) {
 			log.debug("supportedAppCall");
 			return injectCallback(chaynsAppCall, obj);
 		}
-
-		// chayns web call (custom tapp communication)
-	} else if (environment.isChaynsWeb && obj.web !== false) {
+	} else if (environment.isChaynsWeb && obj.web !== false) { // chayns web call (custom tapp communication)
 		log.debug('chaynsCall: attempt chayns web call');
 		const webObj = obj.web;
 
@@ -67,7 +78,10 @@ export function chaynsCall(obj) {
 
 		return injectCallback(chaynsWebCall, obj);
 	}
+	return notSupported(obj);
+}
 
+function notSupported(obj){
 	log.debug('chaynsCall: chayns call is not supported in this version.');
 	return Promise.reject({
 		'message': 'chaynsCall: chayns call is not supported in this version.',

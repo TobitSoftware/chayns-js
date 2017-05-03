@@ -64,6 +64,8 @@ export * from './sendEventToTopFrame'; // 112
 export * from './setWebsiteTitle'; // 114
 export * from './setOverlay'; // 116
 export * from './setInteractionIdentification'; // 117
-export * from './uploadCloudImage';
-
+export * from './getSavedIntercomChats'; // 127
+export * from './setIntercomChatData'; // 128
+export * from './closeWindow'; // 129
+export * from './uploadCloudImage'; // Not a real call
 
