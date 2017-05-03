@@ -12,7 +12,6 @@ function setTitleImage(show) {
 		'app': {
 			'support': {'android': 4899, 'ios': 4447}
 		},
-		'web': false,
 		'propTypes': {
 			'show': propTypes.boolean.isRequired
 		}
