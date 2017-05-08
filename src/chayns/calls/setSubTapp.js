@@ -4,10 +4,7 @@ import { extend } from '../../utils/extend';
 
 export function setSubTapp(tapp) {
 	tapp = extend({}, tapp);
-	if (tapp.name) {
-		tapp.name = `${tapp.name.toString().toUpperCase()}!`;
-	}
-
+	
 	return chaynsCall({
 		'call': {
 			'action': 69,
