@@ -37,7 +37,7 @@ export const environment = {
 	'parameters': publicParameters,
 	'_parameters': parameters,
 	'browser': getBrowserInfo(),
-	'language': parameters.lang ? parameters.lang : (navigator.languages && navigator.languages.length > 0 ? navigator.languages[0] : (navigator.language || navigator.userLanguage)).substring(0, 2),
+	'language': parameters.lang || (navigator.languages && navigator.languages.length > 0 ? navigator.languages[0] : (navigator.language || navigator.userLanguage)).substring(0, 2),
 	'site': {
 		'colorScheme': parameters.colorscheme || (chaynsInfo ? chaynsInfo.ColorScheme.ID : 0)
 	},

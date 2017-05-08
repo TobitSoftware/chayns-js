@@ -190,7 +190,7 @@ export function setupEnvironment(data) {
 			'locationId': appInfo.LocationID,
 			'locationPersonId': appInfo.LocationPersonID,
 			'title': appInfo.Title,
-			'language': isPresent(appInfo.Language) ? appInfo.Language : undefined,
+			'language':  appInfo.Language,
 			'tapps': (appInfo.Tapps || []).map(parseTapp),
 			'facebookAppId': appInfo.FacebookAppID,
 			'facebookPageId': appInfo.FacebookPageID,
