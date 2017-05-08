@@ -190,6 +190,7 @@ export function setupEnvironment(data) {
 			'locationId': appInfo.LocationID,
 			'locationPersonId': appInfo.LocationPersonID,
 			'title': appInfo.Title,
+			'language': isPresent(appInfo.Language) ? appInfo.Language : undefined,
 			'tapps': (appInfo.Tapps || []).map(parseTapp),
 			'facebookAppId': appInfo.FacebookAppID,
 			'facebookPageId': appInfo.FacebookPageID,
@@ -228,7 +229,8 @@ export function setupEnvironment(data) {
 			'tobitAccessToken': appUser.TobitAccessToken || '',
 			'facebookAccessToken': appUser.FacebookAccessToken || '',
 			'groups': (appUser.UACGroups || []).map(parseGroup),
-			'isAuthenticated': !!(appUser.TobitAccessToken && appUser.TobitAccessToken.length > 0)
+			'isAuthenticated': !!(appUser.TobitAccessToken && appUser.TobitAccessToken.length > 0),
+			'language': appUser.Language
 		};
 	}
 	setEnv('user', user);
