@@ -20,7 +20,7 @@ export function uploadFile(serverUrl, mimeType) {
 			}
 		},
 		'app': {
-			'support': {'ios': 5532}
+			'support': {'ios': 5532, 'android': 5491}
 		},
 		'web': {
 			'fn': webUpload.bind(this, serverUrl, mimeType)
