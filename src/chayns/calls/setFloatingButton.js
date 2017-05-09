@@ -35,3 +35,9 @@ export function showFloatingButton(value, callback) {
 export function hideFloatingButton() {
 	return setFloatingButton({'enabled': false});
 }
+
+export const floatingButtonPosition = {
+	'RIGHT': 0,
+	'CENTER': 1,
+	'LEFT': 2
+};
