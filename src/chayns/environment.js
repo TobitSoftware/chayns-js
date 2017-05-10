@@ -26,7 +26,7 @@ if (query[0] !== '') {
 }
 
 const isApp = ['android', 'ios', 'wp'].indexOf(parameters.os) > -1,
-	isMobile = (/(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent),
+	isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent),
 	isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent),
 	isChaynsWebLight = parameters.os === 'webshadowlight',
 	isChaynsWebMobile = chaynsInfo ? chaynsInfo.IsMobile : parameters.os === 'webshadowmobile',
@@ -51,7 +51,7 @@ export const environment = {
 	'isTablet': isTablet,
 	'isApp': isApp,
 	'isBrowser': !isApp,
-	'isDesktop': !isMobile && !isTablet,
+	'isDesktop': !isMobile,
 	'os': parameters.os || 'noOS',
 	'isChaynsWebLight': isChaynsWebLight,
 	'isChaynsWebMobile': isChaynsWebMobile,
