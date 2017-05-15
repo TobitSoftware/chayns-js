@@ -9,8 +9,8 @@
 export function delegate(target, selector, type, handler) {
 	function dispatchEvent(event) {
 		const targetElement = event.target;
-
-		if ((targetElement.matches || targetElement.webkitMatchesSelector || targetElement.msMatchesSelector).call(targetElement, selector)) {
+		const matchSelector = (targetElement.matches || targetElement.matchesSelector || targetElement.webkitMatchesSelector || targetElement.msMatchesSelector || targetElement.mozMatchesSelector );
+		if (matchSelector && matchSelector.call(targetElement, selector)) {
 			handler.call(targetElement, event);
 		}
 	}

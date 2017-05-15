@@ -285,18 +285,21 @@ function resizeListener() {
 	}
 
 	const resizeHandler = function resizeHandler() {
-		window.requestAnimationFrame(() => {
-			if (heightCache === document.body.offsetHeight) {
-				return;
-			}
+		let requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+		if(requestAnimationFrame) {
+			requestAnimationFrame(() => {
+				if (heightCache === document.body.offsetHeight) {
+					return;
+				}
 
-			log.debug('old height', heightCache, 'new height: ', document.body.offsetHeight);
-			heightCache = document.body.offsetHeight;
-			setHeight({
-				'height': heightCache,
-				'growOnly': false
+				log.debug('old height', heightCache, 'new height: ', document.body.offsetHeight);
+				heightCache = document.body.offsetHeight;
+				setHeight({
+					'height': heightCache,
+					'growOnly': false
+				});
 			});
-		});
+		}
 	};
 
 	log.debug('start height observer interval');
