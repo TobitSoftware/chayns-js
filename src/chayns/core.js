@@ -101,6 +101,9 @@ function domReadySetup() {
 	if (environment.isInFrame) {
 		html.classList.add(`${prefix}-frame`);
 	}
+	if(environment.isTablet){
+		html.classList.add(`${prefix}-tablet`);
+	}
 
 	// start window.on('message') listener for iFrame communication
 	messageListener();
