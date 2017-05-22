@@ -221,3 +221,18 @@ export function isJwt(value) {
 export function isUrl(url) {
 	return url && isString(url) && (/((([A-Za-z]{2,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%\/.\w\-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/i).test(url);
 }
+
+/**
+ * Determines if a value is a hexNumber
+ *
+ * @param value, is the hexColor
+ * @param allowShorthand
+ * @returns {*|boolean} True if it is a valid hexColor
+ */
+
+export function isHex(value, allowShorthand = false) {
+	if(allowShorthand) {
+		return value && isString(value) && (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value));
+	}
+	return value && isString(value) && (/(^#[0-9A-F]{6}$)/i.test(value));
+}
