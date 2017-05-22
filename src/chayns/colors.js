@@ -51,3 +51,11 @@ export function getSchemeColor(saturation, color) {
 
 	return color;
 }
+
+export function getBaseColor(color = environment.site.color, colormode = environment.site.colorMode) {
+	if (colormode >= 0 && colormode <= 2) {
+		const baseColor = [{'color': '#ffffff', 'saturation': 7}, {'color': '#1a1a1a', 'saturation': 10}, {'color': '#ffffff', 'saturation': 0}];
+		return mixColor(color, baseColor[colormode].color, baseColor[colormode].saturation);
+	}
+	return color;
+}

@@ -3,7 +3,7 @@ import { invokeCall } from './chayns/chaynsCall';
 import * as event from './chayns/events';
 import * as tappApi from './chayns/tapp-api';
 import { environment } from './chayns/environment';
-import { getSchemeColor } from './chayns/colors';
+import { getSchemeColor, getBaseColor } from './chayns/colors';
 import { ready, register, setup } from './chayns/core';
 import * as utils from './utils';
 import * as ui from './ui';
@@ -19,7 +19,7 @@ utils.extend(chayns,
 
 	{'env': environment},
 
-	{getSchemeColor},
+	{getSchemeColor, getBaseColor},
 	{register},
 	{ready},
 	{setup},
