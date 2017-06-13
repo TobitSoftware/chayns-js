@@ -257,7 +257,8 @@ export function setupEnvironment(data) {
 			'model': deviceData.Model,
 			'uid': deviceData.UID,
 			'systemName': deviceData.SystemName,
-			'imei': deviceData.IMEI
+			'imei': deviceData.IMEI,
+			'fontScale': deviceData.FontScale
 		};
 	}
 	setEnv('app', app);
