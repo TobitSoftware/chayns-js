@@ -65,6 +65,7 @@ export function init(config, rootElement) {
 
 		root.appendChild($tooltip);
 	}
+	return true;
 }
 
 /**
