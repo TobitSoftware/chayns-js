@@ -1,16 +1,23 @@
 import { chaynsCall } from '../chaynsCall';
 import { propTypes } from '../propTypes';
+import { getCallbackName } from '../callback';
+
 
 export function getAvailableSharingServices() {
+	const callbackName = 'getAvailableSharingServices';
+
 	return chaynsCall({
 		'call': {
 			'action': 79,
-			'value': {}
+			'value': {
+				'callback': getCallbackName(callbackName)
+			}
 		},
 		'app': {
 			'support': {'android': 4808, 'ios': 4380}
 		},
-		'web': false
+		'web': false,
+		callbackName
 	});
 }
 
@@ -18,12 +25,13 @@ export const sharingApp = {
 	'MAIL': 0,
 	'WHATSAPP': 1,
 	'FACEBOOK': 2,
-	'FACEBOOK_MESSANGER': 3,
+	'FACEBOOK_MESSENGER': 3,
 	'GOOGLE_PLUS': 4,
 	'TWITTER': 5
 };
 
 export function share(value) {
+
 	return chaynsCall({
 		'call': {
 			'action': 80,
