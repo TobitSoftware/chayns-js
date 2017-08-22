@@ -1,19 +1,21 @@
 import { chaynsCall } from '../chaynsCall';
 import { propTypes } from '../propTypes';
 
-export function scrollToY(y) {
+export function scrollToY(y, duration) {
 	return chaynsCall({
 		'call': {
 			'action': 81,
 			'value': {
-				'position': y
+				'position': y,
+                duration
 			}
 		},
 		'app': {
 			'fn': appScrollToY.bind(this, y)
 		},
 		'propTypes': {
-			'position': propTypes.number.isRequired
+			'position': propTypes.number.isRequired,
+            'duration': propTypes.number
 		}
 	});
 }
