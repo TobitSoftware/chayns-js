@@ -135,24 +135,45 @@ function modeSwitchChangeListener(item) {
 }
 
 export function addItem(item, index) {
-	const $grid = $modeSwitch.querySelector('.grid');
+    const $grid = $modeSwitch.querySelector('.grid');
 
-	if (!isNumber(index)) {
-		config.items.push(item);
-		$grid.appendChild(createModeSwitchItem(item, config.items.length - 1));
-	} else {
-		config.items.splice(index, 0, item);
-		let $child = $grid.children[index];
-		$grid.insertBefore(createModeSwitchItem(item, index), $child);
+    if(item.id) {
+        let length = config.items.length;
+        for (let i = 0; i < length; i++) {
+            if (config.items[i].id === item.id) {
+                return 'Cannot add Item with the same Id';
+            }
+        }
+    }
+    if (!isNumber(index)) {
+        config.items.push(item);
+        $grid.appendChild(createModeSwitchItem(item, config.items.length - 1));
+    } else {
+        config.items.splice(index, 0, item);
+        let $child = $grid.children[index];
+        $grid.insertBefore(createModeSwitchItem(item, index), $child);
 
-		let i = index + 1;
-		do {
-			$child.children[0].setAttribute('id', `mode-switch__${i}`);
-			$child.children[1].setAttribute('for', `mode-switch__${i}`);
-			$child = $child.nextSibling;
-			i++;
-		} while ($child);
-	}
+        let i = index + 1;
+        do {
+            $child.children[0].setAttribute('id', `mode-switch__${i}`);
+            $child.children[1].setAttribute('for', `mode-switch__${i}`);
+            $child = $child.nextSibling;
+            i++;
+        } while ($child);
+    }
+}
+
+export function removeItem(id) {
+    let length = config.items.length;
+    for(let i = 0; i < length; i++) {
+        if(config.items[i].id === id) {
+            let element = document.querySelector('#mode-switch__' + i);
+            element = element.parentNode;
+            element.parentNode.removeChild(element);
+            config.items[i] = {};
+            break;
+        }
+    }
 }
 
 export function changeMode(item) {
