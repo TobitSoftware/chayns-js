@@ -1,7 +1,11 @@
 import { chaynsCall } from '../chaynsCall';
 import { propTypes } from '../propTypes';
+import {environment} from '../environment';
 
 export function setHeight(value) {
+    if(environment.isWidget){
+        return setWidgetHeight(value);
+    }
 	return chaynsCall({
 		'call': {
 			'action': 77,
@@ -15,4 +19,19 @@ export function setHeight(value) {
 			'fullViewport': propTypes.boolean
 		}
 	});
+}
+
+export function setWidgetHeight(value) {
+    return chaynsCall({
+        'call': {
+            'action': 133,
+            value
+        },
+        'propTypes': {
+            'height': propTypes.number.isRequired,
+            'growOnly': propTypes.boolean,
+            'full': propTypes.boolean,
+            'fullViewport': propTypes.boolean
+        }
+    });
 }

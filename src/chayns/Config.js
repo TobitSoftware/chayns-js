@@ -12,7 +12,7 @@ const _config = {
 	'cssPrefix': 'chayns-',               // css prefix
 	'callbackPrefix': '_chaynsCallbacks', // chayns (web) call callback prefix
 	'initialHeight': 500,                 // initial chayns web height
-	'autoResize': !environment.isWidget,  // manages automatic resizing of the tapp
+	'autoResize': true,					  // manages automatic resizing of the tapp
 	'strictMode': 1,                      // cancels calls if parameters are wrong / missing
 	'forceAjaxCalls': false               // forces ajax calls even if chayns is in an iFrame
 };
