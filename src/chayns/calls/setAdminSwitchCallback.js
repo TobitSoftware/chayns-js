@@ -22,6 +22,6 @@ export function setAdminSwitchCallback(callback) {
 }
 
 export const adminSwitchStatus = {
-	'ADMIN': 0,
-	'USER': 1
+	'ADMIN': 1,
+	'USER': 0
 };
