@@ -111,15 +111,16 @@ export function messageListener() {
 			if (params.call && params.call.isWidget) {
 
 				log.debug('WidgetCall');
-				let callback = params.call.value.callback;
-				const precallInformation = prefix[0].split('@');
-				let fn = postToFrame.bind(this, precallInformation[1], params, callback, precallInformation[0]);
-				setCallback('postToFrame', fn, precallInformation[1]);
-				let webObj = {};
-				webObj.app = params.app;
-				webObj.call = params.call;
-				webObj.call.value.callback = getCallbackName('postToFrame', precallInformation[1]);
-				chaynsCall(webObj);
+                let callback = params.call.value.callback;
+                params.call.value.callback += '_' + (params.call.action || '');
+                const precallInformation = prefix[0].split('@');
+                let fn = postToFrame.bind(this, precallInformation[1], params, callback, precallInformation[0]);
+                setCallback('postToFrame' + '_' + (params.call.action || ''), fn, precallInformation[1]);
+                let webObj = {};
+                webObj.app = params.app;
+                webObj.call = params.call;
+                webObj.call.value.callback = getCallbackName('postToFrame' + '_' + (params.call.action || ''), precallInformation[1]);
+                chaynsCall(webObj);
 			}
 			else if (data.indexOf(namespace) !== -1) {
 				log.debug('new message', data);
