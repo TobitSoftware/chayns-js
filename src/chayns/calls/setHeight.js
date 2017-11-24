@@ -3,7 +3,7 @@ import { propTypes } from '../propTypes';
 import {environment} from '../environment';
 
 export function setHeight(value) {
-    if(environment.isWidget){
+    if(environment.isWidget) {
         return setWidgetHeight(value);
     }
 	return chaynsCall({
@@ -27,6 +27,7 @@ export function setWidgetHeight(value) {
             'action': 133,
             value
         },
+        'app': false,
         'propTypes': {
             'height': propTypes.number.isRequired,
             'growOnly': propTypes.boolean,
