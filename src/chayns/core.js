@@ -146,7 +146,7 @@ function chaynsReadySetup(data) {
 		return;
 	}
 
-	if (environment.isChaynsWeb && environment.isInFrame) {
+    if (environment.isChaynsWeb && environment.isInFrame || environment.isWidget) {
 		resizeListener();
 	}
 

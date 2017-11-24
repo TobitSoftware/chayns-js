@@ -8,6 +8,7 @@ import { setCallback } from './callback';
 import { validatePropTypes } from './propTypes';
 
 let log = getLogger('chayns.core.chayns_calls');
+const widgetTappCalls = [133];
 
 /**
  * Evaluate api call
@@ -24,7 +25,7 @@ export function chaynsCall(obj) {
 	}
 
 	if(environment.isWidget){
-		if(environment.isChaynsWeb && obj.web !== false || environment.isApp && obj.app !== false){
+        if(environment.isChaynsWeb && obj.web !== false || environment.isApp && obj.app !== false || widgetTappCalls.indexOf(obj.call.action) > -1 ){
 			obj.call.isWidget = true;
 
 			log.debug('chaynsCall: attempt chayns web call');
@@ -78,6 +79,13 @@ export function chaynsCall(obj) {
 
 		return injectCallback(chaynsWebCall, obj);
 	}
+    if(widgetTappCalls.indexOf(obj.call.action) > -1) {
+        //Call which is not supported in App, but is handled by the Tapp
+        return Promise.resolve({
+            'message': 'This call is handled by the Tapp not by ChaynsWeb or App.',
+            'value': obj.call.value
+        });
+    }
 	return notSupported(obj);
 }
 
