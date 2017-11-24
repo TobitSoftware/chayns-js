@@ -330,6 +330,7 @@ function parseTapp(tapp) {
 			'isSubTapp': tapp.isSubTapp,
 			'sortId': tapp.SortID,
 			'userGroupIds': tapp.UserGroupIds || tapp.UACGroupIDs,
-			'customUrl': tapp.customUrl
-		} : undefined;
+			'customUrl': tapp.customUrl,
+        	'isHiddenFromMenu': tapp.HideFromMenu
+    } : undefined;
 }
