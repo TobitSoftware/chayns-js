@@ -209,6 +209,9 @@ export function setupEnvironment(data) {
 
 		if (appInfo.TappSelected) {
 			site.tapp = parseTapp(appInfo.TappSelected);
+            if(environment._parameters.parenttappid) {
+                site.tapp.parent = { 'id': parseInt(environment._parameters.parenttappid, 10)};
+            }
 		}
 
 		if (appInfo.CurrentUrl) {
