@@ -170,7 +170,15 @@ function chaynsReadySetup(data) {
 		html.classList.add(`${prefix}color-mode--${environment.site.colorMode}`);
 	}
 
-	// chayns is ready
+    // IE fix for inputs
+    if(environment.browser.name && environment.browser.name.toUpperCase() === 'IE') {
+        let selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(document.createRange());
+    }
+
+
+    // chayns is ready
 	html.classList.add(`${prefix}ready`);
 
 	log.info('finished chayns setup');
