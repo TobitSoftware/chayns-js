@@ -54,7 +54,7 @@ export * from './setKioskTapp'; // 95
 export * from './setScreenOrientation'; // 96
 export * from './playSound'; // 98
 export * from './webviewOptions'; // 99/100
-export * from './updateChaynsWeb'; // 101
+export * from './setTemporaryDesignSettings'; // 101
 export * from './addScrollListener'; // 102
 export * from './registerWatchdog'; // 106
 export * from './updateTapp'; // 107
