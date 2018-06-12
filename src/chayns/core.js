@@ -228,7 +228,9 @@ export function setupEnvironment(data) {
 
 		setEnv('isInFacebookFrame', !!appInfo.IsFacebookFrame);
 	}
-	site.tapp.id = parseInt(environment._parameters.tappid, 10);
+    if(environment._parameters.tappid) {
+        site.tapp.id = parseInt(environment._parameters.tappid, 10);
+    }
 	setEnv('site', site);
 
 	let user = {};
