@@ -111,3 +111,15 @@ export const createTappUrl = (
 	} = {}
 ) => `${url}?AppVersion=${appVersion}&OS=${os}&font=${font}&color=${color}&colormode=${colorMode}&TappID=${tappId}`;
 
+/**
+ * This function reset chayns.env, we need to update the environment when a tapp is displayed in a div inside the chaynsWeb.
+ * The function will ask for new data with getGlobalData, setup the environment like chayns.ready an return the received data.
+ * @return {Promise} Returns the getGlobalData object with AppUser, AppInfo and Device
+ */
+export function resetEnvironment() {
+    return getGlobalData(true).then((res)=>{
+        setupEnvironment(res);
+        chayns.env = environment;
+        return res;
+    });
+}
