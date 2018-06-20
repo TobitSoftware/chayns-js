@@ -212,7 +212,8 @@ export function setupEnvironment(data) {
 			'domain': appInfo.domain,
 			'tapp': {},
 			'isArEnabled': appInfo.isArEnabled,
-			'isAdEnabled': appInfo.isAdEnabled
+			'isAdEnabled': appInfo.isAdEnabled,
+            'adminMode': appUser.AdminMode
 		};
 
 		if (appInfo.TappSelected) {
