@@ -15,6 +15,9 @@ function _setNfcCallback(action, enabled, callbackName, callback) {
 			'support': {'android': 4727}
 		},
 		'web': false,
+        'myChaynsApp': {
+            'support': {'android': 5683, 'ios': 5764}
+        },
 		callbackName,
 		'callbackFunction': (data) => callback(data.nfcRFID || data.personDataRFID),
 		'propTypes': {
