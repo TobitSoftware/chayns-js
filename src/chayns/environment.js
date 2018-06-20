@@ -60,6 +60,7 @@ export const environment = {
 	'isChaynsWebDesktop': isChaynsWebDesktop,
 	'isChaynsWeb': isChaynsWebMobile || isChaynsWebDesktop || isChaynsWebLight,
 	'isChaynsParent': !!chaynsInfo && window === window.top,
+    'isMyChaynsApp': navigator.userAgent.toLowerCase().indexOf('mychayns') > -1 && !isApp,
 	'isWidget': isWidget,
 	'isInFrame': (window !== window.top),
 	'isInFacebookFrame': false,
