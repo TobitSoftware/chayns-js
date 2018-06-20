@@ -25,6 +25,9 @@ export function uploadFile(serverUrl, mimeType) {
 		'web': {
 			'fn': webUpload.bind(this, serverUrl, mimeType)
 		},
+        'myChaynsApp': {
+            'support': {'ios': 5764 , 'android': 5708}
+        },
 		callbackName,
 		'propTypes': {
 			'serverUrl': propTypes.string,
