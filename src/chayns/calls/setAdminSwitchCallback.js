@@ -14,7 +14,13 @@ export function setAdminSwitchCallback(callback) {
 		},
 		'app': false,
 		callbackName,
-		'callbackFunction': callback,
+        'callbackFunction': (data) => {
+            environment.user.adminMode = data.mode === adminSwitchStatus.ADMIN;
+
+            if (callback) {
+                callback(data);
+            }
+        },
 		'propTypes': {
 			'callback': propTypes.string.isRequired
 		}
