@@ -19,6 +19,9 @@ function qrCode(cancel, cameraType, timeout) {
 			'support': {'android': 4727, 'ios': 4301}
 		},
 		'web': false,
+        'myChaynsApp': {
+            'support': {'android': 5683, 'ios': 5764}
+        },
 		callbackName,
 		'propTypes': {
 			'callback': propTypes.string.isRequired,
