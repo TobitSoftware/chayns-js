@@ -24,11 +24,25 @@ export function chaynsCall(obj) {
 		});
 	}
 
-	if(environment.isWidget){
-        if(environment.isChaynsWeb && obj.web !== false || environment.isApp && obj.app !== false || widgetTappCalls.indexOf(obj.call.action) > -1 ){
+    if (environment.isMyChaynsApp && isObject(obj.myChaynsApp)) { // myChaynsCall
+        log.debug('chaynsCall: attempt chayns web call for myChaynsApp');
+        const myChaynsAppObj = obj.myChaynsApp;
+        const os = environment.isAndroid ? 'android' : environment.isIOS ? 'ios' : environment.os;
+        const version = navigator.userAgent.match(/(mychayns\/)(\d+)/i)
+        if (!myChaynsAppObj.support || isPermitted(myChaynsAppObj.support, os, version[2])) {
+
+            if(environment.isWidget){
+                log.debug('isMyChaynsApp Call in widget');
+                obj.call.isWidget = true;
+            }
+            log.debug('supportedMyChaynsAppCall');
+            return injectCallback(chaynsWebCall, obj);
+        }
+    }else if(environment.isWidget){
+        if(environment.isChaynsWeb && obj.web !== false || environment.isApp && obj.app !== false || environment.isMyChaynsApp && obj.myChaynsApp === true || widgetTappCalls.indexOf(obj.call.action) > -1 ){
 			obj.call.isWidget = true;
 
-			log.debug('chaynsCall: attempt chayns web call');
+			log.debug('chaynsCall: attempt chayns web call for widget');
 			const webObj = obj.web;
 
 			// if there is a function registered it will be executed instead of the call
