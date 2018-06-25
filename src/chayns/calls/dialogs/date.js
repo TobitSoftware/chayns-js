@@ -5,7 +5,7 @@ import { isNumber, isDate } from '../../../utils/is';
 
 export function date(config) {
 	const callbackName = 'date';
-	let {preSelect, minDate, maxDate, title, message} = config,
+	let {preSelect, minDate, maxDate, title, message, minuteInterval} = config,
 		type = config.dateType || dateType.DATE;
 
 	preSelect = validateValue(preSelect);
@@ -22,7 +22,8 @@ export function date(config) {
 				minDate,
 				maxDate,
 				title,
-				message
+				message,
+                minuteInterval
 			}
 		},
 		'app': {
