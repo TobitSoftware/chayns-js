@@ -2,13 +2,18 @@ import { chaynsCall } from '../../chaynsCall';
 import { getCallbackName } from '../../callback';
 import { propTypes } from '../../propTypes';
 import { isNumber, isDate } from '../../../utils/is';
+import {environment} from '../../environment';
 
 export function date(config) {
 	const callbackName = 'date';
 	let {preSelect, minDate, maxDate, title, message, minuteInterval} = config,
 		type = config.dateType || dateType.DATE;
 
-	preSelect = validateValue(preSelect);
+    if(minuteInterval && minuteInterval > 1 && environment.isIOS && environment.isApp) {
+        preSelect = roundInterval(preSelect, minuteInterval);
+    } else{
+        preSelect = validateValue(preSelect);
+    }
 	minDate = validateValue(minDate);
 	maxDate = validateValue(maxDate);
 
@@ -57,3 +62,18 @@ function validateValue(value) {
 	}
 	return value;
 }
+
+function roundInterval(preDate = new Date(), interval) {
+    if (!isDate(preDate)) {
+        if (isNumber(preDate)) {
+            preDate = new Date(preDate);
+        } else {
+            return -1;
+        }
+    }
+    let minutes = preDate.getMinutes();
+    preDate.setMinutes(minutes - (minutes % interval));
+    preDate.setSeconds(0);
+    return parseInt(preDate.getTime() / 1000, 10);
+}
+
