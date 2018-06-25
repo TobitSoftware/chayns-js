@@ -20,15 +20,25 @@ export function login(params = [], permissions = []) {
 	});
 }
 
-export function logout() {
+export function logout(logoutType) {
 	return chaynsCall({
 		'call': {
 			'action': 56,
-			'value': {}
+            'value': {
+                'type': logoutType
+            }
 		},
-		'app': {'android': 4727, 'ios': 4301}
+		'app': {'android': 4727, 'ios': 4301},
+        'propTypes': {
+            'type': propTypes.number
+        }
 	});
 }
+
+export const logoutType = {
+    'NORMAL': 0,
+    'FORCE': 1
+};
 
 export const loginState = {
 	'FACEBOOK': 0,
