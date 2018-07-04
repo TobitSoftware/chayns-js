@@ -2,17 +2,20 @@ import { chaynsCall } from '../chaynsCall';
 import { propTypes } from '../propTypes';
 
 export function login(params = [], permissions = []) {
+    const callbackName = 'login';
 	return chaynsCall({
 		'call': {
 			'action': 54,
 			'value': {
 				'urlParams': params,
-				'fbPermissions': permissions
+				'fbPermissions': permissions,
+                'callback': getCallbackName(callbackName)
 			}
 		},
 		'app': {
 			'support': {'android': 4783, 'ios': 4301}
 		},
+        callbackName,
 		'propTypes': {
 			'urlParams': propTypes.array,
 			'fbPermissions': propTypes.array
