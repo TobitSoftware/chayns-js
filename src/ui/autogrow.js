@@ -20,11 +20,12 @@ export function init(parent) {
 
 function initialGrow() {
 	const offset = this.offsetHeight - this.clientHeight;
-
+    this.setAttribute('rows', '1');
 	this.addEventListener('input', grow.bind(this, offset, 'auto'));
-	grow.call(this, offset);
+    grow.call(this, offset, 'auto');
 
 	this.removeAttribute('autogrow');
+    this.style.overflow = 'hidden';
 }
 
 function grow(offset, initHeight) {
