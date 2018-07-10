@@ -26,6 +26,9 @@ export function saveAppointment(config) {
 				'callback': getCallbackName(callbackName)
 			}
 		},
+        'myChaynsApp': {
+            'support': {'android': 5683, 'ios': 5764}
+        },
 		'app': {
 			'support': {'android': 4727, 'ios': 4301}
 		},
