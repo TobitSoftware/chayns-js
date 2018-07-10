@@ -14,9 +14,10 @@ export function getWindowMetrics() {
 		},
 		'app': {
 			'fn': () => Promise.resolve({
-				'height': document.body.clientHeight,
-				'scrollTop': window.pageYOffset,
-				'windowHeight': window.screen.availHeight
+                'AvailHeight': document.body.clientHeight,
+                'pageYOffset': window.pageYOffset,
+                'WindowInnerHeight': window.screen.availHeight,
+                'WindowScrollTop': document.body.scrollTop
 			})
 		},
 		callbackName,
