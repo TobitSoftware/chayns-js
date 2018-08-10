@@ -7,7 +7,7 @@ import { defer } from '../../utils/defer';
 
 
 
-export function uploadFile(serverUrl, mimeType) {
+export function uploadFile(serverUrl, mimeType, statusCodes) {
 	const callbackName = 'uploadFile';
 
 	return chaynsCall({
@@ -23,7 +23,7 @@ export function uploadFile(serverUrl, mimeType) {
 			'support': {'ios': 5532, 'android': 5491}
 		},
 		'web': {
-			'fn': webUpload.bind(this, serverUrl, mimeType)
+            'fn': webUpload.bind(this, serverUrl, mimeType, statusCodes)
 		},
         'myChaynsApp': {
             'support': {'ios': 5764 , 'android': 5708}
@@ -51,7 +51,7 @@ const acceptData = {
 	3: 'video/*'
 };
 
-function webUpload(serverUrl, mimeType) {
+function webUpload(serverUrl, mimeType, statusCodes) {
 	const chaynsRoot = document.querySelector('#chayns-root');
 
 	if (!chaynsRoot) {
@@ -81,7 +81,7 @@ function webUpload(serverUrl, mimeType) {
 	window._chaynsFileChosen = function _chaynsFileChosen() {
 		if (input.files && input.files.length > 0) {
 			showWaitCursor();
-			uploadToCloud(serverUrl, input.files[0])
+            uploadToCloud(serverUrl, input.files[0], statusCodes)
 				.then(deferred.resolve)
 				.catch(deferred.reject)
 				.then(hideWaitCursor);

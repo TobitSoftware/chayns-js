@@ -6,7 +6,7 @@ import { environment } from '../environment';
 
 //const ROOT_URL = 'https://tsimg.space';
 
-export function uploadToCloud(serverUrl, file) {
+export function uploadToCloud(serverUrl, file, statusCodes = [200]) {
     const form = new FormData();
     form.append('files', file);
     let response = {
@@ -15,7 +15,7 @@ export function uploadToCloud(serverUrl, file) {
         'statusMessage': 'ERROR'
     };
     let object = {response};
-
+    let fetchResult = undefined;
 
     return fetch(serverUrl, {
         'method': 'POST',
@@ -24,20 +24,18 @@ export function uploadToCloud(serverUrl, file) {
         },
         'body': form
     }).then((res) => {
-        if (res.status !== 200) {
-            return Promise.reject(()=>{
-                object.response.statusCode = res.statusCode;
-                object.response.statusMessage = res.statusText;
-                object.response.data = res;
-                return object;
-            });
+        if (statusCodes.indexOf(res.status) === -1) {
+            object.response.statusCode = res.statusCode || res.status;
+            object.response.statusMessage = res.statusText;
+            object.response.data = res;
+            return Promise.reject(object);
         }
+        fetchResult = res;
         return res.json();
-
     }).then((data) => {
         object.response.data = JSON.stringify(data);
-        object.response.statusCode = 200;
-        object.response.statusMessage = 'OK';
+        object.response.statusCode = fetchResult.statusCode || fetchResult.status;
+        object.response.statusMessage = fetchResult.statusText;
         return object;
     });
 }
