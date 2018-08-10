@@ -12,7 +12,9 @@ export function setAdminSwitchCallback(callback) {
 				'callback': getCallbackName(callbackName)
 			}
 		},
-		'app': false,
+		'app':{
+            'support': {'android': 5735, 'ios': 5795 }
+        },
 		callbackName,
         'callbackFunction': (data) => {
             environment.user.adminMode = data.mode === adminSwitchStatus.ADMIN;
