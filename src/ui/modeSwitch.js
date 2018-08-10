@@ -81,7 +81,7 @@ function createModeSwitch() {
 	return $ms;
 }
 
-function createModeSwitchItem(item, index) {
+function createModeSwitchItem(item, index, preventChecked = false) {
 	const $item = document.createElement('div');
 	$item.classList.add('grid__item', 'col-1-2-desktop', 'col-1-1-mobile');
 
@@ -91,7 +91,7 @@ function createModeSwitchItem(item, index) {
 	$input.classList.add('radio');
 	$input.setAttribute('id', `mode-switch__${index}`);
 
-	if ((!useActiveFlag && item.default) || (useActiveFlag && item.active)) {
+    if (!preventChecked && ((!useActiveFlag && item.default) || (useActiveFlag && item.active))) {
 		$input.setAttribute('checked', '');
 	}
 
@@ -205,7 +205,13 @@ export function updateItem(index, item) {
 	config.items[index] = item;
 
 	const $item = $modeSwitch.querySelector(`#mode-switch__${index} + label`);
+
 	if ($item) {
 		$item.innerHTML = item.name;
+
+        if ($item.parentElement && $item.parentElement.parentElement) {
+            const $newItem = createModeSwitchItem(item, index, true);
+            $item.parentElement.parentElement.replaceChild($newItem, $item.parentElement);
+        }
 	}
 }
