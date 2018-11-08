@@ -1,6 +1,6 @@
-import { chaynsCall } from '../chaynsCall';
-import { getCallbackName } from '../callback';
-import { propTypes } from '../propTypes';
+import { chaynsCall } from './chaynsCall';
+import { getCallbackName } from './callback';
+import { propTypes } from './propTypes';
 
 export function closeWindow(callback){
 
