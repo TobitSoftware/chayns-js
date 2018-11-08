@@ -4,25 +4,25 @@ import path from 'path';
 const BASE_PATH = path.resolve('./');
 
 export default {
+    mode: 'production',
     entry: {
         'chayns': path.resolve(BASE_PATH, "src/chayns"),
         'chayns.min': path.resolve(BASE_PATH, "src/chayns")
     },
     resolve: {
-        extensions: [
-            "",
-            ".js"
-        ]
+        extensions: ['.js']
     },
     output: {
         path: path.resolve(BASE_PATH, "build"),
         filename: "[name].js"
     },
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.js$/,
-                loader: "babel",
+                test: /\.(js)$/,
+                use: [{
+                    loader: 'babel-loader'
+                }],
                 exclude: /node_modules/
             }
         ]
@@ -34,10 +34,6 @@ export default {
                 NODE_ENV: JSON.stringify("production")
             },
             __DEV__: false
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            include: /\.min\.js$/,
-            minimize: true
         })
     ]
 };

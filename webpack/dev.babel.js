@@ -4,6 +4,7 @@ import path from 'path';
 const BASE_PATH = path.resolve('./');
 
 export default {
+    mode: 'development',
     entry: [
         "webpack/hot/dev-server",
         "webpack-dev-server/client?http://0.0.0.0:8000",
@@ -24,10 +25,12 @@ export default {
         historyApiFallback: true
     },
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.js$/,
-                loader: "babel",
+                test: /\.(js)$/,
+                use: [{
+                    loader: 'babel-loader'
+                }],
                 exclude: /node_modules/
             }
         ]
