@@ -1,121 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1, maximum-scale=1"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1, maximum-scale=1"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="utf-8"/>
 
-    <title>V3 JS</title>
+    <title>chayns.js v4</title>
 
-    <link rel="stylesheet" href="//chayns-res.tobit.com/api/v3.1/intern/qa/css/chayns.css"/>
-    <style>
-        .tapp {
-            height: 20000px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://api.chayns.net/css/">
 </head>
 <body>
 <div class="tapp">
     <div class="tapp__content">
-        <input id="test" type="text" class="input" finder="site" />
-        <input id="test2" type="text" class="input" finder="person" />
-    </div>
-    <div class="tapp__intro">
-        <div>Mobile: <span class="red" id="mobile">false</span></div>
-        <div>Tablet: <span class="red" id="tablet">false</span></div>
-        <div>Desktop: <span class="red" id="desktop">false</span></div>
-        <div style="margin-top: 10px;">Browser: <span class="red" id="browser">false</span></div>
-        <div style="margin-top: 10px;">Android: <span class="red" id="android">false</span></div>
-        <div>iOS: <span class="red" id="ios">false</span></div>
-        <div style="margin-top: 10px;">ChaynsWeb: <span class="red" id="chaynsWeb">false</span></div>
-        <div>ChaynsWebDesktop: <span class="red" id="chaynsWebDesktop">false</span></div>
-        <div>ChaynsWebMobile: <span class="red" id="chaynsWebMobile">false</span></div>
-        <div>Color: <span id="color">undefined</span></div>
-        <div>ColorMode: <span id="color-mode">undefined</span></div>
-        <div style="margin-top: 40px;" id="log"></div>
-    </div>
-    <div class="tapp__content">
-        <div class="image-upload">
-            <div class="image-upload__image" style="background-image: url('//images.ichkoche.at/data/image/variations/365x283/1/gurke-img-9590.jpg')">
-                <div class="image-upload__remove"></div>
-            </div>
-
-            <div class="image-upload__upload" onClick="upload()">
-                <div class="image-upload__add">Bild</div>
-            </div>
+        <h1>chayns API v4</h1>
+        <button class="button" id="cursorFunction">WaitCursor</button>
+        <button class="button" id="cursorCall">WaitCursor Call</button>
+        <button class="button" id="globalCall">GlobalData Call</button>
+        <button class="button" id="globalData">chayns.getGlobalData</button>
+        <button class="button" id="consoleClear">Clear Console</button>
+        <div class="content__card" id="console">
+            <p id="0"></p>
         </div>
     </div>
 </div>
+
 <script src="chayns.js"></script>
 <script>
-chayns.ui.modeSwitch.init({
-	items: [
-		{
-			name: 'Hallo',
-			id: 'mode-switch__user',
-			default: true
-		},
-		{
-			name: 'Administrator',
-			id: 'mode-switch__admin'
-		}
-	],
-	callback: console.log.bind(console)
-});
+    let cursorStatus = false;
+    chayns.utils.setLevel(5);
 
-    chayns.ready
-            .then(function () {
-            	chayns.showWaitCursor();
+    window.cursorFunction = () => {
+        cursorStatus ? chayns.hideWaitCursor() : chayns.showWaitCursor();
+        cursorStatus = !cursorStatus;
+    };
 
-                if (chayns.env.isMobile) {
-                    document.querySelector('#mobile').innerHTML = 'true';
-                    document.querySelector('#mobile').classList.add('green');
-                    document.querySelector('#mobile').classList.remove('red');
-                }
-                if (chayns.env.isTablet) {
-                    document.querySelector('#tablet').innerHTML = 'true';
-                    document.querySelector('#tablet').classList.add('green');
-                    document.querySelector('#tablet').classList.remove('red');
-                }
-                if (chayns.env.isDesktop) {
-                    document.querySelector('#desktop').innerHTML = 'true';
-                    document.querySelector('#desktop').classList.add('green');
-                    document.querySelector('#desktop').classList.remove('red');
-                }
-                if (chayns.env.isBrowser) {
-                    document.querySelector('#browser').innerHTML = 'true';
-                    document.querySelector('#browser').classList.add('green');
-                    document.querySelector('#browser').classList.remove('red');
-                }
-                if (chayns.env.isAndroid) {
-                    document.querySelector('#android').innerHTML = 'true';
-                    document.querySelector('#android').classList.add('green');
-                    document.querySelector('#android').classList.remove('red');
-                }
-                if (chayns.env.isIOS) {
-                    document.querySelector('#ios').innerHTML = 'true';
-                    document.querySelector('#ios').classList.add('green');
-                    document.querySelector('#ios').classList.remove('red');
-                }
-                if (chayns.env.isChaynsWeb) {
-                    document.querySelector('#chaynsWeb').innerHTML = 'true';
-                    document.querySelector('#chaynsWeb').classList.add('green');
-                    document.querySelector('#chaynsWeb').classList.remove('red');
-                }
-                if (chayns.env.isChaynsWebDesktop) {
-                    document.querySelector('#chaynsWebDesktop').innerHTML = 'true';
-                    document.querySelector('#chaynsWebDesktop').classList.add('green');
-                    document.querySelector('#chaynsWebDesktop').classList.remove('red');
-                }
-                if (chayns.env.isChaynsWebMobile) {
-                    document.querySelector('#chaynsWebMobile').innerHTML = 'true';
-                    document.querySelector('#chaynsWebMobile').classList.add('green');
-                    document.querySelector('#chaynsWebMobile').classList.remove('red');
-                }
+    window.cursorCall = () => {
+        cursorStatus = !cursorStatus;
+        let waitcursor = {
+            action: 1,
+            value: {
+                enabled: cursorStatus
+            }
+        };
+        chayns.invokeCall(waitcursor);
+    };
 
-                document.querySelector('#color').innerHTML = chayns.env.site.color;
-                document.querySelector('#color-mode').innerHTML = chayns.env.site.colorMode;
-            });
+    window.globalDataTest = () => {
+        chayns.getGlobalData().then(window.log);
+    };
+
+    window.globalCallTest = () => {
+        const getGlobalData = {
+            action: 18,
+            value: {
+                callback: "window.log",
+                apiVersion: 4000
+            },
+            isWidget: true
+        };
+        chayns.invokeCall(getGlobalData);
+    };
+
+    let id = 1;
+
+    window.clearConsole = () => {
+        id = 0;
+        let element = document.getElementById("console");
+        element.innerHTML = '<p id="0"></p>';
+    };
+
+    window.log = (...args) => {
+        args.forEach((arg) => {
+            let para = document.createElement("p");
+            let node = document.createTextNode(JSON.stringify(arg, null, 2));
+            para.appendChild(node);
+            para.setAttribute("id", (id + 1).toString());
+            let element = document.getElementById("console");
+            let child = document.getElementById(id.toString());
+            element.insertBefore(para, child);
+            id++;
+        })
+    };
+
+    document.getElementById('consoleClear').addEventListener('click', window.clearConsole);
+    document.getElementById('globalData').addEventListener('click', window.globalDataTest);
+    document.getElementById('globalCall').addEventListener('click', window.globalCallTest);
+    document.getElementById('beacon').addEventListener('click', window.beaconTest);
+    document.getElementById('cursorCall').addEventListener('click', window.cursorCall);
+    document.getElementById('cursorFunction').addEventListener('click', window.cursorFunction);
+
 </script>
 </body>
 </html>

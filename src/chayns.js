@@ -1,35 +1,29 @@
+import "@babel/polyfill";
+
 import * as calls from './chayns/calls';
-import { invokeCall } from './chayns/chaynsCall';
 import * as event from './chayns/events';
 import * as tappApi from './chayns/tapp-api';
-import { environment } from './chayns/environment';
-import { getSchemeColor, getBaseColor } from './chayns/colors';
-import { ready, register, setup } from './chayns/core';
+import {invokeCall, chaynsCall} from './chayns/chaynsCall';
+import {environment} from './chayns/environment';
+import {ready, register} from './chayns/core';
 import * as utils from './utils';
-import * as ui from './ui';
 
-export const chayns = {};
+const chayns = {
+    register,
+    ready,
 
-utils.extend(chayns,
-	{'getLogger': utils.getLogger},
-	{'$': utils.DOM},
-	{utils},
+    env: environment,
 
-	{ui},
+    utils,
 
-	{'env': environment},
+    invokeCall,
+    _call: chaynsCall,
 
-	{getSchemeColor, getBaseColor},
-	{register},
-	{ready},
-	{setup},
-
-	calls,
-	{invokeCall},
-	{event},
-	tappApi
-);
+    ...calls,
+    event,
+    ...tappApi
+};
 
 global.chayns = chayns;
 
-setup();
+export default chayns;

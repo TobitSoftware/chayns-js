@@ -1,4 +1,4 @@
-import { getJwtPayload, trim } from './helper';
+import {getJwtPayload} from './helper';
 
 /**
  * Determines if a reference is defined.
@@ -7,7 +7,7 @@ import { getJwtPayload, trim } from './helper';
  * @returns {boolean} True if `value` is defined.
  */
 export function isDefined(value) {
-	return typeof value !== 'undefined';
+    return typeof value !== 'undefined';
 }
 
 /**
@@ -17,7 +17,7 @@ export function isDefined(value) {
  * @returns {boolean} True if `value` is undefined.
  */
 export function isUndefined(value) {
-	return typeof value === 'undefined';
+    return typeof value === 'undefined';
 }
 
 /**
@@ -27,7 +27,7 @@ export function isUndefined(value) {
  * @returns {boolean} True if `value` is present.
  */
 export function isPresent(value) {
-	return typeof value !== 'undefined' && value !== null;
+    return typeof value !== 'undefined' && value !== null;
 }
 
 /**
@@ -37,9 +37,8 @@ export function isPresent(value) {
  * @returns {boolean} True if `value` is blank.
  */
 export function isBlank(value) {
-	return typeof value === 'undefined' || value === null;
+    return typeof value === 'undefined' || value === null;
 }
-
 
 /**
  * Determines if a reference is a `String`.
@@ -48,7 +47,7 @@ export function isBlank(value) {
  * @returns {boolean} True if `value` is a `String`.
  */
 export function isString(value) {
-	return typeof value === 'string';
+    return typeof value === 'string';
 }
 
 /**
@@ -58,7 +57,7 @@ export function isString(value) {
  * @returns {boolean} True if `value` is a `Number`.
  */
 export function isNumber(value) {
-	return typeof value === 'number' && !isNaN(value);
+    return typeof value === 'number' && !isNaN(value);
 }
 
 /**
@@ -70,7 +69,7 @@ export function isNumber(value) {
  * @returns {boolean} True if `value` is an `Object`.
  */
 export function isObject(value) {
-	return value !== null && typeof value === 'object';
+    return value !== null && typeof value === 'object';
 }
 
 /**
@@ -80,7 +79,7 @@ export function isObject(value) {
  * @returns {boolean} True if `value` is an `Array`.
  */
 export function isArray(value) {
-	return Array.isArray(value);
+    return Array.isArray(value);
 }
 
 /**
@@ -90,7 +89,7 @@ export function isArray(value) {
  * @returns {boolean} True if `value` is a `boolean`.
  */
 export function isBoolean(value) {
-	return typeof value === 'boolean';
+    return typeof value === 'boolean';
 }
 
 /**
@@ -100,7 +99,7 @@ export function isBoolean(value) {
  * @returns {boolean} True if `value` is a `Function`.
  */
 export function isFunction(value) {
-	return typeof value === 'function';
+    return typeof value === 'function';
 }
 
 /**
@@ -110,7 +109,7 @@ export function isFunction(value) {
  * @returns {boolean} True if `value` is a `Date`.
  */
 export function isDate(value) {
-	return Object.prototype.toString.call(value) === '[object Date]';
+    return Object.prototype.toString.call(value) === '[object Date]';
 }
 
 /**
@@ -120,7 +119,7 @@ export function isDate(value) {
  * @returns {boolean} Returns true if `ob` is a promise or promise-like object.
  */
 export function isPromise(value) {
-	return value && isFunction(value.then);
+    return value && isFunction(value.then);
 }
 
 /**
@@ -130,7 +129,7 @@ export function isPromise(value) {
  * @returns {boolean} Returns true if `ob` is a promise or deferred-like object.
  */
 export function isDeferred(value) {
-	return isObject(value) && isFunction(value.resolve) && isFunction(value.reject);
+    return isObject(value) && isFunction(value.resolve) && isFunction(value.reject);
 }
 
 /**
@@ -140,11 +139,11 @@ export function isDeferred(value) {
  * @returns {boolean} True if `value` is a `UUID`.
  */
 export function isUUID(value) {
-	if (isString(value)) {
-		return trim(value).match(/^[0-9a-f]{4}([0-9a-f]{4}-){4}[0-9a-z]{12}$/i) !== null;
-	}
+    if (isString(value)) {
+        return value.trim().match(/^[0-9a-f]{4}([0-9a-f]{4}-){4}[0-9a-z]{12}$/i) !== null;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -155,7 +154,7 @@ export function isUUID(value) {
  * @returns {boolean} True if `value` is a `GUID`.
  */
 export function isGUID(value) {
-	return isUUID(value);
+    return isUUID(value);
 }
 
 /**
@@ -165,11 +164,10 @@ export function isGUID(value) {
  * @returns {boolean} True if `value` is a `MAC Address`.
  */
 export function isMacAddress(value) {
-	if (isString(value)) {
-		value = trim(value);
-		return value.match(/^([0-9a-f]{2}[-:]){5}[0-9a-f]{2}$/i) !== null;
-	}
-	return false;
+    if (isString(value)) {
+        return value.trim().match(/^([0-9a-f]{2}[-:]){5}[0-9a-f]{2}$/i) !== null;
+    }
+    return false;
 }
 
 /**
@@ -179,7 +177,7 @@ export function isMacAddress(value) {
  * @returns {boolean} True if `value` is a `BLE Address`.
  */
 export function isBLEAddress(value) {
-	return isUUID(value) || isMacAddress(value);
+    return isUUID(value) || isMacAddress(value);
 }
 
 /**
@@ -189,7 +187,7 @@ export function isBLEAddress(value) {
  * @returns {boolean} True if `obj` is a `FormData` Object.
  */
 export function isFormData(value) {
-	return toString.call(value) === '[object FormData]';
+    return toString.call(value) === '[object FormData]';
 }
 
 /**
@@ -199,7 +197,7 @@ export function isFormData(value) {
  * @returns {boolean} True if `obj` is a `HTMLFormElement`.
  */
 export function isFormElement(value) {
-	return toString.call(value) === '[object HTMLFormElement]';
+    return toString.call(value) === '[object HTMLFormElement]';
 }
 
 /**
@@ -209,7 +207,7 @@ export function isFormElement(value) {
  * @returns {boolean} True if `value` is a `JWT`.
  */
 export function isJwt(value) {
-	return !!getJwtPayload(value);
+    return !!getJwtPayload(value);
 }
 
 /**
@@ -219,20 +217,15 @@ export function isJwt(value) {
  * @returns {boolean} True if value is a Url.
  */
 export function isUrl(url) {
-	return url && isString(url) && (/((([A-Za-z]{2,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%\/.\w\-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/i).test(url);
+    return url && isString(url) && (/((([A-Za-z]{2,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%\/.\w\-_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)/i).test(url);
 }
 
 /**
  * Determines if a value is a hexNumber
  *
- * @param value, is the hexColor
- * @param allowShorthand
+ * @param {string} value, is the hexColor
  * @returns {*|boolean} True if it is a valid hexColor
  */
-
-export function isHex(value, allowShorthand = false) {
-	if(allowShorthand) {
-		return value && isString(value) && (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value));
-	}
-	return value && isString(value) && (/(^#[0-9A-F]{6}$)/i.test(value));
+export function isHex(value) {
+    return value && isString(value) && (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i).test(value);
 }
