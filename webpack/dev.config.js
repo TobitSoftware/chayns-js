@@ -2,6 +2,16 @@ const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 
+let sslCert;
+let sslKey;
+try {
+    sslCert = fs.readFileSync(path.join(__dirname, 'ssl', 'ssl.crt'));
+    sslKey = fs.readFileSync(path.join(__dirname, 'ssl', 'ssl.key'));
+} catch (err) {
+    sslCert = undefined;
+    sslKey = undefined;
+}
+
 const BASE_PATH = path.resolve('./');
 
 module.exports = {
@@ -20,9 +30,9 @@ module.exports = {
         'disableHostCheck': true,
         'historyApiFallback': true,
         'hot': true,
-        'https': true,
-        'cert': fs.readFileSync(path.join(__dirname, 'ssl', 'tobitag.crt')),
-        'key': fs.readFileSync(path.join(__dirname, 'ssl', 'tobitag.key'))
+        'https': !!(sslCert && sslKey),
+        'cert': sslCert,
+        'key': sslKey
     },
     'module': {
         'rules': [
