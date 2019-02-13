@@ -17,80 +17,78 @@ const hasLocalStorage = (function hasLocalStorage() {
     }
 }());
 
-export default class LocalStorage {
-    /**
-     * Sets key and value in localStorage
-     *
-     * @param {string} key Key to set
-     * @param {*} value Value for key
-     * @returns {boolean} true if value was set for the key
-     */
-    static set(key, value) {
-        if (!key || isBlank(value) || !hasLocalStorage) {
-            return false;
-        }
-
-        localStorage[this.getPrefix() + key] = JSON.stringify(value);
-        return true;
+/**
+ * Sets key and value in localStorage
+ *
+ * @param {string} key Key to set
+ * @param {*} value Value for key
+ * @returns {boolean} true if value was set for the key
+ */
+export function set(key, value) {
+    if (!key || isBlank(value) || !hasLocalStorage) {
+        return false;
     }
 
+    localStorage[this.getPrefix() + key] = JSON.stringify(value);
+    return true;
+}
 
-    /**
-     * Retrieves key from localStorage.
-     *
-     * @param {string} key Key to retrieve
-     * @returns {object} value of key
-     */
-    static get(key) {
-        if (!hasLocalStorage) {
-            return false;
-        }
 
-        const value = localStorage[this.getPrefix() + key];
-        return isPresent(value) ? JSON.parse(value) : value;
+/**
+ * Retrieves key from localStorage.
+ *
+ * @param {string} key Key to retrieve
+ * @returns {object} value of key
+ */
+export function get(key) {
+    if (!hasLocalStorage) {
+        return false;
     }
 
-    /**
-     * Removes key from localStorage
-     *
-     * @param {string} key Key to remove
-     * @returns {boolean} true if removed successfully
-     */
-    static remove(key) {
-        if (!hasLocalStorage) {
-            return false;
-        }
+    const value = localStorage[this.getPrefix() + key];
+    return isPresent(value) ? JSON.parse(value) : value;
+}
 
-        key = this.getPrefix() + key;
-
-        if (!localStorage[key]) {
-            return false;
-        }
-
-        localStorage.removeItem(key);
-        return true;
+/**
+ * Removes key from localStorage
+ *
+ * @param {string} key Key to remove
+ * @returns {boolean} true if removed successfully
+ */
+export function remove(key) {
+    if (!hasLocalStorage) {
+        return false;
     }
 
-    /**
-     * Removes entire localStorage
-     *
-     * @returns {boolean} true if cleared successfully
-     */
-    static removeAll() {
-        if (!hasLocalStorage) {
-            return false;
-        }
+    key = this.getPrefix() + key;
 
-        localStorage.clear();
-        return true;
+    if (!localStorage[key]) {
+        return false;
     }
 
-    /**
-     * Returns app prefix.
-     *
-     * @returns {string} Prefix
-     */
-    static getPrefix() {
-        return `${(Config.get('appName') || 'chayns').replace(/\s/g, '_')}_${(environment.site.id ? environment.site.id : 0)}_${(environment.site.tapp ? environment.site.tapp.id : 0)}__`;
+    localStorage.removeItem(key);
+    return true;
+}
+
+/**
+ * Removes entire localStorage
+ *
+ * @returns {boolean} true if cleared successfully
+ */
+export function removeAll() {
+    if (!hasLocalStorage) {
+        return false;
     }
+
+    localStorage.clear();
+    return true;
+}
+
+/**
+ * Returns app prefix.
+ *
+ * @returns {string} Prefix
+ */
+export function getPrefix() {
+    return `${(Config.get('appName') || 'chayns').replace(/\s/g, '_')}_${(environment.site.id ? environment.site.id : 0)}_${(environment.site.tapp ? environment.site.tapp.id : 0)}__`;
 }
