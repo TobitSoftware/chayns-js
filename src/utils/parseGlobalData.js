@@ -90,7 +90,8 @@ export function parseGlobalData(data) {
             'imei': deviceData.IMEI,
             'fontScale': deviceData.FontScale,
             'dfaceVersion': data.AppInfo.DfaceVersion,
-            'minLogLevel': deviceData.MinLogLevel
+            'minLogLevel': deviceData.MinLogLevel,
+            'deviceAccessToken': deviceData.DeviceAccessToken,
         };
 
         globalData = {
