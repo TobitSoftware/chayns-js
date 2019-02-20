@@ -8,7 +8,7 @@ import {setCallback} from './callback';
 import {validatePropTypes} from './propTypes';
 
 let log = getLogger('chayns.core.chayns_calls');
-const widgetTappCalls = [133];
+export const widgetTappCalls = [133];
 
 /**
  * Evaluate api call
