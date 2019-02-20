@@ -117,7 +117,7 @@ export function messageListener() {
         }
 
         if (params.call && params.call.isWidget) {
-            if (params.call && params.call.indexOf(widgetTappCalls) >= 0) {
+            if (params.call && widgetTappCalls.indexOf(params.call) >= 0) {
                 return;
             }
             log.debug('WidgetCall');
