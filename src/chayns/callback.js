@@ -2,7 +2,7 @@ import {isDeferred, isFunction, isString} from '../utils/is';
 import {getLogger} from '../utils/logger';
 import {environment} from './environment';
 import Config from './Config';
-import {chaynsCall} from './chaynsCall';
+import {chaynsCall, widgetTappCalls} from './chaynsCall';
 
 
 const log = getLogger('chayns.core.callback'),
@@ -117,6 +117,9 @@ export function messageListener() {
         }
 
         if (params.call && params.call.isWidget) {
+            if (params.call && params.call.indexOf(widgetTappCalls) >= 0) {
+                return;
+            }
             log.debug('WidgetCall');
             let cb = params.call.value.callback;
             params.call.value.callback += '_' + (params.call.action || '');
