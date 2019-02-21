@@ -47,7 +47,6 @@ export function chaynsDialog(config) {
     config.callback = getCallbackName(callbackName);
 
     if(isDialogPermitted()) {
-        console.log('newApi');
         if(config.dialog) {
             config.dialog.callType = dialogAction.ALERT_CONFIRM;
             return open(config.dialog).then((data) => Promise.resolve(data.buttonType));
