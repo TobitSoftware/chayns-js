@@ -155,7 +155,7 @@ export function messageListener() {
 
 function postToFrame(name, params, cb, callPrefix, retVal) {
     log.debug('retVal', retVal, params, name, cb);
-    let frame = document.querySelector(`[name=${name}]`); // FrameName
+    const frame = document.body.querySelector(`[name="${name}"]`); // FrameName
 
     // create new call URL
     let obj = {};
