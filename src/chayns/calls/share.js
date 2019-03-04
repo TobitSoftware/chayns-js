@@ -16,6 +16,9 @@ export function getAvailableSharingServices() {
         'app': {
             'support': {'android': 4808, 'ios': 4380}
         },
+        'myChaynsApp': {
+            'support': {'android': 4808, 'ios': 4380}
+        },
         'web': false,
         callbackName
     });
@@ -38,6 +41,9 @@ export function share(value) {
             value
         },
         'app': {
+            'support': {'android': 4808, 'ios': 4380}
+        },
+        'myChaynsApp': {
             'support': {'android': 4808, 'ios': 4380}
         },
         'web': false,
