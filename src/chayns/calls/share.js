@@ -6,21 +6,25 @@ import {getCallbackName} from '../callback';
 export function getAvailableSharingServices() {
     const callbackName = 'getAvailableSharingServices';
 
-    return chaynsCall({
-        'call': {
-            'action': 79,
-            'value': {
-                'callback': getCallbackName(callbackName)
-            }
-        },
-        'app': {
-            'support': {'android': 4808, 'ios': 4380}
-        },
-        'myChaynsApp': {
-            'support': {'android': 4808, 'ios': 4380}
-        },
-        'web': false,
-        callbackName
+    return new Promise((resolve, reject)=>{
+        chaynsCall({
+            'call': {
+                'action': 79,
+                'value': {
+                    'callback': getCallbackName(callbackName)
+                }
+            },
+            'app': {
+                'support': {'android': 4808, 'ios': 4380}
+            },
+            'myChaynsApp': {
+                'support': {'android': 4808, 'ios': 4380}
+            },
+            'web': false,
+            callbackName
+        }).then((response)=>{
+            resolve(response.retVal || response);
+        }, reject);
     });
 }
 
