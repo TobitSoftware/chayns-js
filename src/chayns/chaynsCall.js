@@ -143,34 +143,23 @@ function injectCallback(callFn, obj) {
  * @returns {Array|Promise|*}
  */
 function chaynsAppCall(obj) {
-    if (obj && obj.call && obj.call.isApiCall && window.dialog && window.dialog.receiveApiCall && isFunction(window.dialog.receiveApiCall)) {
-        try {
-            window.dialog.receiveApiCall(obj.call);
-        } catch (e) {
-            log.error('executeJsonChaynsCall: could not execute call: ', obj.call, e);
-            return Promise.reject(e);
+    try {
+        if (isObject(obj.call)) {
+            obj.call = JSON.stringify(obj.call);
         }
-    } else {
-        try {
-            if (isObject(obj.call)) {
-                obj.call = JSON.stringify(obj.call);
-            }
 
-            log.debug('executeJsonChaynsCall:', obj.call);
-            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jsonCall) {
-                window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
-            } else {
-                window.chaynsApp.jsonCall(obj.call);
-            }
-
-            return Promise.resolve();
-        } catch (e) {
-            log.error('executeJsonChaynsCall: could not execute call: ', obj.call, e);
-            return Promise.reject(e);
+        log.debug('executeJsonChaynsCall:', obj.call);
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jsonCall) {
+            window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
+        } else {
+            window.chaynsApp.jsonCall(obj.call);
         }
+
+        return Promise.resolve();
+    } catch (e) {
+        log.error('executeJsonChaynsCall: could not execute call: ', obj.call, e);
+        return Promise.reject(e);
     }
-
-    return Promise.resolve();
 }
 
 /**
@@ -210,7 +199,7 @@ function chaynsWebCall(obj) {
         const func = window.JsonCalls[obj.call.action];
         if (func) {
             func(obj.call.value, [window, 'chayns.ajaxTab.']);
-        } else if (obj.call.isApiCall && window.dialog && isFunction(window.dialog.receiveApiCall)) {
+        } else if (obj.call.action === 184 && window.dialog && isFunction(window.dialog.receiveApiCall)) {
             window.dialog.receiveApiCall(obj.call);
         } else {
             log.error('chaynsWebCall: no function found');
