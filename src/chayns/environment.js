@@ -33,6 +33,8 @@ const isApp = ['android', 'ios', 'wp'].indexOf(parameters.os) > -1,
     isWidget = publicParameters.isWidget === 'true',
     isMyChaynsApp = (!isApp && navigator.userAgent.toLowerCase().indexOf('mychayns') !== -1);
 
+const myChaynsAppVersion = navigator.userAgent.match(/(mychayns\/)(\d+)/i)[2];
+
 export let environment = {
     'parameters': publicParameters,
     '_parameters': parameters,
@@ -63,7 +65,7 @@ export let environment = {
     'isInFrame': (window !== window.top),
     'isInFacebookFrame': false,
     'appVersion': parseInt(parameters.appversion, 10),
-    'myChaynsAppVersion': isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+)/i)[2] : undefined,
+    'myChaynsAppVersion': isMyChaynsApp && myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined,
     'debugMode': !!parameters.debug,
     'apiVersion': 4000
 };
