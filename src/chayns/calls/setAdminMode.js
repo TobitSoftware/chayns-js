@@ -11,7 +11,9 @@ function setAdminMode(enabled) {
                 enabled
             }
         },
-        'app': false,
+        'app': {
+            'support': {'ios': 5961, 'android': 5790}
+        },
         callbackName,
         'propTypes': {
             'enabled': propTypes.boolean.isRequired
