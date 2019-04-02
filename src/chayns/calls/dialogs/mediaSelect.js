@@ -8,10 +8,10 @@ export function mediaSelect(dialog) {
 
     if (!dialog.buttons || !isArray(dialog.buttons)) {
         dialog.buttons = [{
-            'text': buttonText.YES,
+            'text': buttonText.OK,
             'buttonType': buttonType.POSITIVE
         }, {
-            'text': buttonText.NO,
+            'text': buttonText.CANCEL,
             'buttonType': buttonType.NEGATIVE
         }];
     }
