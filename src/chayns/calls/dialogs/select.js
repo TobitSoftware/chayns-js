@@ -57,6 +57,7 @@ export function select(config) {
             'multiselect': !!config.multiselect,
             'quickfind': !!config.quickfind,
             'type': config.type,
+            'preventCloseOnClick': !!config.preventCloseOnClick,
             list
         });
     }
@@ -70,7 +71,8 @@ export function select(config) {
                     'message': config.message || '',
                     'buttons': config.buttons,
                     'multiselect': !!config.multiselect,
-                    'quickfind': !!config.quickfind
+                    'quickfind': !!config.quickfind,
+                    'preventCloseOnClick': !!config.preventCloseOnClick
                 },
                 list
             }
