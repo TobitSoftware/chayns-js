@@ -101,7 +101,7 @@ export function date(config) {
 }
 
 export function advancedDate(config) {
-    let {preSelect, minDate, maxDate, title, message, minuteInterval, buttons, multiselect, disabledDates, textBlocks} = config,
+    let {preSelect, minDate, maxDate, title, message, minuteInterval, buttons, multiselect, disabledDates, textBlocks, monthSelect, yearSelect} = config,
         type = config.dateType || dateType.DATE;
 
     minDate = validateValue(minDate);
@@ -149,7 +149,9 @@ export function advancedDate(config) {
         multiselect,
         'selectedDates': isArray(preSelect) ? preSelect : undefined,
         disabledDates,
-        textBlocks
+        textBlocks,
+        monthSelect,
+        yearSelect
     }).then((data) => {
         return Promise.resolve(data);
     });
