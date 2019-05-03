@@ -4,69 +4,53 @@ import {getCallbackName} from '../callback';
 
 const listeners = [];
 
-export function getGeoLocation() {
-    const callbackName = 'getGeoLocation';
+function _setNfcCallbackRfid(enabled) {
+    const callbackName = 'NfcCallbackRfid';
 
     return chaynsCall({
         'call': {
-            'action': 14,
-            'value': {
-                'callback': getCallbackName(callbackName)
-            }
-        },
-        'app': {
-            'support': {'android': 4727, 'ios': 4301}
-        },
-        callbackName,
-        'propTypes': {
-            'callback': propTypes.string.isRequired
-        }
-    });
-}
-
-function _setGeoLocationCallback(enabled) {
-    const callbackName = 'geoLocationCallback';
-
-    return chaynsCall({
-        'call': {
-            'action': 14,
+            'action': 38,
             'value': {
                 'callback': getCallbackName(callbackName),
-                'permanent': true,
                 enabled
             }
         },
         'app': {
-            'support': {'android': 4727, 'ios': 4301}
+            'support': {'android': 4727, 'ios': 5641}
+        },
+        'web': false,
+        'myChaynsApp': {
+            'support': {'android': 5683, 'ios': 5764}
         },
         callbackName,
         'callbackFunction': (data) => {
             for (let i = 0, l = listeners.length; i < l; i++) {
-                listeners[i](data);
+                listeners[i](data.nfcRFID || null);
             }
         },
         'propTypes': {
+            'enabled': propTypes.boolean.isRequired,
             'callback': propTypes.string.isRequired
         }
     });
 }
 
-export function addGeoLocationListener(cb) {
+export function addNfcListener(cb) {
     if (listeners.length === 0) {
-        _setGeoLocationCallback(true);
+        _setNfcCallbackRfid(true);
     }
 
     listeners.push(cb);
 }
 
-export function removeGeoLocationListener(cb) {
+export function removeNfcListener(cb) {
     let index = listeners.indexOf(cb);
     if (index !== -1) {
-        listeners.splice(index, 1);
+        listeners.splice(index, 1)
     }
 
     if (listeners.length === 0) {
-        _setGeoLocationCallback(false);
+        _setNfcCallbackRfid(false);
     }
 
     return index !== -1;
