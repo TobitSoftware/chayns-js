@@ -4,53 +4,69 @@ import {getCallbackName} from '../callback';
 
 const listeners = [];
 
-function _setNfcCallbackRfid(enabled) {
-    const callbackName = 'NfcCallbackRfid';
+export function getGeoLocation() {
+    const callbackName = 'getGeoLocation';
 
     return chaynsCall({
         'call': {
-            'action': 38,
+            'action': 14,
             'value': {
-                'callback': getCallbackName(callbackName),
-                enabled
+                'callback': getCallbackName(callbackName)
             }
         },
         'app': {
-            'support': {'android': 4727, 'ios': 5641}
-        },
-        'web': false,
-        'myChaynsApp': {
-            'support': {'android': 5683, 'ios': 5764}
+            'support': {'android': 4727, 'ios': 4301}
         },
         callbackName,
-        'callbackFunction': (data) => {
-            for (let i = 0, l = listeners.length; i < l; i++) {
-                listeners[i](data.nfcRFID || null);
-            }
-        },
         'propTypes': {
-            'enabled': propTypes.boolean.isRequired,
             'callback': propTypes.string.isRequired
         }
     });
 }
 
-export function addNfcListener(cb) {
+function _setGeoLocationCallback(enabled) {
+    const callbackName = 'geoLocationCallback';
+
+    return chaynsCall({
+        'call': {
+            'action': 14,
+            'value': {
+                'callback': getCallbackName(callbackName),
+                'permanent': true,
+                enabled
+            }
+        },
+        'app': {
+            'support': {'android': 4727, 'ios': 4301}
+        },
+        callbackName,
+        'callbackFunction': (data) => {
+            for (let i = 0, l = listeners.length; i < l; i++) {
+                listeners[i](data);
+            }
+        },
+        'propTypes': {
+            'callback': propTypes.string.isRequired
+        }
+    });
+}
+
+export function addGeoLocationListener(cb) {
     if (listeners.length === 0) {
-        _setNfcCallbackRfid(true);
+        _setGeoLocationCallback(true);
     }
 
     listeners.push(cb);
 }
 
-export function removeNfcListener(cb) {
+export function removeGeoLocationListener(cb) {
     let index = listeners.indexOf(cb);
     if (index !== -1) {
-        listeners.splice(index, 1)
+        listeners.splice(index, 1);
     }
 
     if (listeners.length === 0) {
-        _setNfcCallbackRfid(false);
+        _setGeoLocationCallback(false);
     }
 
     return index !== -1;
