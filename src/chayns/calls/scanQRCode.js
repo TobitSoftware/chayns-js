@@ -14,7 +14,8 @@ function qrCode(cancel, cameraType, timeout, dialogTitle, dialogSubtitle) {
                 timeout,
                 cancel,
                 dialogTitle,
-                dialogSubtitle
+                dialogSubtitle,
+                'dialogSubitle': dialogSubtitle // Remove until android app typo is fixed
             }
         },
         'app': {
