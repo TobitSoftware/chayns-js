@@ -2,7 +2,7 @@ import {chaynsCall} from '../chaynsCall';
 import {getCallbackName} from '../callback';
 import {propTypes} from '../propTypes';
 
-function qrCode(cancel, cameraType, timeout) {
+function qrCode(cancel, cameraType, timeout, dialogTitle, dialogSubtitle) {
     const callbackName = 'scanQRCode';
 
     return chaynsCall({
@@ -12,7 +12,9 @@ function qrCode(cancel, cameraType, timeout) {
                 'callback': getCallbackName(callbackName),
                 cameraType,
                 timeout,
-                cancel
+                cancel,
+                dialogTitle,
+                dialogSubtitle
             }
         },
         'app': {
@@ -27,13 +29,15 @@ function qrCode(cancel, cameraType, timeout) {
         'propTypes': {
             'callback': propTypes.string.isRequired,
             'cameraType': propTypes.number,
-            'timeout': propTypes.number
+            'timeout': propTypes.number,
+            'dialogTitle': propTypes.string,
+            'dialogSubtitle': propTypes.string
         }
     }).then((data) => Promise.resolve(data.qrCode));
 }
 
-export function scanQRCode(cameraType, timeout) {
-    return qrCode(false, cameraType, timeout);
+export function scanQRCode(cameraType, timeout, dialogTitle, dialogSubtitle) {
+    return qrCode(false, cameraType, timeout, dialogTitle, dialogSubtitle);
 }
 
 export function cancelScanQrCode() {
