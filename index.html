@@ -8,8 +8,16 @@
 
     <title>chayns.js v4</title>
 
-    <link rel="stylesheet" href="https://api.chayns.net/css/">
+    <link rel="stylesheet" href="https://api-qa.chayns.net/css/">
 </head>
+<style>
+    #colorTest div {
+        height: 30px;
+        width: 48%;
+        margin: 0 1%;
+        display: inline-block;
+    }
+</style>
 <body>
 <div class="tapp">
     <div class="tapp__content">
@@ -18,77 +26,110 @@
         <button class="button" id="cursorCall">WaitCursor Call</button>
         <button class="button" id="globalCall">GlobalData Call</button>
         <button class="button" id="globalData">chayns.getGlobalData</button>
+        <button class="button" id="colorCompare">Compare Colors</button>
         <button class="button" id="consoleClear">Clear Console</button>
         <div class="content__card" id="console">
             <p id="0"></p>
         </div>
+        <div id="colorTest"></div>
     </div>
 </div>
 
 <script src="chayns.js"></script>
 <script>
-    let cursorStatus = false;
-    chayns.utils.setLevel(5);
+    chayns.ready.then(() => {
+        let cursorStatus = false;
+        chayns.utils.setLevel(5);
 
-    window.cursorFunction = () => {
-        cursorStatus ? chayns.hideWaitCursor() : chayns.showWaitCursor();
-        cursorStatus = !cursorStatus;
-    };
+        window.cursorFunction = () => {
+            cursorStatus ? chayns.hideWaitCursor() : chayns.showWaitCursor();
+            cursorStatus = !cursorStatus;
+        };
 
-    window.cursorCall = () => {
-        cursorStatus = !cursorStatus;
-        let waitcursor = {
-            action: 1,
-            value: {
-                enabled: cursorStatus
+        window.cursorCall = () => {
+            cursorStatus = !cursorStatus;
+            let waitcursor = {
+                action: 1,
+                value: {
+                    enabled: cursorStatus
+                }
+            };
+            chayns.invokeCall(waitcursor);
+        };
+
+        window.globalDataTest = () => {
+            chayns.getGlobalData().then(window.log);
+        };
+
+        window.globalCallTest = () => {
+            const getGlobalData = {
+                action: 18,
+                value: {
+                    callback: 'window.log',
+                    apiVersion: 4000
+                },
+                isWidget: true
+            };
+            chayns.invokeCall(getGlobalData);
+        };
+
+        let id = 1;
+
+        window.clearConsole = () => {
+            id = 0;
+            let element = document.getElementById('console');
+            element.innerHTML = '<p id="0"></p>';
+        };
+
+        window.log = (...args) => {
+            args.forEach((arg) => {
+                let para = document.createElement('p');
+                let node = document.createTextNode(JSON.stringify(arg, null, 2));
+                para.appendChild(node);
+                para.setAttribute('id', (id + 1).toString());
+                let element = document.getElementById('console');
+                let child = document.getElementById(id.toString());
+                element.insertBefore(para, child);
+                id++;
+            });
+        };
+
+        const compareColors = (value) => {
+            const testElement = document.getElementById('colorTest');
+            let el1 = document.createElement('div');
+            el1.setAttribute('class', 'chayns__background-color--' + value);
+            testElement.appendChild(el1);
+            let el2 = document.createElement('div');
+            el2.setAttribute('style', 'background-color: ' + chayns.utils.colors.getColorFromPalette(value) + ';');
+            testElement.appendChild(el2);
+        };
+
+        window.colorCompare = () => {
+            document.getElementById('colorTest').innerHTML = null;
+
+            for (let i = 1; i <= 3; i += 1) {
+                for (let j = 1; j <= 9; j += 1) {
+                    compareColors(i * 100 + j);
+                }
             }
+            for (let i = 1; i <= 4; i += 1) {
+                compareColors('red-' + i);
+                compareColors('yellow-' + i);
+                compareColors('green-' + i);
+            }
+            compareColors('primary');
+            compareColors('headline');
+            compareColors('text');
+            compareColors('grey');
         };
-        chayns.invokeCall(waitcursor);
-    };
 
-    window.globalDataTest = () => {
-        chayns.getGlobalData().then(window.log);
-    };
-
-    window.globalCallTest = () => {
-        const getGlobalData = {
-            action: 18,
-            value: {
-                callback: "window.log",
-                apiVersion: 4000
-            },
-            isWidget: true
-        };
-        chayns.invokeCall(getGlobalData);
-    };
-
-    let id = 1;
-
-    window.clearConsole = () => {
-        id = 0;
-        let element = document.getElementById("console");
-        element.innerHTML = '<p id="0"></p>';
-    };
-
-    window.log = (...args) => {
-        args.forEach((arg) => {
-            let para = document.createElement("p");
-            let node = document.createTextNode(JSON.stringify(arg, null, 2));
-            para.appendChild(node);
-            para.setAttribute("id", (id + 1).toString());
-            let element = document.getElementById("console");
-            let child = document.getElementById(id.toString());
-            element.insertBefore(para, child);
-            id++;
-        })
-    };
-
-    document.getElementById('consoleClear').addEventListener('click', window.clearConsole);
-    document.getElementById('globalData').addEventListener('click', window.globalDataTest);
-    document.getElementById('globalCall').addEventListener('click', window.globalCallTest);
-    document.getElementById('cursorCall').addEventListener('click', window.cursorCall);
-    document.getElementById('cursorFunction').addEventListener('click', window.cursorFunction);
-
+        document.getElementById('consoleClear').addEventListener('click', window.clearConsole);
+        document.getElementById('globalData').addEventListener('click', window.globalDataTest);
+        document.getElementById('globalCall').addEventListener('click', window.globalCallTest);
+        document.getElementById('cursorCall').addEventListener('click', window.cursorCall);
+        document.getElementById('cursorFunction').addEventListener('click', window.cursorFunction);
+        document.getElementById('colorCompare').addEventListener('click', window.colorCompare);
+    });
 </script>
 </body>
 </html>
