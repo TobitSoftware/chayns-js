@@ -87,6 +87,16 @@ function toHex(n) {
 
 const colorPalette = {
     '0': {
+        '000': ['#000000', '#FFFFFF', 0],
+        '001': ['#000000', '#FFFFFF', 3],
+        '002': ['#000000', '#FFFFFF', 10],
+        '003': ['#000000', '#FFFFFF', 25],
+        '004': ['#000000', '#FFFFFF', 40],
+        '005': ['#000000', '#FFFFFF', 50],
+        '006': ['#000000', '#FFFFFF', 60],
+        '007': ['#000000', '#FFFFFF', 75],
+        '008': ['#000000', '#FFFFFF', 90],
+        '009': ['#000000', '#FFFFFF', 100],
         '100': ['#FFFFFF', 0],
         '101': ['#FFFFFF', 10],
         '102': ['#FFFFFF', 20],
@@ -120,7 +130,6 @@ const colorPalette = {
         'primary': ['#FFFFFF', 100], // site color
         'headline': ['#FFFFFF', 100], // site color
         'text': '#222222',
-        'grey': '#888888',
         'red-1': '#5a0303',
         'red-2': '#96060b',
         'red-3': '#ca8181',
@@ -135,6 +144,16 @@ const colorPalette = {
         'green-4': '#cde3ce'
     },
     '1': {
+        '000': ['#000000', '#FFFFFF', 100],
+        '001': ['#000000', '#FFFFFF', 97],
+        '002': ['#000000', '#FFFFFF', 90],
+        '003': ['#000000', '#FFFFFF', 75],
+        '004': ['#000000', '#FFFFFF', 60],
+        '005': ['#000000', '#FFFFFF', 50],
+        '006': ['#000000', '#FFFFFF', 40],
+        '007': ['#000000', '#FFFFFF', 25],
+        '008': ['#000000', '#FFFFFF', 10],
+        '009': ['#000000', '#FFFFFF', 0],
         '100': ['#2F2F2F', 20],
         '101': ['#2F2F2F', 20],
         '102': ['#2F2F2F', 30],
@@ -168,7 +187,6 @@ const colorPalette = {
         'primary': ['#FFFFFF', 100], // site color
         'headline': '#ffffff',
         'text': '#ffffff',
-        'grey': '#888888',
         'red-1': '#5a0303',
         'red-2': '#96060b',
         'red-3': '#ca8181',
@@ -183,6 +201,16 @@ const colorPalette = {
         'green-4': '#cde3ce'
     },
     '2': {
+        '000': ['#000000', '#FFFFFF', 0],
+        '001': ['#000000', '#FFFFFF', 3],
+        '002': ['#000000', '#FFFFFF', 10],
+        '003': ['#000000', '#FFFFFF', 25],
+        '004': ['#000000', '#FFFFFF', 40],
+        '005': ['#000000', '#FFFFFF', 50],
+        '006': ['#000000', '#FFFFFF', 60],
+        '007': ['#000000', '#FFFFFF', 75],
+        '008': ['#000000', '#FFFFFF', 90],
+        '009': ['#000000', '#FFFFFF', 100],
         '100': ['#FFFFFF', 10],
         '101': ['#FFFFFF', 10],
         '102': ['#FFFFFF', 20],
@@ -216,7 +244,6 @@ const colorPalette = {
         'primary': ['#FFFFFF', 100], // site color
         'headline': ['#FFFFFF', 100], // site color
         'text': '#222222',
-        'grey': '#888888',
         'red-1': '#5a0303',
         'red-2': '#96060b',
         'red-3': '#ca8181',
@@ -236,7 +263,11 @@ const colorPalette = {
 export function getColorFromPalette(colorId) {
     const colorData = colorPalette[environment.site.colorMode][colorId];
     if (isArray(colorData)) {
-        return mix(chayns.env.site.color, colorData[0], colorData[1]);
+        if(colorData.length === 2) {
+            return mix(chayns.env.site.color, colorData[0], colorData[1]);
+        } else if (colorData.length === 3) {
+            return mix(colorData[0], colorData[1], colorData[2]);
+        }
     }
     return colorData;
 }
