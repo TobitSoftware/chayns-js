@@ -19,7 +19,11 @@ export function input(dialog) {
         }];
     }
 
-    if(isDialogPermitted()) {
+    if (dialog.formatter) {
+        dialog.formatter = dialog.formatter.toString();
+    }
+
+    if (isDialogPermitted()) {
         dialog.callType = dialogAction.INPUT;
         return open(dialog);
     }
