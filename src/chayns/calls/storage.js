@@ -2,6 +2,8 @@ import {chaynsCall} from '../chaynsCall';
 import {getCallbackName} from '../callback';
 import {propTypes} from '../propTypes';
 
+let counter = 0;
+
 export function set(key, object, accessMode, tappIds) {
     return chaynsCall({
         'call': {
@@ -30,7 +32,7 @@ export function remove(key, accessMode) {
 }
 
 export function get(key, accessMode) {
-    const callbackName = 'getObjectForKey';
+    const callbackName = `getObjectForKey${counter += 1}`;
 
     return chaynsCall({
         'call': {
