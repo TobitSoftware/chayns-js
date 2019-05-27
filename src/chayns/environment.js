@@ -1,10 +1,8 @@
 const userAgent = (window.navigator && navigator.userAgent) || '',
-    chaynsInfo = window.ChaynsInfo,
     INTERNAL_PARAMETERS = [
         'appversion',
         'os',
-        'tappid',
-        'colorscheme'
+        'tappid'
     ],
     parameters = {},
     publicParameters = {},
@@ -27,9 +25,9 @@ if (query[0] !== '') {
 const isApp = ['android', 'ios', 'wp'].indexOf(parameters.os) > -1,
     isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent),
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent),
-    isChaynsnetRuntime = chaynsInfo && chaynsInfo.IsChaynsnetRuntime ? chaynsInfo.IsChaynsnetRuntime : parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime',
-    isChaynsWebMobile = chaynsInfo ? chaynsInfo.IsMobile : parameters.os === 'webshadowmobile',
-    isChaynsWebDesktop = chaynsInfo ? !chaynsInfo.IsMobile : parameters.os === 'webshadow',
+    isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime',
+    isChaynsWebMobile = isMobile || parameters.os === 'webshadowmobile',
+    isChaynsWebDesktop = !isMobile || parameters.os === 'webshadow',
     isWidget = publicParameters.isWidget === 'true',
     isMyChaynsApp = (!isApp && navigator.userAgent.toLowerCase().indexOf('mychayns') !== -1);
 
@@ -40,9 +38,7 @@ export let environment = {
     '_parameters': parameters,
     'browser': getBrowserInfo(),
     'language': parameters.lang || (navigator.languages && navigator.languages.length > 0 ? navigator.languages[0] : (navigator.language || navigator.userLanguage)).substring(0, 2),
-    'site': {
-        'colorScheme': parameters.colorscheme || (chaynsInfo ? chaynsInfo.ColorScheme.ID : 0)
-    },
+    'site': {},
     'user': {},
     'app': {},
     'device': {},
@@ -59,10 +55,10 @@ export let environment = {
     'isChaynsWebMobile': isChaynsWebMobile,
     'isChaynsWebDesktop': isChaynsWebDesktop,
     'isChaynsWeb': isChaynsWebMobile || isChaynsWebDesktop || isChaynsnetRuntime,
-    'isChaynsParent': !!chaynsInfo && window === window.top,
+    'isChaynsParent': window.self === window.top,
     'isMyChaynsApp': isMyChaynsApp,
     'isWidget': isWidget,
-    'isInFrame': (window !== window.top),
+    'isInFrame': window.self !== window.top,
     'isInFacebookFrame': false,
     'appVersion': parseInt(parameters.appversion, 10),
     'myChaynsAppVersion': myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined,
