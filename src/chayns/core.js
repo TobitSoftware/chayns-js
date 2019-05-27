@@ -36,14 +36,9 @@ const setup = () => new Promise((resolve, reject) => {
     // chayns is running
     html.classList.add('chayns');
 
-    // add vendor classes (OS, Browser, ColorScheme) which is already in chayns.env
+    // add vendor classes (OS, Browser) which is already in chayns.env
     html.classList.add(`${prefix}os--${environment.os}`);
     html.classList.add(`${prefix}browser--${environment.browser.name}`);
-
-    // set color scheme from url parameter
-    if (environment.site.colorScheme) {
-        html.classList.add(`${prefix}color--${environment.site.colorScheme}`);
-    }
 
     // DOM ready promise
     // interactive can occur when chayns.js is dynamically loaded
@@ -131,9 +126,6 @@ const chaynsReadySetup = (data) => {
     chaynsRoot.setAttribute('id', `${prefix}root`);
     chaynsRoot.setAttribute('class', 'chayns__root');
     document.body.appendChild(chaynsRoot);
-
-    // update colorScheme
-    html.classList.add(`${prefix}color--${environment.site.colorScheme || 0}`);
 
     if (environment.site.tapp.isExclusiveView) {
         html.classList.add(`${prefix}-exclusive`);
