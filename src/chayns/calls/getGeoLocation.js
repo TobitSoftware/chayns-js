@@ -1,6 +1,7 @@
 import {chaynsCall} from '../chaynsCall';
 import {propTypes} from '../propTypes';
 import {getCallbackName} from '../callback';
+import {environment} from '../environment';
 
 const listeners = [];
 
@@ -27,13 +28,26 @@ export function getGeoLocation() {
 function _setGeoLocationCallback(enabled) {
     const callbackName = 'geoLocationCallback';
 
+    if (!enabled && environment.isApp) {
+        return chaynsCall({
+            'call': {
+                'action': 14,
+                'value': {
+                    'permanent': false
+                }
+            },
+            'app': {
+                'support': {'android': 4727, 'ios': 4301}
+            }
+        });
+    }
+
     return chaynsCall({
         'call': {
             'action': 14,
             'value': {
                 'callback': getCallbackName(callbackName),
-                'permanent': true,
-                enabled
+                'permanent': !!enabled
             }
         },
         'app': {
