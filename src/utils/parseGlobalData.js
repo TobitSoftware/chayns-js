@@ -22,7 +22,6 @@ export function parseGlobalData(data) {
             'tapps': (appInfo.Tapps || []).map(parseTapp),
             'facebookAppId': appInfo.FacebookAppID,
             'facebookPageId': appInfo.FacebookPageID,
-            'colorScheme': appInfo.ColorScheme || environment.site.colorScheme || 0,
             'color': appInfo.color || `#${environment.parameters.color}`,
             'colorMode': isNumber(cm) ? cm : undefined,
             'version': appInfo.Version,
