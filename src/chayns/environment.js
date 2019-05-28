@@ -22,14 +22,15 @@ if (query[0] !== '') {
     }
 }
 
-const isApp = ['android', 'ios', 'wp'].indexOf(parameters.os) > -1,
+const
+    isMyChaynsApp = navigator.userAgent.toLowerCase().indexOf('mychayns') >= 0,
+    isApp = !isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0,
     isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent),
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent),
     isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime',
-    isChaynsWebMobile = isMobile || parameters.os === 'webshadowmobile',
+    isChaynsWebMobile = !isApp && (isMobile || parameters.os === 'webshadowmobile'),
     isChaynsWebDesktop = !isMobile || parameters.os === 'webshadow',
-    isWidget = publicParameters.isWidget === 'true',
-    isMyChaynsApp = (!isApp && navigator.userAgent.toLowerCase().indexOf('mychayns') !== -1);
+    isWidget = publicParameters.isWidget === 'true';
 
 const myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+)/i)[2] : null;
 
