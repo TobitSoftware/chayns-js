@@ -182,20 +182,7 @@ function chaynsWebCall(obj) {
             log.error('chaynsWebCall: postMessage failed', e);
             return Promise.reject(e);
         }
-    } else if (environment.isInFrame && !Config.get('forceAjaxCalls')) {
-        try {
-            if (isObject(obj.call)) {
-                obj.call = JSON.stringify(obj.call);
-            }
-
-            const url = `chayns.customTab.jsoncall${window.name ? `@${window.name}` : ''}:${obj.call}`;
-            log.debug(`chaynsWebCall: ${url}`);
-            window.parent.postMessage(url, '*');
-        } catch (e) {
-            log.error('chaynsWebCall: postMessage failed', e);
-            return Promise.reject(e);
-        }
-    } else {
+    } else if (window.JsonCalls) {
         const func = window.JsonCalls[obj.call.action];
         if (func) {
             func(obj.call.value, [window, 'chayns.ajaxTab.']);
@@ -204,6 +191,24 @@ function chaynsWebCall(obj) {
         } else {
             log.error('chaynsWebCall: no function found');
             return Promise.reject();
+        }
+    } else {
+        try {
+            let call = 'ajaxTab';
+            if(environment.isInFrame && !Config.get('forceAjaxCalls')) {
+                call = 'customTab';
+            }
+
+            if (isObject(obj.call)) {
+                obj.call = JSON.stringify(obj.call);
+            }
+
+            const url = `chayns.${call}.jsoncall${window.name ? `@${window.name}` : ''}:${obj.call}`;
+            log.debug(`chaynsWebCall: ${url}`);
+            window.parent.postMessage(url, '*');
+        } catch (e) {
+            log.error('chaynsWebCall: postMessage failed', e);
+            return Promise.reject(e);
         }
     }
 
