@@ -46,7 +46,7 @@ export function addNfcListener(cb) {
 export function removeNfcListener(cb) {
     let index = listeners.indexOf(cb);
     if (index !== -1) {
-        listeners.splice(index, 1)
+        listeners.splice(index, 1);
     }
 
     if (listeners.length === 0) {
