@@ -1,7 +1,7 @@
 import {chaynsCall} from '../../chaynsCall';
 import {getCallbackName} from '../../callback';
 import {propTypes} from '../../propTypes';
-import {isArray, isDate, isNumber} from '../../../utils/is';
+import {isArray, isDate, isNumber, isObject} from '../../../utils/is';
 import {environment} from '../../environment';
 import {isDialogPermitted} from '../../../utils/isPermitted';
 import {buttonText, buttonType, dialogAction} from './chaynsDialog';
@@ -101,24 +101,32 @@ export function date(config) {
 }
 
 export function advancedDate(config) {
-    let {preSelect, minDate, maxDate, title, message, minuteInterval, buttons, multiselect, disabledDates, textBlocks, monthSelect, yearSelect} = config,
+    let {preSelect, minDate, maxDate, title, message, minuteInterval, buttons, multiselect, disabledDates, textBlocks, monthSelect, yearSelect, interval, maxInterval, minInterval} = config, // minInterval and maxInterval in minutes
         type = config.dateType || dateType.DATE;
 
     minDate = validateValue(minDate);
     maxDate = validateValue(maxDate);
 
-
-    if (!isArray(preSelect)) {
-        // This will fix the iOS problem with not preselectedDate without user interaction. That it return the wrog time.
+    if (isArray(preSelect)) {
+        let count = preSelect.length;
+        for (let p = 0; p < count; p++) {
+            preSelect[p] = validateValue(preSelect[p]);
+        }
+    } else if (isObject(preSelect)) {
+        if(preSelect.start && preSelect.end) {
+            if (minuteInterval && minuteInterval > 1 && environment.isIOS && environment.isApp) {
+                preSelect = [roundInterval(preSelect.start, minuteInterval), roundInterval(preSelect.end, minuteInterval)];
+            } else {
+                preSelect = [validateValue(preSelect.start), validateValue(preSelect.end)];
+            }
+        }
+    } else {
+        // This will fix the iOS problem with not preselectedDate without user interaction. That it return the wrong time.
+        // eslint-disable-next-line no-lonely-if
         if (minuteInterval && minuteInterval > 1 && environment.isIOS && environment.isApp) {
             preSelect = roundInterval(preSelect, minuteInterval);
         } else {
             preSelect = validateValue(preSelect);
-        }
-    } else {
-        let count = preSelect.length;
-        for (let p = 0; p < count; p++) {
-            preSelect[p] = validateValue(preSelect[p]);
         }
     }
 
@@ -151,7 +159,10 @@ export function advancedDate(config) {
         disabledDates,
         textBlocks,
         monthSelect,
-        yearSelect
+        yearSelect,
+        interval,
+        minInterval,
+        maxInterval
     }).then((data) => {
         return Promise.resolve(data);
     });

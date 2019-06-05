@@ -39,13 +39,7 @@ export function select(config) {
     }
 
     if (!config.buttons || !isArray(config.buttons)) {
-        config.buttons = [{
-            'text': buttonText.OK,
-            'buttonType': buttonType.POSITIVE
-        }, {
-            'text': buttonText.CANCEL,
-            'buttonType': buttonType.CANCEL
-        }];
+        config.buttons = [];
     }
 
     if(isDialogPermitted()) {
