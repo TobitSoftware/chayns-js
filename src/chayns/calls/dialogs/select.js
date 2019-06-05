@@ -39,7 +39,17 @@ export function select(config) {
     }
 
     if (!config.buttons || !isArray(config.buttons)) {
-        config.buttons = [];
+        if(config.multiselect) {
+            config.buttons = [{
+                'text': buttonText.OK,
+                'buttonType': buttonType.POSITIVE
+            }, {
+                'text': buttonText.CANCEL,
+                'buttonType': buttonType.CANCEL
+            }];
+        }else{
+            config.buttons = [];
+        }
     }
 
     if(isDialogPermitted()) {
