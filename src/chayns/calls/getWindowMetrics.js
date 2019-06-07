@@ -85,11 +85,11 @@ async function _getWindowMetricsCallback() {
                 if (paddingTop && !Number.isNaN(paddingTop)) {
                     usableHeight -= paddingTop;
                 }
-            } else if (environment.isIOS && environment.appVersion >= 6028) {
-                const isIPhoneX = screen.width === 1125 && screen.height === 2436;
-                const isIPhoneXR = screen.width === 828 && screen.height === 1792;
-                const isIPhoneXS = screen.width === 1125 && screen.height === 2436;
-                const hasNotch = false;
+            } else if (environment.isIOS && environment.appVersion < 6028) {
+                const isIPhoneX = screen.width === 375 && screen.height === 812 && window.devicePixelRatio === 3;
+                const isIPhoneXR = screen.width === 414 && screen.height === 896 && window.devicePixelRatio === 2;
+                const isIPhoneXS = screen.width === 414 && screen.height === 896 && window.devicePixelRatio === 3;
+                const hasNotch = isIPhoneX || isIPhoneXR || isIPhoneXS;
                 if (hasNotch) {
                     usableHeight -= 83;
                 } else {
