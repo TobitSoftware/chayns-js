@@ -30,7 +30,7 @@ const
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent),
     isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime',
     isChaynsWebMobile = !isApp && (isMobile || parameters.os === 'webshadowmobile'),
-    isChaynsWebDesktop = !isMobile || parameters.os === 'webshadow',
+    isChaynsWebDesktop = !isApp && (!isMobile || parameters.os === 'webshadow'),
     isWidget = publicParameters.isWidget === 'true';
 
 const myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+)/i)[2] : null;
