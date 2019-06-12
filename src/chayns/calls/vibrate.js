@@ -17,6 +17,9 @@ export function vibrate(pattern) {
         'app': {
             'support': {'android': 4727, 'ios': 4301}
         },
+        'myChaynsApp': {
+            'support': {'android': 4727, 'ios': 4301}
+        },
         'web': {
             'fn': navigatorVibrate.bind(this, pattern)
         },
