@@ -8,3 +8,4 @@ export * from './close';
 export * from './dropUpAlert';
 export * from './iFrame';
 export * from './mediaSelect';
+export * from './fileSelect';
