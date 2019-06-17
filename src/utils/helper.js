@@ -67,10 +67,18 @@ export const createTappUrl = (url, {
  * The function will ask for new data with getGlobalData, setup the environment like chayns.ready an return the received data.
  * @return {Promise} Returns the getGlobalData object with AppUser, AppInfo and Device
  */
-export function resetEnvironment() {
+export function resetEnvironment(params) {
     return getGlobalData(true).then((res)=>{
-        setEnv(res);
         chayns.env = environment;
+        if (params) {
+            const paramKeys = Object.keys(params);
+            for (let i = 0; i < paramKeys.length; i++) {
+                chayns.env.parameters[paramKeys[i]] = params[paramKeys[i]];
+                // eslint-disable-next-line no-underscore-dangle
+                chayns.env._parameters[paramKeys[i].toLowerCase()] = params[paramKeys[i]];
+            }
+        }
+        setEnv(res);
         return res;
     });
 }
