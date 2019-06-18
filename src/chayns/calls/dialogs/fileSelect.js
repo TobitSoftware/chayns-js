@@ -3,12 +3,12 @@ import {isArray} from '../../../utils/is';
 import {isDialogPermitted} from '../../../utils/isPermitted';
 import {open} from './open';
 
-export function fileSelect(dialog) {
+export function fileSelect(dialog = {}) {
     const callbackName = 'fileSelectCallback';
 
     if (!dialog.buttons || !isArray(dialog.buttons)) {
         dialog.buttons = [];
-        if (dialog.multiselect) {
+        if (dialog.multiselect || dialog.directory) {
             dialog.buttons.push({
                 'text': buttonText.OK,
                 'buttonType': buttonType.POSITIVE

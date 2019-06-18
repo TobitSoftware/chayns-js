@@ -3,7 +3,7 @@ import {isArray} from '../../../utils/is';
 import {isDialogPermitted} from '../../../utils/isPermitted';
 import {open} from './open';
 
-export function iFrame(dialog) {
+export function iFrame(dialog = {}) {
     const callbackName = 'iFrameCallback';
 
     if (!dialog.buttons || !isArray(dialog.buttons)) {

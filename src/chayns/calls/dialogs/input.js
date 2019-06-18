@@ -6,7 +6,7 @@ import {isArray} from '../../../utils/is';
 import {isDialogPermitted} from '../../../utils/isPermitted';
 import {open} from './open';
 
-export function input(dialog) {
+export function input(dialog = {}) {
     const callbackName = 'inputCallback';
 
     if (!dialog.buttons || !isArray(dialog.buttons)) {
