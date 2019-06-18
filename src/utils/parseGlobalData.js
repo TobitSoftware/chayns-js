@@ -27,6 +27,7 @@ export function parseGlobalData(data) {
             'version': appInfo.Version,
             'domain': appInfo.domain,
             'font': appInfo.FontID,
+            'environment': appInfo.Environment,
             'tapp': {}
         };
 
