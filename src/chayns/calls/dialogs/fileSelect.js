@@ -3,6 +3,27 @@ import {isArray} from '../../../utils/is';
 import {isDialogPermitted} from '../../../utils/isPermitted';
 import {open} from './open';
 
+export const fileType = {
+    'IMAGE': 'image',
+    'VIDEO': 'video',
+    'AUDIO': 'audio',
+    'DOCUMENT': [
+        'application/x-latex',
+        'application/x-tex',
+        'text/',
+        'application/json',
+        'application/pdf',
+        'application/msword',
+        'application/msexcel',
+        'application/mspowerpoint',
+        'application/vnd.ms-word',
+        'application/vnd.ms-excel',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.openxmlformats-officedocument',
+        'application/vnd.oasis.opendocument'
+    ]
+};
+
 export function fileSelect(dialog = {}) {
     const callbackName = 'fileSelectCallback';
 
