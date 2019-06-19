@@ -35,7 +35,7 @@ import {open} from './open';
  * });
  */
 
-export function date(config) {
+export function date(config = {}) {
     const callbackName = 'date';
     let {preSelect, minDate, maxDate, title, message, minuteInterval} = config,
         type = config.dateType || dateType.DATE;
@@ -100,7 +100,7 @@ export function date(config) {
     }).then((data) => Promise.resolve(data.selectedDate));
 }
 
-export function advancedDate(config) {
+export function advancedDate(config = {}) {
     let {preSelect, minDate, maxDate, title, message, minuteInterval, buttons, multiselect, disabledDates, textBlocks, monthSelect, yearSelect, interval, maxInterval, minInterval} = config, // minInterval and maxInterval in minutes
         type = config.dateType || dateType.DATE;
 
