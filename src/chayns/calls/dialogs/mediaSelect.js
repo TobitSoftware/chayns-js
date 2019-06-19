@@ -3,7 +3,7 @@ import {isArray} from '../../../utils/is';
 import {isDialogPermitted} from '../../../utils/isPermitted';
 import {open} from './open';
 
-export function mediaSelect(dialog) {
+export function mediaSelect(dialog = {}) {
     const callbackName = 'mediaSelectCallback';
 
     if (!dialog.buttons || !isArray(dialog.buttons)) {
