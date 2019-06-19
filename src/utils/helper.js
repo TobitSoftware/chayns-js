@@ -67,10 +67,24 @@ export const createTappUrl = (url, {
  * The function will ask for new data with getGlobalData, setup the environment like chayns.ready an return the received data.
  * @return {Promise} Returns the getGlobalData object with AppUser, AppInfo and Device
  */
-export function resetEnvironment() {
-    return getGlobalData(true).then((res)=>{
-        setEnv(res);
+export function resetEnvironment(params) {
+    const INTERNAL_PARAMETERS = [
+        'appversion',
+        'os',
+        'tappid'
+    ];
+    return getGlobalData(true).then((res) => {
         chayns.env = environment;
+        if (params) {
+            const paramKeys = Object.keys(params);
+            for (let i = 0; i < paramKeys.length; i++) {
+                res._parameters[paramKeys[i]] = params[paramKeys[i]];
+                if (INTERNAL_PARAMETERS.indexOf(params[paramKeys[i]].toLowerCase()) === -1) {
+                    res.parameters[paramKeys[i]] = params[paramKeys[i]];
+                }
+            }
+        }
+        setEnv(res);
         return res;
     });
 }
