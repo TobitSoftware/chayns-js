@@ -76,6 +76,9 @@ const domReadySetup = () => new Promise((resolve, reject) => {
     if (environment.isChaynsWebDesktop || environment.isChaynsnetRuntime) {
         html.classList.add(`${prefix}-desktop`);
     }
+    if (environment.isChaynsnetRuntime) {
+        html.classList.add(`${prefix}-net_runtime`);
+    }
     if (environment.isChaynsParent) {
         html.classList.add(`${prefix}-parent`);
     }
