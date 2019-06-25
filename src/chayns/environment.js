@@ -28,7 +28,7 @@ const
     isApp = (!isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0) || isDface,
     isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent),
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent),
-    isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime',
+    isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime' || (window.chaynsInfo && window.chaynsInfo.isChaynsnetRuntime),
     isChaynsWebMobile = !isApp && (isMobile || parameters.os === 'webshadowmobile'),
     isChaynsWebDesktop = !isApp && (!isMobile || parameters.os === 'webshadow'),
     isWidget = publicParameters.isWidget === 'true';
