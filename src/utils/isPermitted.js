@@ -29,5 +29,5 @@ export function isDialogPermitted() {
     const runtimeSupport = (environment.isChaynsnetRuntime && environment.appVersion >= 2);
     const androidAppSupport = (environment.isApp && environment.isAndroid && environment.appVersion >= 5833);
     const iosAppSupport = (environment.isApp && environment.isIOS && environment.appVersion >= 5872);
-    return webSupport || (Config.get('apiDialogs') === true && (runtimeSupport || androidAppSupport || iosAppSupport));
+    return webSupport || runtimeSupport || (Config.get('apiDialogs') === true && (androidAppSupport || iosAppSupport));
 }
