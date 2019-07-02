@@ -28,7 +28,8 @@ export function parseGlobalData(data) {
             'domain': appInfo.domain,
             'font': appInfo.FontID,
             'environment': appInfo.Environment,
-            'tapp': {}
+            'tapp': {},
+            'disposition': appInfo.Disposition,
         };
 
         if (appInfo.TappSelected) {
