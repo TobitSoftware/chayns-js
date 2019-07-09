@@ -73,10 +73,17 @@ export function resetEnvironment(params) {
         'os',
         'tappid'
     ];
-    return getGlobalData(true).then((res) => {
+    return getGlobalData().then((res) => {
         chayns.env = environment;
         if (params) {
             const paramKeys = Object.keys(params);
+            console.log(res.parameters, res._parameters, res);
+            if(!res._parameters) {
+                res._parameters = {};
+            }
+            if(!res.parameters) {
+                res.parameters = {};
+            }
             for (let i = 0; i < paramKeys.length; i++) {
                 res._parameters[paramKeys[i]] = params[paramKeys[i]];
                 if (INTERNAL_PARAMETERS.indexOf(params[paramKeys[i]].toLowerCase()) === -1) {
