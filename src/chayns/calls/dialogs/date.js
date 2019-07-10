@@ -101,7 +101,7 @@ export function date(config = {}) {
 }
 
 export function advancedDate(config = {}) {
-    let {preSelect, minDate, maxDate, title, message, minuteInterval, buttons, multiselect, disabledDates, textBlocks, monthSelect, yearSelect, interval, maxInterval, minInterval} = config, // minInterval and maxInterval in minutes
+    let {preSelect, minDate, maxDate, title, message, minuteInterval, buttons, multiselect, disabledDates, textBlocks, monthSelect, yearSelect, interval, maxInterval, minInterval, disabledIntervals, disabledWeekDayIntervals} = config, // minInterval and maxInterval in minutes
         type = config.dateType || dateType.DATE;
 
     minDate = validateValue(minDate);
@@ -162,7 +162,9 @@ export function advancedDate(config = {}) {
         yearSelect,
         interval,
         minInterval,
-        maxInterval
+        maxInterval,
+        disabledIntervals,
+        disabledWeekDayIntervals
     }).then((data) => {
         return Promise.resolve(data);
     });
