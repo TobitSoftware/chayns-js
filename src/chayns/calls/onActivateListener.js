@@ -18,7 +18,7 @@ function _setOnActivateCallback(enabled) {
             'support': {'android': 4727, 'ios': 4301}
         },
         'myChaynsApp': {
-            'support': {'android': 6048, 'ios': 6034}
+            'support': {'android': 6049, 'ios': 6034}
         },
         'web': false,
         callbackName,

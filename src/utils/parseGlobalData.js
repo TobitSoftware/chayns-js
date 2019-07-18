@@ -59,6 +59,8 @@ export function parseGlobalData(data) {
 
         const user = {
             'name': appUser.FacebookUserName || '',
+            'firstName': appUser.FirstName,
+            'lastName': appUser.LastName,
             'id': parseInt(appUser.TobitUserID, 10) || 0,
             'personId': appUser.PersonID || '',
             'tobitAccessToken': appUser.TobitAccessToken || '',
