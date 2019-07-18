@@ -17,6 +17,9 @@ function _setOnActivateCallback(enabled) {
         'app': {
             'support': {'android': 4727, 'ios': 4301}
         },
+        'myChaynsApp': {
+            'support': {'android': 6048, 'ios': 6034}
+        },
         'web': false,
         callbackName,
         'callbackFunction': (data) => {
@@ -43,7 +46,7 @@ export function addOnActivateListener(cb) {
 export function removeOnActivateListener(cb) {
     let index = listeners.indexOf(cb);
     if (index !== -1) {
-        listeners.splice(index, 1)
+        listeners.splice(index, 1);
     }
 
     if (listeners.length === 0) {
