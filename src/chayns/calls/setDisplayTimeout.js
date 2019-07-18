@@ -13,7 +13,7 @@ function setDisplayTimeout(enabled) {
             'support': {'android': 4972, 'ios': 4538}
         },
         'myChaynsApp': {
-            'support': {'android': true, 'ios': true}
+            'support': {'android': 6000, 'ios': 6000}
         },
         'web': false,
         'propTypes': {
