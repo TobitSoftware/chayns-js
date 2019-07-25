@@ -16,6 +16,9 @@ export function openUrlInBrowser(url, target) {
         'web': {
             'fn': () => Promise.resolve(window.open(url, target ? target : '_blank'))
         },
+        'myChaynsApp': {
+            'support': {'android': 6000, 'ios': 6000}
+        },
         'propTypes': {
             'url': propTypes.string.isRequired,
             'target': propTypes.string
