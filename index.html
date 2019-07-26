@@ -28,6 +28,10 @@
         <button class="button" id="globalData">chayns.getGlobalData</button>
         <button class="button" id="colorCompare">Compare Colors</button>
         <button class="button" id="consoleClear">Clear Console</button>
+        <button class="button" id="addOnActivateListener">onActivateListener</button>
+        <button class="button" id="disableDisplayTimeout">disableDisplayTimeout</button>
+        <button class="button" id="enableDisplayTimeout">enableDisplayTimeout</button>
+        <button class="button" id="openUrlInBrowser">openUrlInBrowser</button>
         <div class="content__card" id="console">
             <p id="0"></p>
         </div>
@@ -123,12 +127,32 @@
             compareColors('grey');
         };
 
+        window.addOnActivateListener = () => {
+            window.chayns.addOnActivateListener(data => window.log({ date: new Date(), data }));
+        };
+
+        window.disableDisplayTimeout = () => {
+            window.chayns.disableDisplayTimeout().then(window.log);
+        };
+
+        window.enableDisplayTimeout = () => {
+            window.chayns.enableDisplayTimeout().then(window.log);
+        };
+
+        window.openUrlInBrowser = () => {
+            window.chayns.openUrlInBrowser('https://www.google.de');
+        };
+
         document.getElementById('consoleClear').addEventListener('click', window.clearConsole);
         document.getElementById('globalData').addEventListener('click', window.globalDataTest);
         document.getElementById('globalCall').addEventListener('click', window.globalCallTest);
         document.getElementById('cursorCall').addEventListener('click', window.cursorCall);
         document.getElementById('cursorFunction').addEventListener('click', window.cursorFunction);
         document.getElementById('colorCompare').addEventListener('click', window.colorCompare);
+        document.getElementById('addOnActivateListener').addEventListener('click', window.addOnActivateListener);
+        document.getElementById('disableDisplayTimeout').addEventListener('click', window.disableDisplayTimeout);
+        document.getElementById('enableDisplayTimeout').addEventListener('click', window.enableDisplayTimeout);
+        document.getElementById('openUrlInBrowser').addEventListener('click', window.openUrlInBrowser);
     });
 </script>
 </body>
