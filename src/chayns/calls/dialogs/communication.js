@@ -11,7 +11,8 @@ export function sendData(data, isApiEvent) {
         },
         'app': {
             'support': {'android': 5350, 'ios': 5386}// TODO set right versions
-        }
+        },
+        'useCommunicationInterface': true
     });
 }
 
@@ -25,11 +26,11 @@ function _dialogDataListener(e) {
     const messageObj = JSON.parse(e.data.match(/(\{(?:.*)\})/)[0]);
     if (messageObj.action === 218) {
         const {data} = messageObj.value;
-        if(messageObj.value.isApiEvent) {
+        if (messageObj.value.isApiEvent) {
             apiListeners.forEach((listener) => {
                 listener(data);
             });
-        }else{
+        } else {
             listeners.forEach((listener) => {
                 listener(data);
             });
