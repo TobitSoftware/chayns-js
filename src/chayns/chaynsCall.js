@@ -52,7 +52,7 @@ export function chaynsCall(obj) {
 
             return injectCallback(chaynsWebCall, obj);
         }
-    } else if (environment.isChaynsnetRuntime && obj.cwl !== undefined) { // chacing call for CWL important! Do not set CWL to false
+    } else if (environment.isChaynsnetRuntime && obj.cwl !== undefined) { // caching call for CWL important! Do not set CWL to false
         log.debug('chaynsCall: attempt chayns cwl call');
         const cwlObj = obj.cwl;
 
@@ -149,11 +149,17 @@ function chaynsAppCall(obj) {
         }
 
         log.debug('executeJsonChaynsCall:', obj.call);
-        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jsonCall) {
-            window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
-        } else {
-            window.chaynsApp.jsonCall(obj.call);
-        }
+        if (obj.useCommunicationInterface) {
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.chaynsMessage) {
+                window.webkit.messageHandlers.chaynsMessage.postMessage(obj.call);
+            } else {
+                window.chaynsApp.chaynsMessage(obj.call);
+            }
+        } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jsonCall) {
+                window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
+            } else {
+                window.chaynsApp.jsonCall(obj.call);
+            }
 
         return Promise.resolve();
     } catch (e) {
@@ -195,7 +201,7 @@ function chaynsWebCall(obj) {
     } else {
         try {
             let call = 'ajaxTab';
-            if(environment.isInFrame && !Config.get('forceAjaxCalls')) {
+            if (environment.isInFrame && !Config.get('forceAjaxCalls')) {
                 call = 'customTab';
             }
 
