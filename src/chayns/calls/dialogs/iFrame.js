@@ -19,6 +19,8 @@ export function iFrame(dialog = {}) {
         }];
     }
 
+    dialog.tappIframeName = window.name;
+
     if(isDialogPermitted()) {
         dialog.callType = dialogAction.IFRAME;
         addDialogDataListener(_chaynsCallResponder, true);
