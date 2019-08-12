@@ -77,7 +77,6 @@ export function resetEnvironment(params) {
         chayns.env = environment;
         if (params) {
             const paramKeys = Object.keys(params);
-            console.log(res.parameters, res._parameters, res);
             if(!res._parameters) {
                 res._parameters = {};
             }
