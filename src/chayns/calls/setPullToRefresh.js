@@ -12,7 +12,6 @@ function setPullToRefresh(enabled) {
         'app': {
             'support': {'android': 4727, 'ios': 4301}
         },
-        'web': false,
         'myChaynsApp': {
             'support': {'ios': 5780, 'android': 5491}
         },
