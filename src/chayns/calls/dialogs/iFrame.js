@@ -5,6 +5,7 @@ import {open} from './open';
 import {addDialogDataListener, sendData} from './communication';
 import {chaynsCall} from '../../chaynsCall';
 import {getCallbackName} from '../../callback';
+import {environment} from '../../environment';
 
 export function iFrame(dialog = {}) {
     const callbackName = 'iFrameCallback';
@@ -20,9 +21,10 @@ export function iFrame(dialog = {}) {
     }
 
     dialog.tappIframeName = window.name;
+    dialog.callType = dialogAction.IFRAME;
+    dialog.url = `${dialog.url}${dialog.url.indexOf('?') >= 0 ? '&' : '?'}siteId=${environment.site.id}`;
 
     if(isDialogPermitted()) {
-        dialog.callType = dialogAction.IFRAME;
         addDialogDataListener(_chaynsCallResponder, true);
         return open(dialog);
     }
