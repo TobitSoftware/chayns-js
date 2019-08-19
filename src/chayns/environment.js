@@ -6,7 +6,7 @@ const userAgent = (window.navigator && navigator.userAgent) || '',
     ],
     parameters = {},
     publicParameters = {},
-    query = location.search.substr(1).split('&');
+    query = (window.chaynsParameters || location.search).substr(1).split('&');
 
 if (query[0] !== '') {
     for (let i = 0, l = query.length; i < l; i++) {
