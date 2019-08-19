@@ -4,7 +4,7 @@ import {getLogger} from '../utils/logger';
 import {isPermitted} from '../utils/isPermitted';
 import {environment} from './environment';
 import Config from './Config';
-import {setCallback} from './callback';
+import {getCallbackName, setCallback} from './callback';
 import {validatePropTypes} from './propTypes';
 
 let log = getLogger('chayns.core.chayns_calls');
@@ -156,10 +156,10 @@ function chaynsAppCall(obj) {
                 window.chaynsApp.chaynsMessage(obj.call);
             }
         } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jsonCall) {
-                window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
-            } else {
-                window.chaynsApp.jsonCall(obj.call);
-            }
+            window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
+        } else {
+            window.chaynsApp.jsonCall(obj.call);
+        }
 
         return Promise.resolve();
     } catch (e) {
@@ -222,19 +222,36 @@ function chaynsWebCall(obj) {
 }
 
 export function invokeCall(call) {
+    let callback;
+    console.log(call);
     if (chayns.utils.isString(call)) {
         call = JSON.parse(call);
     }
     let obj = {};
-    obj.call = call;
-    obj.app = {'support': {'android': 1, 'ios': 1}};
     if (environment.isWidget) {
-        obj.call.isWidget = true;
+        call.isWidget = true;
     }
+    obj.call = call;
+    if (call.value.callback) {
+        callback = obj.call.value.callback;
+        const random = Math.round(Math.random() * 100);
+        obj.callbackName = 'invokeCall' + random;
+        obj.call.value.callback = getCallbackName(obj.callbackName);
+    }
+    obj.app = {'support': {'android': 1, 'ios': 1}};
     log.debug(`invokeCall: ${call}`);
-    if (environment.isApp && !environment.isWidget) {
-        return injectCallback(chaynsAppCall, obj);
-    }
-    return injectCallback(chaynsWebCall, obj);
+    obj.call = JSON.stringify(obj.call);
+    return chaynsCall(obj).then((data) => {
+        if (call.value.callback) {
+            if (typeof callback === 'string') {
+                console.log('string', data, 'window.invokeCallFunction=' + callback);
+                eval('window.invokeCallFunction=' + callback);
 
+                window.invokeCallFunction(data);
+            } else {
+                callback(data);
+            }
+        }
+        Promise.resolve(data);
+    });
 }
