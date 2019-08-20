@@ -222,33 +222,36 @@ function chaynsWebCall(obj) {
 }
 
 export function invokeCall(call) {
-    let callback;
-    if (chayns.utils.isString(call)) {
-        call = JSON.parse(call);
-    }
-    let obj = {};
-    if (environment.isWidget) {
-        call.isWidget = true;
-    }
-    obj.call = call;
-    if (call.value.callback) {
-        callback = obj.call.value.callback;
-        const random = Math.round(Math.random() * 100);
-        obj.callbackName = 'invokeCall' + random;
-        obj.call.value.callback = getCallbackName(obj.callbackName);
-    }
-    obj.app = {'support': {'android': 1, 'ios': 1}};
-    log.debug(`invokeCall: ${call}`);
-    obj.call = JSON.stringify(obj.call);
-    return chaynsCall(obj).then((data) => {
-        if (call.value.callback) {
-            if (typeof callback === 'string') {
-                eval('window.invokeCallFunction=' + callback);
-                window.invokeCallFunction(data);
-            } else {
-                callback(data);
-            }
+    return new Promise((resolve)=>{
+        let callback;
+        if (chayns.utils.isString(call)) {
+            call = JSON.parse(call);
         }
-        Promise.resolve(data);
+        let obj = {};
+        if (environment.isWidget) {
+            call.isWidget = true;
+        }
+        obj.call = call;
+        if (call.value.callback) {
+            callback = obj.call.value.callback;
+            const random = Math.round(Math.random() * 100);
+            obj.callbackName = 'invokeCall' + random;
+            obj.call.value.callback = getCallbackName(obj.callbackName);
+        }
+        obj.app = {'support': {'android': 1, 'ios': 1}};
+        log.debug(`invokeCall: ${call}`);
+        obj.call = JSON.stringify(obj.call);
+        chaynsCall(obj).then((data) => {
+            if (call.value.callback) {
+                if (typeof callback === 'string') {
+                    // eslint-disable-next-line no-eval
+                    eval('window.invokeCallFunction=' + callback);
+                    window.invokeCallFunction(data);
+                } else {
+                    callback(data);
+                }
+            }
+            resolve(data);
+        });
     });
 }
