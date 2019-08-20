@@ -6,6 +6,7 @@ import {environment} from './environment';
 import Config from './Config';
 import {getCallbackName, setCallback} from './callback';
 import {validatePropTypes} from './propTypes';
+import {isString} from '../utils';
 
 let log = getLogger('chayns.core.chayns_calls');
 export const widgetTappCalls = [133];
@@ -221,37 +222,35 @@ function chaynsWebCall(obj) {
     return Promise.resolve();
 }
 
-export function invokeCall(call) {
-    return new Promise((resolve)=>{
-        let callback;
+export function invokeCall(call, resolvePromise) {
+    return new Promise((resolve) => {
         if (chayns.utils.isString(call)) {
             call = JSON.parse(call);
         }
+        let callback = call.value ? call.value.callback : null;
         let obj = {};
         if (environment.isWidget) {
             call.isWidget = true;
         }
         obj.call = call;
-        if (call.value.callback) {
-            callback = obj.call.value.callback;
-            const random = Math.round(Math.random() * 100);
+        if (resolvePromise || (callback && isFunction(callback))) {
+            const random = Math.round(Math.random() * 10000);
             obj.callbackName = 'invokeCall' + random;
+            if (!obj.call.value) {
+                obj.call.value = {};
+            }
             obj.call.value.callback = getCallbackName(obj.callbackName);
         }
         obj.app = {'support': {'android': 1, 'ios': 1}};
-        log.debug(`invokeCall: ${call}`);
+        log.debug(`invokeCall: ${obj.call}`);
         obj.call = JSON.stringify(obj.call);
         chaynsCall(obj).then((data) => {
-            if (call.value.callback) {
-                if (typeof callback === 'string') {
-                    // eslint-disable-next-line no-eval
-                    eval('window.invokeCallFunction=' + callback);
-                    window.invokeCallFunction({'retVal': data}); // retVal for backward compatibility
-                } else {
-                    callback({'retVal': data});
-                }
+            if (isFunction(callback)) {
+                callback({'retVal': data});
             }
-            resolve(data);
+            if (resolvePromise) {
+                resolve(data);
+            }
         });
     });
 }
