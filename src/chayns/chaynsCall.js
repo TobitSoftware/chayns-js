@@ -246,9 +246,9 @@ export function invokeCall(call) {
                 if (typeof callback === 'string') {
                     // eslint-disable-next-line no-eval
                     eval('window.invokeCallFunction=' + callback);
-                    window.invokeCallFunction(data);
+                    window.invokeCallFunction({'retVal': data}); // retVal for backward compatibility
                 } else {
-                    callback(data);
+                    callback({'retVal': data});
                 }
             }
             resolve(data);
