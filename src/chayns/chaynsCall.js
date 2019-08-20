@@ -223,7 +223,6 @@ function chaynsWebCall(obj) {
 
 export function invokeCall(call) {
     let callback;
-    console.log(call);
     if (chayns.utils.isString(call)) {
         call = JSON.parse(call);
     }
@@ -244,9 +243,7 @@ export function invokeCall(call) {
     return chaynsCall(obj).then((data) => {
         if (call.value.callback) {
             if (typeof callback === 'string') {
-                console.log('string', data, 'window.invokeCallFunction=' + callback);
                 eval('window.invokeCallFunction=' + callback);
-
                 window.invokeCallFunction(data);
             } else {
                 callback(data);
