@@ -223,6 +223,14 @@ function chaynsWebCall(obj) {
 }
 
 export function invokeCall(call, realResolve) {
+    /*
+    * expected behaviour:
+    * - callback strings won't get touched
+    * - callback function will be called by a generated function
+    * - if realResolve is set, the generated function will resolve the promise
+    * - otherwise the promise is resolved instantly
+    * - callback strings are not compatible with realResolve
+    * */
     return new Promise((resolve) => {
         if (chayns.utils.isString(call)) {
             call = JSON.parse(call);
