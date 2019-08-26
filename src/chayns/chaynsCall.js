@@ -222,7 +222,15 @@ function chaynsWebCall(obj) {
     return Promise.resolve();
 }
 
-export function invokeCall(call, resolvePromise) {
+export function invokeCall(call, realResolve) {
+    /*
+    * expected behaviour:
+    * - callback strings won't get touched
+    * - callback function will be called by a generated function
+    * - if realResolve is set, the generated function will resolve the promise
+    * - otherwise the promise is resolved instantly
+    * - callback strings are not compatible with realResolve
+    * */
     return new Promise((resolve) => {
         if (chayns.utils.isString(call)) {
             call = JSON.parse(call);
@@ -233,7 +241,7 @@ export function invokeCall(call, resolvePromise) {
             call.isWidget = true;
         }
         obj.call = call;
-        if (resolvePromise || (callback && isFunction(callback))) {
+        if (realResolve || (callback && isFunction(callback))) {
             const random = Math.round(Math.random() * 10000);
             obj.callbackName = 'invokeCall' + random;
             if (!obj.call.value) {
@@ -248,9 +256,12 @@ export function invokeCall(call, resolvePromise) {
             if (isFunction(callback)) {
                 callback({'retVal': data});
             }
-            if (resolvePromise) {
+            if (realResolve) {
                 resolve(data);
             }
         });
+        if(!realResolve) {
+            resolve(undefined);
+        }
     });
 }
