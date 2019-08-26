@@ -46,6 +46,10 @@ export function removePushListener(callback) {
 }
 
 function parsePush(data) {
+    if(data && !data.chaynsData) {
+        data.chaynsData = data;
+    }
+
     if (data && data.chaynsData) {
         const {push, category, actionId, value} = data.chaynsData;
 
