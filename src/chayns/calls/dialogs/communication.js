@@ -58,12 +58,12 @@ export function removeDialogDataListener(callback, getApiEvents = false) {
             apiListeners.splice(index, 1);
         }
     } else {
-        index = apiListeners.indexOf(callback);
+        index = listeners.indexOf(callback);
         if (index !== -1) {
-            apiListeners.splice(index, 1);
+            listeners.splice(index, 1);
         }
     }
-    if (listeners.length === 0 || apiListeners.length === 0) {
+    if (listeners.length === 0 && apiListeners.length === 0) {
         window.removeEventListener('message', _dialogDataListener);
     }
     return index !== -1;
