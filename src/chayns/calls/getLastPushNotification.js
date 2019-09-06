@@ -27,5 +27,5 @@ export function getLastPushNotification() {
         'propTypes': {
             'callback': propTypes.string.isRequired
         }
-    }).then((data) => Promise.resolve(data.items ? data : {'items': []}));
+    }).then((data) => Promise.resolve(data && data.items ? data : {'items': []}));
 }
