@@ -251,7 +251,6 @@ export function invokeCall(call, realResolve) {
         }
         obj.app = {'support': {'android': 1, 'ios': 1}};
         log.debug(`invokeCall: ${obj.call}`);
-        obj.call = JSON.stringify(obj.call);
         chaynsCall(obj).then((data) => {
             if (isFunction(callback)) {
                 callback({'retVal': data});
