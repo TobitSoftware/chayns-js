@@ -150,12 +150,8 @@ function chaynsAppCall(obj) {
         }
 
         log.debug('executeJsonChaynsCall:', obj.call);
-        if (obj.useCommunicationInterface) {
-            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.chaynsMessage) {
-                window.webkit.messageHandlers.chaynsMessage.postMessage(obj.call);
-            } else {
-                window.chaynsApp.chaynsMessage(obj.call);
-            }
+        if (obj.useCommunicationInterface && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.chaynsMessage) {
+            window.webkit.messageHandlers.chaynsMessage.postMessage(obj.call);
         } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jsonCall) {
             window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
         } else {
@@ -212,7 +208,11 @@ function chaynsWebCall(obj) {
 
             const url = `chayns.${call}.jsoncall${window.name ? `@${window.name}` : ''}:${obj.call}`;
             log.debug(`chaynsWebCall: ${url}`);
-            window.parent.postMessage(url, '*');
+            if(environment.isChaynsParent) {
+                window.postMessage(url, '*');
+            }else{
+                window.parent.postMessage(url, '*');
+            }
         } catch (e) {
             log.error('chaynsWebCall: postMessage failed', e);
             return Promise.reject(e);
@@ -259,7 +259,7 @@ export function invokeCall(call, realResolve) {
                 resolve(data);
             }
         });
-        if(!realResolve) {
+        if (!realResolve) {
             resolve(undefined);
         }
     });
