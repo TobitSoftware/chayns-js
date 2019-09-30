@@ -3,7 +3,7 @@ import {getCallbackName} from '../callback';
 import {propTypes} from '../propTypes';
 import {isFunction} from '../../utils/is';
 
-function setBackButton(enabled, callback) {
+function setBackButton(enabled, callback, showButton) {
     const callbackName = 'setBackButton';
 
     return chaynsCall({
@@ -11,7 +11,8 @@ function setBackButton(enabled, callback) {
             'action': 10,
             'value': {
                 enabled,
-                'callback': getCallbackName(callbackName)
+                'callback': getCallbackName(callbackName),
+                showButton
             }
         },
         'app': {
@@ -26,7 +27,7 @@ function setBackButton(enabled, callback) {
     });
 }
 
-export function showBackButton(callback) {
+export function showBackButton(callback, showButton = true) {
     if (!isFunction(callback)) {
         callback = function backButtonCallback() {
             history.back();
@@ -34,7 +35,7 @@ export function showBackButton(callback) {
         };
     }
 
-    return setBackButton(true, callback, 0);
+    return setBackButton(true, callback, showButton);
 }
 
 export function hideBackButton() {
