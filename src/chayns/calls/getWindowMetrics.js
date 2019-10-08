@@ -168,6 +168,8 @@ export function addWindowMetricsListener(cb, startCall = false) {
     if (startCall) {
         _getWindowMetricsCallback();
     }
+
+    return cb;
 }
 
 export function removeWindowMetricsListener(cb) {
