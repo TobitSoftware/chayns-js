@@ -24,7 +24,7 @@ if (query[0] !== '') {
 
 const
     isIOS = (/iPhone|iPad|iPod/i).test(userAgent),
-    isDface = navigator.userAgent.toLowerCase().indexOf('dface') >= 0 || navigator.userAgent.toLowerCase().indexOf('h96pp') >= 0 || navigator.userAgent.toLowerCase().indexOf('jabiru') >= 0 || navigator.userAgent.toLowerCase().indexOf('chaynsterminal') >= 0,
+    isDface = (/dface|h96pp|jabiru|chaynsterminal|wayter/i).test(navigator.userAgent),
     isMyChaynsApp = navigator.userAgent.toLowerCase().indexOf('mychayns') >= 0 && (!isIOS || navigator.userAgent.toLowerCase().indexOf('web;') >= 0),
     isApp = (!isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0) || isDface,
     isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || parameters.os === 'webshadowmobile',
