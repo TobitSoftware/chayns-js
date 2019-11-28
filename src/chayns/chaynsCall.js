@@ -208,9 +208,18 @@ function chaynsWebCall(obj) {
 
             const url = `chayns.${call}.jsoncall${window.name ? `@${window.name}` : ''}:${obj.call}`;
             log.debug(`chaynsWebCall: ${url}`);
-            if(environment.isChaynsParent) {
-                window.postMessage(url, '*');
-            }else{
+            if (environment.isChaynsParent) {
+                if (obj.useCommunicationInterface === true) {
+                    const dialog = document.querySelector('iframe[name="CustomDialogIframe"]');
+                    if (dialog) {
+                        dialog.contentWindow.postMessage(url, '*');
+                    } else {
+                        log.warn('chaynsWebCall: CustomDialogIframe not found');
+                    }
+                } else {
+                    window.postMessage(url, '*');
+                }
+            } else {
                 window.parent.postMessage(url, '*');
             }
         } catch (e) {
