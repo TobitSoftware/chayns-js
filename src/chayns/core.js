@@ -85,6 +85,9 @@ const domReadySetup = () => new Promise((resolve, reject) => {
     if (environment.isApp) {
         html.classList.add(`${prefix}-app`);
     }
+    if (environment.isApp || environment.isMyChaynsApp) {
+        html.classList.add(`${prefix}-noSelection`);
+    }
     if (environment.isInFrame) {
         html.classList.add(`${prefix}-frame`);
     }
