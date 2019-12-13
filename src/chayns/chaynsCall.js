@@ -38,7 +38,7 @@ export function chaynsCall(obj) {
             log.debug('supportedMyChaynsAppCall');
             return injectCallback(chaynsWebCall, obj);
         }
-    } else if (environment.isWidget) {
+    } else if (environment.isWidget && (!environment.isApp || obj.widget !== false)) {
         if (environment.isChaynsWeb && obj.web !== false || environment.isApp && obj.app !== false || environment.isMyChaynsApp && obj.myChaynsApp === true || widgetTappCalls.indexOf(obj.call.action) > -1) {
             obj.call.isWidget = true;
 
