@@ -4,9 +4,10 @@ import {propTypes} from '../propTypes';
 import {environment, setEnv} from '../environment';
 import {parseGlobalData} from '../../utils/parseGlobalData';
 
+let id = 0;
 
 export function getGlobalData(raw = false) {
-    const callbackName = 'getGlobalData';
+    const callbackName = 'getGlobalData' + (++id);
 
     return chaynsCall({
         'call': {
@@ -27,6 +28,10 @@ export function getGlobalData(raw = false) {
     }).then((data) => {
         const gd = parseGlobalData(data);
         setEnv(gd);
+
+        if (window._chaynsCallbacks) {
+            delete window._chaynsCallbacks[callbackName];
+        }
 
         return raw ? Promise.resolve(data) : Promise.resolve(gd);
     });

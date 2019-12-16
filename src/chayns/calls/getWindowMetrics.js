@@ -26,6 +26,7 @@ export function getWindowMetrics() {
                 'WindowScrollTop': document.body.scrollTop
             })
         },
+        'widget': false,
         callbackName,
         'propTypes': {
             'callback': propTypes.string.isRequired
