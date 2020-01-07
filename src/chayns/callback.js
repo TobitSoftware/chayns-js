@@ -164,5 +164,7 @@ function postToFrame(name, params, cb, callPrefix, retVal) {
     obj.retVal = retVal;
     obj = JSON.stringify(obj);
     obj = `${callPrefix}:${obj}`;
-    frame.contentWindow.postMessage(obj, '*');
+    if (frame && frame.contentWindow) {
+        frame.contentWindow.postMessage(obj, '*');
+    }
 }
