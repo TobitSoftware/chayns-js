@@ -116,7 +116,7 @@ function getBrowserInfo() {
     }
 
     matches = matches[2] ? [matches[1], matches[2]] : [navigator.appName, navigator.appVersion, '-?'];
-    if ((temp = userAgent.match(/version\/(\d+)/i))) {
+    if ((temp = userAgent.match(/version\/(\d+)/i)) && matches[1] !== 'Chrome') {
         matches.splice(1, 1, temp[1]);
     }
 
