@@ -2,9 +2,10 @@ import {chaynsCall} from '../chaynsCall';
 import {propTypes} from '../propTypes';
 import {getCallbackName} from '../callback';
 
+let id = 0;
 
 export function getAvailableSharingServices() {
-    const callbackName = 'getAvailableSharingServices';
+    const callbackName = 'getAvailableSharingServices' + (++id);
 
     return new Promise((resolve, reject)=>{
         chaynsCall({
@@ -24,6 +25,10 @@ export function getAvailableSharingServices() {
             callbackName
         }).then((response)=>{
             resolve(response.retVal || response);
+
+            if (window._chaynsCallbacks) {
+                delete window._chaynsCallbacks[callbackName];
+            }
         }, reject);
     });
 }
