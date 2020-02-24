@@ -6,6 +6,7 @@ import {addDialogDataListener, sendData} from './communication';
 import {chaynsCall} from '../../chaynsCall';
 import {getCallbackName} from '../../callback';
 import {environment} from '../../environment';
+import Config from '../../Config';
 
 export function iFrame(dialog = {}) {
     const callbackName = 'iFrameCallback';
@@ -23,21 +24,22 @@ export function iFrame(dialog = {}) {
     dialog.tappIframeName = window.name;
     dialog.callType = dialogAction.IFRAME;
     dialog.url = `${dialog.url}${dialog.url.indexOf('?') >= 0 ? '&' : '?'}siteId=${environment.site.id}`;
-
-    if(isDialogPermitted()) {
+    if (isDialogPermitted()) {
         addDialogDataListener(_chaynsCallResponder, true);
         return open(dialog);
     }
 }
 
 export function _chaynsCallResponder(obj) {
-    if(obj.call.value.callback) {
+    if (obj.call.value.callback) {
         const call = JSON.parse(JSON.stringify(obj)); // deep copy
-        obj.call.value.callback = getCallbackName(obj.call.value.callback);
-        chaynsCall(obj).then((result)=>{
+        if (!obj.call.value.callback.startsWith(`window.${Config.get('callbackPrefix')}`)) {
+            obj.call.value.callback = getCallbackName(obj.call.value.callback);
+        }
+        chaynsCall(obj).then((result) => {
             sendData({result, call}, true);
         });
-    }else{
+    } else {
         chaynsCall(obj);
     }
 }
