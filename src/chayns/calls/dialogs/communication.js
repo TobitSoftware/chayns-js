@@ -19,10 +19,11 @@ export function sendData(data, isApiEvent) {
 const listeners = [];
 const apiListeners = [];
 
-function _dialogDataListener(e) {
+function _dialogDataListener(e = {}) {
     if (!e.data || typeof e.data !== 'string') {
         return;
     }
+
     const messageObj = JSON.parse(e.data.match(/(\{(?:.*)\})/)[0]);
     if (messageObj.action === 218) {
         const {data} = messageObj.value;
