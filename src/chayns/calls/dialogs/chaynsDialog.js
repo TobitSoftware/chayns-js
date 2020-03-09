@@ -4,6 +4,7 @@ import {propTypes} from '../../propTypes';
 import {environment} from '../../environment';
 import {isDialogPermitted} from '../../../utils/isPermitted';
 import {open} from './open';
+import Config from '../../Config';
 
 export const buttonText = {
     'YES': {
@@ -51,6 +52,10 @@ export function chaynsDialog(config) {
         if(config.dialog) {
             config.dialog.callType = dialogAction.ALERT_CONFIRM;
             return open(config.dialog).then((data) => Promise.resolve(data.buttonType));
+        }
+        const externalDialogUrl = Config.get('externalDialogUrl');
+        if(externalDialogUrl) {
+            config.externalDialogUrl = externalDialogUrl + '?OS=##os##&color=##color##&font=##fontid##&colormode=##colormode##&lang=##lang##&siteId=##siteId##&AppVersion=##version##';
         }
         Promise.reject('Dialog object is invalid and not supported');
     } else {
