@@ -58,6 +58,7 @@ export function select(config) {
             'quickfind': !!config.quickfind,
             'type': config.type,
             'preventCloseOnClick': !!config.preventCloseOnClick,
+            'selectAllButton': config.selectAllButton,
             list
         });
     }
