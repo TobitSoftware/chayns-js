@@ -4,13 +4,15 @@ import {propTypes} from '../../propTypes';
 import {isDialogPermitted} from '../../../utils/isPermitted';
 import {removeDialogDataListener} from './communication';
 import {_chaynsCallResponder} from './iFrame';
+import Config from '../../Config';
 
 export function open(json, config = {}) {
     const callbackName = `openDialog_${json.callType}`;
-    if(!isDialogPermitted()) {
+    if (!isDialogPermitted()) {
         Promise.reject('chaynsCall not supported. New Dialogs are available in Web, android appVersion 5.833 and ios appVersion x.xxx');
     }
-    return new Promise((resolve, reject)=>{
+    const externalDialogUrl = Config.get('externalDialogUrl') ? Config.get('externalDialogUrl') + '?OS=##os##&color=##color##&font=##fontid##&colormode=##colormode##&lang=##lang##&siteId=##siteId##&AppVersion=##version##' : null;
+    return new Promise((resolve, reject) => {
         chaynsCall({
             'call': {
                 'action': 184,
@@ -19,7 +21,7 @@ export function open(json, config = {}) {
                     'dialogContent': json,
                     'showTabbar': config.showTabbar,
                     'blur': config.blur,
-                    'externalDialogUrl': config.externalDialogUrl
+                    externalDialogUrl
                 }
             },
             'app': {
@@ -29,10 +31,10 @@ export function open(json, config = {}) {
             'propTypes': {
                 'dialogContent': propTypes.object.isRequired
             }
-        }).then((e)=>{
+        }).then((e) => {
             removeDialogDataListener(_chaynsCallResponder, true);
             resolve(e);
-        }, (e)=>{
+        }, (e) => {
             removeDialogDataListener(_chaynsCallResponder, true);
             reject(e);
         });
