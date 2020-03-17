@@ -1,6 +1,8 @@
 import {chaynsCall} from '../chaynsCall';
 import {propTypes} from '../propTypes';
-import {isArray} from '../../utils/is';
+import {isArray, isNumber} from '../../utils/is';
+import {environment} from '../environment';
+import {openUrlInBrowser} from './openUrlInBrowser';
 
 export function selectTapp(tapp, param) {
     const value = {
@@ -9,6 +11,32 @@ export function selectTapp(tapp, param) {
 
     if (param) {
         value.params = isArray(param) ? param : [param];
+    }
+
+    if (value.siteId) {
+        const params = value.params ? value.params.join('&') : '';
+        if (value.siteId !== environment.site.id) {
+            if (environment.isApp || environment.isMyChaynsApp) {
+                return chaynsCall({
+                    'call': {
+                        'action': 142,
+                        'value': {
+                            'siteId': value.siteId,
+                            'tappIdUrl': `/tapp/index/${value.id}?${params}`,
+                        }
+                    },
+                    'app': {'support': {'android': 5589, 'ios': 5627}},
+                    'propTypes': {
+                        'siteId': propTypes.string,
+                        'tappIdUrl': propTypes.string
+                    }
+                });
+            } else {
+                return openUrlInBrowser(`https://chayns.net/${value.siteId}/tapp/index/${value.id}?${params}`);
+            }
+        } else {
+            delete value.siteId;
+        }
     }
 
     return chaynsCall({
