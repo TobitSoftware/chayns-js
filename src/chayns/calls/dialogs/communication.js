@@ -20,11 +20,11 @@ const listeners = [];
 const apiListeners = [];
 
 function _dialogDataListener(e = {}) {
-    if (!e.data || typeof e.data !== 'string') {
+    if (!e.data || (!e.data.action && typeof e.data !== 'string')) {
         return;
     }
 
-    const messageObj = JSON.parse(e.data.match(/(\{(?:.*)\})/)[0]);
+    const messageObj = e.data.action ? e.data : JSON.parse(e.data.match(/(\{(?:.*)\})/)[0]);
     if (messageObj.action === 218) {
         const {data} = messageObj.value;
         if (messageObj.value.isApiEvent) {
