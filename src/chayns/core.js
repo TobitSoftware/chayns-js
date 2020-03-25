@@ -108,7 +108,9 @@ const domReadySetup = () => new Promise((resolve, reject) => {
         // get the App Information
         getGlobalData()
             .then((data) => {
-                dynamicFontSize();
+                if (environment.isInFrame) {// TODO activate dynamicFontSize only if it's activated in getGlobalData
+                    dynamicFontSize();
+                }
                 chaynsReadySetup(data).then(resolve, reject);
             })
             .catch(() => {
@@ -196,9 +198,11 @@ function resizeListener() {
     setInterval(resizeHandler, 200);
 }
 
-function dynamicFontSize() {
+export function dynamicFontSize() {
     const setWidthVariable = (data) => {
-        document.documentElement.style.setProperty('--width', data.width + 'px');
+        if (data.width < 1400) { // max width
+            document.documentElement.style.setProperty('--width', data.width + 'px');
+        }
     };
     if (environment.isInFrame) {
         addWidthChangeListener(setWidthVariable);
