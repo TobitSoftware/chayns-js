@@ -108,9 +108,9 @@ const domReadySetup = () => new Promise((resolve, reject) => {
         // get the App Information
         getGlobalData()
             .then((data) => {
-                if (environment.isInFrame) {// TODO activate dynamicFontSize only if it's activated in getGlobalData
-                    dynamicFontSize();
-                }
+                // if (environment.isInFrame) {// TODO activate dynamicFontSize only if it's activated in getGlobalData
+                dynamicFontSize();
+                // }
                 chaynsReadySetup(data).then(resolve, reject);
             })
             .catch(() => {
@@ -198,28 +198,43 @@ function resizeListener() {
     setInterval(resizeHandler, 200);
 }
 
-export function dynamicFontSize() {
-    const setWidthVariable = (data) => {
-        if (data.width < 1400) { // max width
-            document.documentElement.style.setProperty('--width', data.width + 'px');
-        }
+const callbacks = {};
+
+const setWidthVariable = (data) => {
+    if (data.width < 1400) { // max width
+        document.documentElement.style.setProperty('--width', data.width + 'px');
+    }
+};
+
+export function activateDynamicFontSize() {
+    const callFrames = (width) => {
+        document.querySelectorAll('iframe').forEach((iframe) => {
+            if (callbacks[iframe.name]) {
+                callbacks[iframe.name].forEach((callbackName) => {
+                    let message = `chayns.${(!environment.isWidget ? 'customTab' : 'widget')}.jsoncall:`;
+                    message += JSON.stringify({'callback': callbackName, 'retVal': {width}});
+                    iframe.contentWindow.postMessage(message, '*');
+                });
+            }
+        });
     };
+
+    window.addEventListener('resize', (data) => {
+        const width = data.target.innerWidth;
+        callFrames(width);
+        setWidthVariable({width});
+    });
+
+    const width = window.innerWidth;
+    callFrames(width);
+    setWidthVariable({width});
+}
+
+function dynamicFontSize() {
     if (environment.isInFrame) {
         addWidthChangeListener(setWidthVariable);
     } else {
-        const callbacks = {};
 
-        const callFrames = (width) => {
-            document.querySelectorAll('iframe').forEach((iframe) => {
-                if (callbacks[iframe.name]) {
-                    callbacks[iframe.name].forEach((callbackName) => {
-                        let message = `chayns.${(!environment.isWidget ? 'customTab' : 'widget')}.jsoncall:`;
-                        message += JSON.stringify({'callback': callbackName, 'retVal': {width}});
-                        iframe.contentWindow.postMessage(message, '*');
-                    });
-                }
-            });
-        };
 
         window.addEventListener('message', (event) => {
             const data = event.data;
@@ -237,17 +252,10 @@ export function dynamicFontSize() {
                     callbacks[frameName] = [];
                 }
                 callbacks[frameName].push(params.value.callback);
-                const width = window.innerWidth;
-                callFrames(width);
-                setWidthVariable({width});
             }
         });
 
-        window.addEventListener('resize', (data) => {
-            const width = data.target.innerWidth;
-            callFrames(width);
-            setWidthVariable({width});
-        });
+
     }
 }
 
