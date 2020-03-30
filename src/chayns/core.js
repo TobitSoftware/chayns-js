@@ -2,9 +2,11 @@ import Config from './Config';
 import {messageListener} from './callback';
 import {getGlobalData} from './calls/getGlobalData';
 import {setHeight} from './calls/setHeight';
-import {environment} from './environment';
+import {environment, setEnv} from './environment';
 import {getLogger} from '../utils/logger';
 import {isObject, isPresent} from '../utils/is';
+import {addAccessTokenChangeListener} from './calls';
+import {parseGlobalData} from '../utils/parseGlobalData';
 
 const log = getLogger('chayns.core'),
     html = document.documentElement,
@@ -53,6 +55,17 @@ const setup = () => new Promise((resolve, reject) => {
     };
     window.addEventListener('DOMContentLoaded', domReady, true);
 });
+
+/**
+ * Updates chayns.env when the user logs in/out or the token expires
+ *
+ * @param {object} data - New environment data
+ * @returns {undefined}
+ */
+const accessTokenChangeListener = (data) => {
+    const gd = parseGlobalData(data);
+    setEnv(gd);
+};
 
 /**
  * When the DOM is ready
@@ -107,6 +120,7 @@ const domReadySetup = () => new Promise((resolve, reject) => {
         getGlobalData()
             .then((data) => {
                 chaynsReadySetup(data).then(resolve, reject);
+                addAccessTokenChangeListener(accessTokenChangeListener);
             })
             .catch(() => {
                 log.debug('Error: The App Information could not be received.');
@@ -119,6 +133,7 @@ const domReadySetup = () => new Promise((resolve, reject) => {
  * When Chayns has received data from Chayns Web or an Chayns App
  * The data is passed to this function
  *
+ * @param {object} data - Environment data
  * @returns {Promise} chayns ready
  */
 const chaynsReadySetup = (data) => {
