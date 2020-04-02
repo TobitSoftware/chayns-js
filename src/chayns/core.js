@@ -234,8 +234,6 @@ function dynamicFontSize() {
     if (environment.isInFrame) {
         addWidthChangeListener(setWidthVariable);
     } else {
-
-
         window.addEventListener('message', (event) => {
             const data = event.data;
 
@@ -246,7 +244,7 @@ function dynamicFontSize() {
             let callPrefix = data.split(':', 1);
             let prefixLength = callPrefix[0].length + 1; // also cut the first :
             let params = JSON.parse(data.substr(prefixLength, data.length - prefixLength));
-            if (params.action === 234) {
+            if (params.action === 237) {
                 const frameName = callPrefix[0].split('@')[1];
                 if (!callbacks[frameName]) {
                     callbacks[frameName] = [];
