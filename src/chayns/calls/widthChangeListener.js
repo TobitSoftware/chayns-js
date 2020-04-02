@@ -9,7 +9,7 @@ function _setWidthChange(enabled) {
 
     return chaynsCall({
         'call': {
-            'action': 234,
+            'action': 237,
             'value': {
                 'callback': getCallbackName(callbackName),
                 enabled
