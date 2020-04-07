@@ -156,6 +156,8 @@ const chaynsReadySetup = (data) => {
         html.classList.add(`${prefix}color-mode--${environment.site.colorMode}`);
     }
 
+    chaynsTranslate();
+
     // chayns is ready
     html.classList.add(`${prefix}ready`);
 
@@ -163,6 +165,14 @@ const chaynsReadySetup = (data) => {
 
     return Promise.resolve(data);
 };
+
+function chaynsTranslate() {
+    if(!document.querySelector('script[src*="chaynsTranslate.min.js"]')) {
+        const script = document.createElement('script');
+        script.setAttribute('src', 'https://api.chayns-static.space/translate/v4.0/js/chaynsTranslate.min.js');
+        document.body.appendChild(script);
+    }
+}
 
 /**
  * Resize Listener (Height check interval)
