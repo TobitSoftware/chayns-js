@@ -41,6 +41,31 @@ export function getWindowMetrics() {
     }));
 }
 
+function setWindowMetricListener(enabled, callback) {
+    const callbackName = 'setWindowMetricListener';
+
+    return chaynsCall({
+        'call': {
+            'action': 78,
+            'value': {
+                'callback': getCallbackName(callbackName),
+                'permanent': enabled,
+            }
+        },
+        'app': {
+            'support': {}
+        },
+        callbackName,
+        'callbackFunction': (data) => {
+            callback(data);
+        },
+        'propTypes': {
+            'enabled': propTypes.boolean.isRequired,
+            'callback': propTypes.string.isRequired,
+        }
+    });
+}
+
 let cooldown = false;
 let changed = false;
 
@@ -53,7 +78,6 @@ function cooldownFunction() {
 }
 
 async function _getWindowMetricsCallback() {
-
     if (!cooldown) {
         cooldown = true;
         setTimeout(cooldownFunction, 1);
@@ -162,6 +186,7 @@ const getTappInformation = () => {
 export function addWindowMetricsListener(cb, startCall = false) {
     if (listeners.length === 0) {
         window.addEventListener('resize', _getWindowMetricsCallback);
+        setWindowMetricListener(true, _getWindowMetricsCallback);
     }
 
     listeners.push(cb);
@@ -179,6 +204,7 @@ export function removeWindowMetricsListener(cb) {
 
     if (listeners.length === 0) {
         window.addEventListener('resize', _getWindowMetricsCallback);
+        setWindowMetricListener(false, _getWindowMetricsCallback);
     }
 
     return index !== -1;
