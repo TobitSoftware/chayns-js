@@ -170,6 +170,7 @@ function chaynsTranslate() {
     if(!document.querySelector('script[src*="chaynsTranslate.min.js"]')) {
         const script = document.createElement('script');
         script.setAttribute('src', 'https://api.chayns-static.space/translate/v4.0/js/chaynsTranslate.min.js');
+        script.setAttribute('onload', 'chayns.utils.translate.init();');
         document.body.appendChild(script);
     }
 }
