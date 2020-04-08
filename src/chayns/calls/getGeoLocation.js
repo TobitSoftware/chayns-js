@@ -5,23 +5,39 @@ import {environment} from '../environment';
 
 const listeners = [];
 
+const errorMessages = ['User denied the request for Geolocation.', 'Location information is unavailable.', 'The request to get user location timed out.', 'An unknown Geolocation error occurred.'];
+
+function callValidated(data, resolve, reject) {
+    if ((data.latitude === -1 && data.longitude === -1)) {
+        reject({'code': 3, 'message': errorMessages[3]});
+    } else if (data.code) {
+        reject({'code': data.code, 'message': errorMessages[data.code]});
+    } else {
+        resolve(data);
+    }
+}
+
 export function getGeoLocation() {
     const callbackName = 'getGeoLocation';
 
-    return chaynsCall({
-        'call': {
-            'action': 14,
-            'value': {
-                'callback': getCallbackName(callbackName)
+    return new Promise((resolve, reject) => {
+        chaynsCall({
+            'call': {
+                'action': 14,
+                'value': {
+                    'callback': getCallbackName(callbackName)
+                }
+            },
+            'app': {
+                'support': {'android': 4727, 'ios': 4301}
+            },
+            callbackName,
+            'propTypes': {
+                'callback': propTypes.string.isRequired
             }
-        },
-        'app': {
-            'support': {'android': 4727, 'ios': 4301}
-        },
-        callbackName,
-        'propTypes': {
-            'callback': propTypes.string.isRequired
-        }
+        }).then((data) => {
+            callValidated(data, resolve, reject);
+        });
     });
 }
 
@@ -56,7 +72,7 @@ function _setGeoLocationCallback(enabled) {
         callbackName,
         'callbackFunction': (data) => {
             for (let i = 0, l = listeners.length; i < l; i++) {
-                listeners[i](data);
+                callValidated(data, listeners[i], listeners[i]);
             }
         },
         'propTypes': {
