@@ -9,9 +9,9 @@ const errorMessages = ['User denied the request for Geolocation.', 'Location inf
 
 function callValidated(data, resolve, reject) {
     if ((data.latitude === -1 && data.longitude === -1)) {
-        reject({'code': 3, 'message': errorMessages[3]});
+        reject({'code': 3, 'message': errorMessages[2]});
     } else if (data.code) {
-        reject({'code': data.code, 'message': errorMessages[data.code]});
+        reject({'code': data.code, 'message': errorMessages[data.code - 1]});
     } else {
         resolve(data);
     }
