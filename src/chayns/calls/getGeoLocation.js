@@ -8,10 +8,10 @@ const listeners = [];
 const errorMessages = ['User denied the request for Geolocation.', 'Location information is unavailable.', 'The request to get user location timed out.', 'An unknown Geolocation error occurred.'];
 
 function callValidated(data, resolve, reject) {
-    if ((data.latitude === -1 && data.longitude === -1)) {
-        reject({'code': 3, 'message': errorMessages[2]});
-    } else if (data.code) {
+    if (data.code) {
         reject({'code': data.code, 'message': errorMessages[data.code - 1]});
+    } else if ((data.latitude === -1 && data.longitude === -1)) {
+        reject({'code': 1, 'message': errorMessages[0]});
     } else {
         resolve(data);
     }
