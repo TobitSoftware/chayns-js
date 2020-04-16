@@ -4,6 +4,36 @@ import {propTypes} from '../propTypes';
 
 const listeners = [];
 
+const callbackFunction = (data) => {
+    for (let i = 0, l = listeners.length; i < l; i++) {
+        listeners[i](data);
+    }
+};
+
+// Set the name of the hidden property and the change event for visibility
+let hidden = '';
+let visibilityChange = '';
+if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and later support
+    hidden = 'hidden';
+    visibilityChange = 'visibilitychange';
+} else if (typeof document.msHidden !== 'undefined') {
+    hidden = 'msHidden';
+    visibilityChange = 'msvisibilitychange';
+} else if (typeof document.webkitHidden !== 'undefined') {
+    hidden = 'webkitHidden';
+    visibilityChange = 'webkitvisibilitychange';
+}
+
+function handleVisibilityChange(data) {
+    const retVal = {'date': new Date().toISOString()};
+    if (document[hidden]) {
+        retVal.data = {'tappEvent': 1};
+    } else {
+        retVal.data = {'tappEvent': 0};
+    }
+    callbackFunction(retVal);
+}
+
 function _setOnActivateCallback(enabled) {
     const callbackName = 'setOnActivateCallback';
 
@@ -20,16 +50,20 @@ function _setOnActivateCallback(enabled) {
         'myChaynsApp': {
             'support': {'android': 6049, 'ios': 6034}
         },
-        'web': false,
-        callbackName,
-        'callbackFunction': (data) => {
-            for (let i = 0, l = listeners.length; i < l; i++) {
-                listeners[i](data);
+        'web': {
+            'fn': () => {
+                if (enabled) {
+                    document.addEventListener(visibilityChange, handleVisibilityChange, false);
+                } else {
+                    document.removeEventListener(visibilityChange, handleVisibilityChange, false);
+                }
             }
         },
+        callbackName,
+        callbackFunction,
         'timeout': 0,
         'propTypes': {
-            'callback': propTypes.string.isRequired
+            'callback': propTypes.string
         }
     });
 }
