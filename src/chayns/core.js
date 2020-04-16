@@ -125,7 +125,7 @@ const domReadySetup = () => new Promise((resolve, reject) => {
                 dynamicFontSize();
                 // }
                 chaynsReadySetup(data).then(resolve, reject);
-                addAccessTokenChangeListener(accessTokenChangeListener);
+                addAccessTokenChangeListener(accessTokenChangeListener, true);
             })
             .catch(() => {
                 log.debug('Error: The App Information could not be received.');
