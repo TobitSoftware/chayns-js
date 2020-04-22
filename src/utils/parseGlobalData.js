@@ -127,6 +127,8 @@ function parseTapp(tapp) {
         'sortId': tapp.SortID,
         'userGroupIds': tapp.UserGroupIds || tapp.UACGroupIDs,
         'customUrl': tapp.customUrl,
-        'isHiddenFromMenu': tapp.HideFromMenu
+        'isHiddenFromMenu': tapp.HideFromMenu,
+        'icon': tapp.Icon ? tapp.Icon.source : null,
+        'iconType': tapp.Icon ? tapp.Icon.type : null
     } : undefined;
 }
