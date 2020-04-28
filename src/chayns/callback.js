@@ -141,7 +141,9 @@ export function messageListener() {
 
             let func = window;
             for (let i = 1, l = namespaces.length; i < l; i++) {
-                func = func[namespaces[i]];
+                if (typeof func !== 'undefined') {
+                    func = func[namespaces[i]];
+                }
             }
             if (func && isFunction(func)) {
                 func(params);
