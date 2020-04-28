@@ -139,11 +139,9 @@ export function messageListener() {
             }
             const namespaces = params.callback.split('.');
 
-            let func;
+            let func = window;
             for (let i = 1, l = namespaces.length; i < l; i++) {
-                if (typeof window !== 'undefined') {
-                    func = window[namespaces[i]];
-                }
+                func = func[namespaces[i]];
             }
             if (func && isFunction(func)) {
                 func(params);
