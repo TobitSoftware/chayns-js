@@ -2,20 +2,32 @@ import {chaynsCall} from '../chaynsCall';
 import {getCallbackName} from '../callback';
 import {propTypes} from '../propTypes';
 import {hideWaitCursor, showWaitCursor} from './setWaitCursor';
-import {uploadToCloud} from '../tapp-api/uploadToCloud';
+import {uploadToCloud} from '../tapp-api';
+import { environment } from '../environment';
 
 export function uploadCloudImage() {
-    const path = '/v1/images';
-    const ROOT_URL = 'https://tsimg.space';
+    let uploadUrl, imageUrl;
+    if (environment.isApp || environment.isMyChaynsApp) {
+        uploadUrl = 'https://tsimg.space/v1/images';
+        imageUrl = 'https://tsimg.space';
+    } else {
+        uploadUrl = 'https://api.tsimg.cloud/image';
+        imageUrl = 'https://tsimg.cloud';
+    }
 
-    return uploadFile(ROOT_URL + path, chayns.mimeType.IMAGE).then((data) => {
+    return uploadFile(uploadUrl, chayns.mimeType.IMAGE).then((data) => {
         if (data.response.statusCode !== 200) {
             return data;
         }
 
         try {
             let img = JSON.parse(data.response.data);
-            img.url = `${ROOT_URL}${img.imageLocations[0]}`;
+            if (img.imageLocations) {
+                img.url = `${imageUrl}${img.imageLocations[0]}`;
+            } else if (img.key) {
+                img.url = `${imageUrl}/${img.key}`;
+                img.imageLocations = ['/' + data.key];
+            }
             return img;
         } catch (err) {
             return err;
@@ -82,10 +94,19 @@ function webUpload(serverUrl, mimeType, statusCodes) {
         window._chaynsFileChosen = function _chaynsFileChosen() {
             if (input.files && input.files.length > 0) {
                 showWaitCursor();
-                uploadToCloud(serverUrl, input.files[0], statusCodes)
-                    .then(resolve)
-                    .catch(reject)
-                    .then(hideWaitCursor);
+                if (serverUrl === 'https://api.tsimg.cloud/image') {
+                    const reader = new FileReader();
+                    reader.onload = (e) => uploadToCloud(serverUrl, e.target.result, statusCodes).then(resolve)
+                        .catch(reject)
+                        .then(hideWaitCursor);
+                    reader.onerror = reject;
+                    reader.readAsArrayBuffer(input.files[0]);
+                } else {
+                    uploadToCloud(serverUrl, input.files[0], statusCodes)
+                        .then(resolve)
+                        .catch(reject)
+                        .then(hideWaitCursor);
+                }
             }
             window._chaynsFileChosen = undefined;
         };
