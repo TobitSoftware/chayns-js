@@ -16,12 +16,22 @@ export function uploadToCloud(serverUrl, file, statusCodes = [200]) {
     let object = {response};
     let fetchResult;
 
+    const headers = {
+        'Authorization': environment.user.isAuthenticated ? `Bearer ${environment.user.tobitAccessToken}` : ''
+    };
+    let body;
+
+    if (serverUrl === 'https://api.tsimg.cloud/image') {
+        body = file;
+        headers['Content-Type'] = 'image/*';
+    } else {
+        body = form;
+    }
+
     return fetch(serverUrl, {
         'method': 'POST',
-        'headers': {
-            'Authorization': environment.user.isAuthenticated ? `Bearer ${environment.user.tobitAccessToken}` : ''
-        },
-        'body': form
+        'headers': headers,
+        'body': body
     }).then((res) => {
         if (statusCodes.indexOf(res.status) === -1) {
             object.response.statusCode = res.statusCode || res.status;
