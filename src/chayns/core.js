@@ -86,8 +86,7 @@ const domReadySetup = () => new Promise((resolve, reject) => {
     }
     if (environment.isChaynsWebMobile) {
         html.classList.add(`${prefix}-mobile`);
-    }
-    if (environment.isChaynsWebDesktop || environment.isChaynsnetRuntime) {
+    } else if (environment.isChaynsWebDesktop || environment.isChaynsnetRuntime) {
         html.classList.add(`${prefix}-desktop`);
     }
     if (environment.isChaynsnetRuntime) {
