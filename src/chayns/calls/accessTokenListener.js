@@ -4,7 +4,7 @@ import {propTypes} from '../propTypes';
 import {environment} from '../environment';
 import {parseGlobalData} from '../../utils/parseGlobalData';
 
-const listeners = [];
+export const listeners = [];
 let apiListenerCount = 0;
 
 function _setAccessTokenChange(enabled) {
