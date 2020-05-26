@@ -3,6 +3,7 @@ import {getLogger} from '../utils/logger';
 import {environment} from './environment';
 import Config from './Config';
 import {chaynsCall, widgetTappCalls} from './chaynsCall';
+import { listeners as accessTokenListener } from './calls';
 
 
 const log = getLogger('chayns.core.callback'),
@@ -158,7 +159,11 @@ export function messageListener() {
 function postToFrame(name, params, cb, callPrefix, retVal) {
     log.debug('retVal', retVal, params, name, cb);
     const frame = document.body.querySelector(`[name="${name}"]`); // FrameName
-
+    if (params.call.action === 66 && params.callbackName === 'setAccessTokenChange') {
+        accessTokenListener.forEach((listener) => {
+            listener(retVal);
+        });
+    }
     // create new call URL
     let obj = {};
     obj.addJsonParam = params.call.value.addJsonParam ? params.call.value.addJsonParam : {};
