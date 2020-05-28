@@ -2,7 +2,7 @@ import {chaynsCall} from '../chaynsCall';
 import {propTypes} from '../propTypes';
 import {isArray} from '../../utils/is';
 
-export function vibrate(pattern) {
+export function vibrate(pattern, iOSFeedbackVibration) {
     if (!isArray(pattern)) {
         pattern = [pattern];
     }
@@ -11,7 +11,8 @@ export function vibrate(pattern) {
         'call': {
             'action': 19,
             'value': {
-                pattern
+                pattern,
+                iOSFeedbackVibration
             }
         },
         'app': {
