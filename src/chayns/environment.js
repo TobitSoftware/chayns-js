@@ -63,7 +63,7 @@ export let environment = {
     'isWidget': isWidget,
     'isInFrame': window.self !== window.top && !(window.cwInfo && window.name === 'mobileView'),
     'isInFacebookFrame': false,
-    'appVersion': parseInt(parameters.appversion, 10),
+    'appVersion': parseFloat(parameters.appversion),
     'myChaynsAppVersion': myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined,
     'debugMode': !!parameters.debug,
     'apiVersion': 4000
