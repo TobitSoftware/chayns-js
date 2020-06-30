@@ -21,7 +21,7 @@ function qrCode(cancel, cameraType, timeout, dialogTitle, dialogSubtitle) {
         'app': {
             'support': {'android': 4727, 'ios': 4301}
         },
-        'web': false,
+        'web': true,
         'myChaynsApp': {
             'support': {'android': 5683, 'ios': 5764}
         },
