@@ -15,9 +15,6 @@ export function getWindowMetrics() {
                 'callback': getCallbackName(callbackName)
             }
         },
-        // 'app': {
-        //     'support': {'android': 5423, 'ios': 5420}
-        // },
         'app': {
             'fn': () => Promise.resolve({
                 'AvailHeight': document.body.clientHeight,
@@ -41,7 +38,7 @@ export function getWindowMetrics() {
     }));
 }
 
-function setWindowMetricListener(enabled, callback) {
+function setWindowMetricListener(permanent, callback) {
     const callbackName = 'setWindowMetricListener';
 
     return chaynsCall({
@@ -49,7 +46,7 @@ function setWindowMetricListener(enabled, callback) {
             'action': 78,
             'value': {
                 'callback': getCallbackName(callbackName),
-                'permanent': enabled,
+                permanent,
             }
         },
         'app': {
@@ -60,7 +57,7 @@ function setWindowMetricListener(enabled, callback) {
             callback(data);
         },
         'propTypes': {
-            'enabled': propTypes.boolean.isRequired,
+            'permanent': propTypes.boolean.isRequired,
             'callback': propTypes.string.isRequired,
         }
     });
