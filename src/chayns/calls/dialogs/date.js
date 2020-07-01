@@ -108,10 +108,7 @@ export function advancedDate(config = {}) {
     maxDate = validateValue(maxDate);
 
     if (isArray(preSelect)) {
-        let count = preSelect.length;
-        for (let p = 0; p < count; p++) {
-            preSelect[p] = validateValue(preSelect[p]);
-        }
+        preSelect = preSelect.map(p => validateValue(p));
     } else if (isObject(preSelect)) {
         if(preSelect.start && preSelect.end) {
             if (minuteInterval && minuteInterval > 1 && environment.isIOS && environment.isApp) {
@@ -131,10 +128,7 @@ export function advancedDate(config = {}) {
     }
 
     if (isArray(disabledDates)) {
-        let count = disabledDates.length;
-        for (let d = 0; d < count; d++) {
-            disabledDates[d] = validateValue(disabledDates[d]);
-        }
+        disabledDates = disabledDates.map(d => validateValue(d));
     }
 
     if (!buttons || !isArray(buttons)) {
