@@ -105,7 +105,7 @@ function getBrowserInfo() {
             };
         }
 
-        temp = userAgent.match(/(edge(?=\/))\/?\s*(\d+)/i);
+        temp = userAgent.match(/(edge|edg(?=\/))\/?\s*(\d+)/i);
         if (temp) {
             return {
                 'name': 'edge',
