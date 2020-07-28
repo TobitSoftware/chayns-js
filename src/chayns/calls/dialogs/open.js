@@ -5,6 +5,7 @@ import {isDialogPermitted} from '../../../utils/isPermitted';
 import {removeDialogDataListener} from './communication';
 import {_chaynsCallResponder} from './iFrame';
 import Config from '../../Config';
+import {environment} from '../../environment';
 
 export function open(json, config = {}) {
     const callbackName = `openDialog_${json.callType}`;
@@ -25,7 +26,8 @@ export function open(json, config = {}) {
                 }
             },
             'app': {
-                'support': {'android': 5833, 'ios': 5148}
+                'support': {'android': 5833, 'ios': 5148},
+                'force': Config.get('useDialogWebView') && environment.isMyChaynsApp
             },
             callbackName,
             'propTypes': {

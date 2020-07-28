@@ -83,6 +83,9 @@ export function chaynsCall(obj) {
         }
     } else if (environment.isChaynsWeb && obj.web !== false) { // chayns web call (custom tapp communication)
         log.debug('chaynsCall: attempt chayns web call');
+        if (obj.app.force && !environment.isInFrame && environment.isMyChaynsApp && environment.isIOS) {
+            return injectCallback(chaynsAppCall, obj);
+        }
         const webObj = obj.web;
 
         // if there is a function registered it will be executed instead of the call
@@ -152,8 +155,14 @@ function chaynsAppCall(obj) {
         log.debug('executeJsonChaynsCall:', obj.call);
         if (obj.useCommunicationInterface && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.chaynsMessage) {
             window.webkit.messageHandlers.chaynsMessage.postMessage(obj.call);
-        } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.jsonCall) {
-            window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
+        } else if (window.webkit && window.webkit.messageHandlers) {
+            if (window.webkit.messageHandlers.jsonCall) {
+                window.webkit.messageHandlers.jsonCall.postMessage(obj.call);
+            } else if (window.webkit.messageHandlers.appLocationJsonCall) {
+                window.webkit.messageHandlers.appLocationJsonCall.postMessage(obj.call);
+            }
+        } else if (window.chaynsAppLocation.jsonCall) {
+            window.chaynsAppLocation.jsonCall(obj.call);
         } else {
             window.chaynsApp.jsonCall(obj.call);
         }
