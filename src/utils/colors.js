@@ -260,11 +260,11 @@ const colorPalette = {
 
 };
 
-export function getColorFromPalette(colorId) {
-    const colorData = colorPalette[environment.site.colorMode][colorId];
+export function getColorFromPalette(colorId, color = environment.site.color, colorMode = environment.site.colorMode) {
+    const colorData = colorPalette[colorMode][colorId];
     if (isArray(colorData)) {
-        if(colorData.length === 2) {
-            return mix(chayns.env.site.color, colorData[0], colorData[1]);
+        if (colorData.length === 2) {
+            return mix(color, colorData[0], colorData[1]);
         } else if (colorData.length === 3) {
             return mix(colorData[0], colorData[1], colorData[2]);
         }
