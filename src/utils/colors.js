@@ -244,7 +244,9 @@ export function getColorFromPalette(colorId, color = environment.site.color, col
 
         let brightness;
         if (colorMode === 1) {
-            brightness = 100;
+            const max = Math.max(rgb.r, rgb.g, rgb.b);
+            let min = Math.min(rgb.r, rgb.g, rgb.b);
+            brightness = (((max + min) / 2) / 255) * 100;
         } else if (brightnessRgb < 64) {
             brightness = 40;
         } else if (brightnessRgb < 128) {
