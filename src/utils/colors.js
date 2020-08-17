@@ -130,18 +130,10 @@ const colorPalette = {
         'primary': ['#FFFFFF', 100], // site color
         'headline': ['#FFFFFF', 100], // site color
         'text': '#222222',
-        'red-1': '#5a0303',
-        'red-2': '#96060b',
-        'red-3': '#ca8181',
-        'red-4': '#e9cccc',
-        'yellow-1': '#9F5F00',
-        'yellow-2': '#FF9800',
-        'yellow-3': '#FFB74D',
-        'yellow-4': '#FFF3E0',
-        'green-1': '#074709',
-        'green-2': '#0e7710',
-        'green-3': '#85ba87',
-        'green-4': '#cde3ce'
+        'cw-body-background': ['#FFFFFF', 10],
+        'red': '#976464',
+        'green': '#349044',
+        'wrong': '#96060B'
     },
     '1': {
         '000': ['#000000', '#FFFFFF', 100],
@@ -185,20 +177,12 @@ const colorPalette = {
         '308': ['#242424', 10],
         '309': ['#242424', 0],
         'primary': ['#FFFFFF', 100], // site color
-        'headline': '#ffffff',
-        'text': '#ffffff',
-        'red-1': '#5a0303',
-        'red-2': '#96060b',
-        'red-3': '#ca8181',
-        'red-4': '#e9cccc',
-        'yellow-1': '#9F5F00',
-        'yellow-2': '#FF9800',
-        'yellow-3': '#FFB74D',
-        'yellow-4': '#FFF3E0',
-        'green-1': '#074709',
-        'green-2': '#0e7710',
-        'green-3': '#85ba87',
-        'green-4': '#cde3ce'
+        'headline': '#FFFFFF',
+        'text': '#FFFFFF',
+        'cw-body-background': ['#222222', 10],
+        'red': '#723F3F',
+        'green': '#198B2C',
+        'wrong': '#CA8181'
     },
     '2': {
         '000': ['#000000', '#FFFFFF', 0],
@@ -244,27 +228,42 @@ const colorPalette = {
         'primary': ['#FFFFFF', 100], // site color
         'headline': ['#FFFFFF', 100], // site color
         'text': '#222222',
-        'red-1': '#5a0303',
-        'red-2': '#96060b',
-        'red-3': '#ca8181',
-        'red-4': '#e9cccc',
-        'yellow-1': '#9F5F00',
-        'yellow-2': '#FF9800',
-        'yellow-3': '#FFB74D',
-        'yellow-4': '#FFF3E0',
-        'green-1': '#074709',
-        'green-2': '#0e7710',
-        'green-3': '#85ba87',
-        'green-4': '#cde3ce'
+        'cw-body-background': '#FFFFFF',
+        'red': '#976464',
+        'green': '#349044',
+        'wrong': '#96060B'
     }
 
 };
 
-export function getColorFromPalette(colorId) {
-    const colorData = colorPalette[environment.site.colorMode][colorId];
+export function getColorFromPalette(colorId, color = environment.site.color, colorMode = environment.site.colorMode) {
+    if (colorId === 'depend-on-brightness') {
+        const rgb = hexToRgb(color);
+
+        const brightnessRgb = Math.max(rgb.r, rgb.g, rgb.b);
+
+        let brightness;
+        if (colorMode === 1) {
+            const max = Math.max(rgb.r, rgb.g, rgb.b);
+            let min = Math.min(rgb.r, rgb.g, rgb.b);
+            brightness = (((max + min) / 2) / 255) * 100;
+        } else if (brightnessRgb < 64) {
+            brightness = 40;
+        } else if (brightnessRgb < 128) {
+            brightness = 60;
+        } else if (brightnessRgb < 192) {
+            brightness = 80;
+        } else {
+            brightness = 100;
+        }
+
+        return mix(color, '#FFFFFF', brightness);
+    }
+
+    const colorData = colorPalette[colorMode][colorId];
     if (isArray(colorData)) {
-        if(colorData.length === 2) {
-            return mix(chayns.env.site.color, colorData[0], colorData[1]);
+        if (colorData.length === 2) {
+            return mix(color, colorData[0], colorData[1]);
         } else if (colorData.length === 3) {
             return mix(colorData[0], colorData[1], colorData[2]);
         }
