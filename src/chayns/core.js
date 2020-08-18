@@ -171,7 +171,7 @@ const chaynsReadySetup = (data) => {
 };
 
 function chaynsTranslate() {
-    if(!document.querySelector('script[src*="chaynsTranslate.min.js"]')) {
+    if (!document.querySelector('script[src*="chaynsTranslate.min.js"]')) {
         const script = document.createElement('script');
         script.setAttribute('src', 'https://api.chayns-static.space/translate/js/chaynsTranslate.min.js');
         script.setAttribute('onload', 'chayns.utils.translate.init();');
@@ -202,25 +202,47 @@ function resizeListener() {
     }
 
     const resizeHandler = function resizeHandler() {
-        let requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame;
-        if (requestAnimationFrame) {
-            requestAnimationFrame(() => {
-                if (heightCache === document.body.offsetHeight) {
-                    return;
-                }
 
-                log.debug('old height', heightCache, 'new height: ', document.body.offsetHeight);
-                heightCache = document.body.offsetHeight;
-                setHeight({
-                    'height': heightCache,
-                    'growOnly': false
-                });
+        // ResizeObserver in iFrame does not work when iFrame not in view
+        let i = 0;
+        let count = 0;
+        let cleared = false;
+
+        const resize = (clear = false) => {
+            if (heightCache === document.body.offsetHeight) {
+                return;
+            }
+
+            if (clear && count > 1 && cleared === false) {
+                clearInterval(i);
+                count = 0;
+                cleared = true;
+            }
+            log.debug('old height', heightCache, 'new height: ', document.body.offsetHeight);
+            heightCache = document.body.offsetHeight;
+
+            // TODO: setHeight should be throttled to every 200ms
+            setHeight({
+                'height': heightCache,
+                'growOnly': false
             });
+            count++;
+        };
+
+        if(window.ResizeObserver) {
+            const resizeObserver = new window.ResizeObserver(() => {
+                resize(true);
+            });
+            resizeObserver.observe(document.body);
         }
+
+        i = setInterval(() => {
+            resize();
+        }, 200);
     };
 
     log.debug('start height observer interval');
-    setInterval(resizeHandler, 200);
+    resizeHandler();
 }
 
 const callbacks = {};
@@ -260,7 +282,7 @@ function dynamicFontSize() {
         addWidthChangeListener(setWidthVariable);
     } else {
         window.addEventListener('message', (event) => {
-            try{
+            try {
                 const data = event.data;
 
                 if (!data || !isString(data)) {
@@ -277,7 +299,7 @@ function dynamicFontSize() {
                     }
                     callbacks[frameName].push(params.value.callback);
                 }
-            }catch(ex) {
+            } catch (ex) {
                 log.warn(ex);
             }
 
