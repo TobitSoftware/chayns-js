@@ -8,6 +8,7 @@ import {isObject, isPresent, isString} from '../utils/is';
 import {addWidthChangeListener} from './calls/widthChangeListener';
 import {addAccessTokenChangeListener} from './calls';
 import {parseGlobalData} from '../utils/parseGlobalData';
+import throttle from 'lodash.throttle';
 
 const log = getLogger('chayns.core'),
     html = document.documentElement,
@@ -221,7 +222,6 @@ function resizeListener() {
             log.debug('old height', heightCache, 'new height: ', document.body.offsetHeight);
             heightCache = document.body.offsetHeight;
 
-            // TODO: setHeight should be throttled to every 200ms
             setHeight({
                 'height': heightCache,
                 'growOnly': false
@@ -229,10 +229,10 @@ function resizeListener() {
             count++;
         };
 
-        if(window.ResizeObserver) {
-            const resizeObserver = new window.ResizeObserver(() => {
+        if (window.ResizeObserver) {
+            const resizeObserver = new window.ResizeObserver(throttle(() => {
                 resize(true);
-            });
+            }, 200));
             resizeObserver.observe(document.body);
         }
 
