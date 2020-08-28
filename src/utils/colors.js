@@ -217,7 +217,19 @@ const colorPalette = {
         'red': '#976464',
         'green': '#349044',
         'wrong': '#96060B',
-        'depend-on-brightness': [specials.COLOR, '#FFFFFF', specials.BRIGHTNESS]
+        'depend-on-brightness': [specials.COLOR, '#FFFFFF', specials.BRIGHTNESS],
+        'red-1': '#5a0303',
+        'red-2': '#96060b',
+        'red-3': '#ca8181',
+        'red-4': '#e9cccc',
+        'yellow-1': '#9F5F00',
+        'yellow-2': '#FF9800',
+        'yellow-3': '#FFB74D',
+        'yellow-4': '#FFF3E0',
+        'green-1': '#074709',
+        'green-2': '#0e7710',
+        'green-3': '#85ba87',
+        'green-4': '#cde3ce'
     },
     '1': {
         '000': ['#000000', '#FFFFFF', 100],
@@ -277,7 +289,19 @@ const colorPalette = {
         'red': '#723F3F',
         'green': '#198B2C',
         'wrong': '#CA8181',
-        'depend-on-brightness': [specials.COLOR, '#FFFFFF', specials.NEW_BRIGHTNESS]
+        'depend-on-brightness': [specials.COLOR, '#FFFFFF', specials.NEW_BRIGHTNESS],
+        'red-1': '#5a0303',
+        'red-2': '#96060b',
+        'red-3': '#ca8181',
+        'red-4': '#e9cccc',
+        'yellow-1': '#9F5F00',
+        'yellow-2': '#FF9800',
+        'yellow-3': '#FFB74D',
+        'yellow-4': '#FFF3E0',
+        'green-1': '#074709',
+        'green-2': '#0e7710',
+        'green-3': '#85ba87',
+        'green-4': '#cde3ce'
     },
     '2': {
         '000': ['#000000', '#FFFFFF', 0],
@@ -337,7 +361,19 @@ const colorPalette = {
         'red': '#976464',
         'green': '#349044',
         'wrong': '#96060B',
-        'depend-on-brightness': [specials.COLOR, '#FFFFFF', specials.BRIGHTNESS]
+        'depend-on-brightness': [specials.COLOR, '#FFFFFF', specials.BRIGHTNESS],
+        'red-1': '#5a0303',
+        'red-2': '#96060b',
+        'red-3': '#ca8181',
+        'red-4': '#e9cccc',
+        'yellow-1': '#9F5F00',
+        'yellow-2': '#FF9800',
+        'yellow-3': '#FFB74D',
+        'yellow-4': '#FFF3E0',
+        'green-1': '#074709',
+        'green-2': '#0e7710',
+        'green-3': '#85ba87',
+        'green-4': '#cde3ce'
     }
 };
 
