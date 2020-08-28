@@ -41,7 +41,7 @@ export function mix(color1, color2, weight = 100) {
     return rgbToHex(Math.round(r), Math.round(g), Math.round(b));
 }
 
-export function hexToRgb(hex) {
+function hexToRgb(hex) {
     if (hex.charAt(0) === '#') {
         hex = hex.substring(1);
     }
@@ -62,7 +62,7 @@ export function hexToRgb(hex) {
 
 }
 
-export function rgbToHex(r, g, b) {
+function rgbToHex(r, g, b) {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
