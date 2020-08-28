@@ -48,14 +48,14 @@ export function chaynsDialog(config) {
 
     config.callback = getCallbackName(callbackName);
 
-    if(isDialogPermitted()) {
-        if(config.dialog) {
+    if (isDialogPermitted()) {
+        if (config.dialog) {
             config.dialog.callType = dialogAction.ALERT_CONFIRM;
             return open(config.dialog).then((data) => Promise.resolve(data.buttonType));
         }
         const externalDialogUrl = Config.get('externalDialogUrl');
-        if(externalDialogUrl) {
-            config.externalDialogUrl = externalDialogUrl + '?OS=##os##&color=##color##&font=##fontid##&colormode=##colormode##&lang=##lang##&siteId=##siteId##&AppVersion=##version##';
+        if (externalDialogUrl) {
+            config.externalDialogUrl = externalDialogUrl + '?OS=' + environment.os + '&color=' + environment.site.color + '&font=' + environment.site.font + '&colormode=' + environment.site.colorMode + '&lang=' + environment.site.language + '&siteId=' + environment.site.id + '&AppVersion=' + environment.appVersion;
         }
         Promise.reject('Dialog object is invalid and not supported');
     } else {
