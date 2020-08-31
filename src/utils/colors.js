@@ -200,16 +200,16 @@ const colorPalette = {
         '307': [specials.COLOR, '#242424', 70],
         '308': [specials.COLOR, '#242424', 80],
         '309': [specials.COLOR, '#242424', 90],
-        '400': [specials.COLOR, '#FFFFFF', 0],
-        '401': [specials.COLOR, '#FFFFFF', 10],
-        '402': [specials.COLOR, '#FFFFFF', 20],
-        '403': [specials.COLOR, '#FFFFFF', 30],
-        '404': [specials.COLOR, '#FFFFFF', 40],
-        '405': [specials.COLOR, '#FFFFFF', 50],
-        '406': [specials.COLOR, '#FFFFFF', 60],
-        '407': [specials.COLOR, '#FFFFFF', 70],
-        '408': [specials.COLOR, '#FFFFFF', 80],
-        '409': [specials.COLOR, '#FFFFFF', 90],
+        '400': [specials.BASE400, '#FFFFFF', 0],
+        '401': [specials.BASE400, '#FFFFFF', 10],
+        '402': [specials.BASE400, '#FFFFFF', 20],
+        '403': [specials.BASE400, '#FFFFFF', 30],
+        '404': [specials.BASE400, '#FFFFFF', 40],
+        '405': [specials.BASE400, '#FFFFFF', 50],
+        '406': [specials.BASE400, '#FFFFFF', 60],
+        '407': [specials.BASE400, '#FFFFFF', 70],
+        '408': [specials.BASE400, '#FFFFFF', 80],
+        '409': [specials.BASE400, '#FFFFFF', 90],
         'primary': [specials.COLOR, '#FFFFFF', 100], // site color
         'headline': [specials.COLOR, '#FFFFFF', 100], // site color
         'text': '#222222',
@@ -344,16 +344,16 @@ const colorPalette = {
         '307': [specials.COLOR, '#242424', 70],
         '308': [specials.COLOR, '#242424', 80],
         '309': [specials.COLOR, '#242424', 90],
-        '400': [specials.COLOR, '#FFFFFF', 10],
-        '401': [specials.COLOR, '#FFFFFF', 10],
-        '402': [specials.COLOR, '#FFFFFF', 20],
-        '403': [specials.COLOR, '#FFFFFF', 30],
-        '404': [specials.COLOR, '#FFFFFF', 40],
-        '405': [specials.COLOR, '#FFFFFF', 50],
-        '406': [specials.COLOR, '#FFFFFF', 60],
-        '407': [specials.COLOR, '#FFFFFF', 70],
-        '408': [specials.COLOR, '#FFFFFF', 80],
-        '409': [specials.COLOR, '#FFFFFF', 90],
+        '400': [specials.BASE400, '#FFFFFF', 10],
+        '401': [specials.BASE400, '#FFFFFF', 10],
+        '402': [specials.BASE400, '#FFFFFF', 20],
+        '403': [specials.BASE400, '#FFFFFF', 30],
+        '404': [specials.BASE400, '#FFFFFF', 40],
+        '405': [specials.BASE400, '#FFFFFF', 50],
+        '406': [specials.BASE400, '#FFFFFF', 60],
+        '407': [specials.BASE400, '#FFFFFF', 70],
+        '408': [specials.BASE400, '#FFFFFF', 80],
+        '409': [specials.BASE400, '#FFFFFF', 90],
         'primary': [specials.COLOR, '#FFFFFF', 100], // site color
         'headline': [specials.COLOR, '#FFFFFF', 100], // site color
         'text': '#222222',
@@ -445,7 +445,7 @@ export function getColorFromPalette(colorId, color = environment.site.color, col
     const base400Index = colorData.indexOf(specials.BASE400);
     if (base400Index >= 0) {
         const brightness = getColorBrightness(color);
-        if (brightness < 50) {
+        if (brightness < 50 && colorMode === 1) {
             colorData[base400Index] = lightenColor(color, (brightness * -1 + 100) * 0.5);
         } else if (brightness === 100 && rgbToHsl(hexToRgb(color)).s < 15) {
             colorData[base400Index] = '#a8a8a8';
