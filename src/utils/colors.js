@@ -447,6 +447,8 @@ export function getColorFromPalette(colorId, color = environment.site.color, col
         const brightness = getColorBrightness(color);
         if (brightness < 50) {
             colorData[base400Index] = lightenColor(color, (brightness * -1 + 100) * 0.5);
+        } else if (brightness === 100 && rgbToHsl(hexToRgb(color)).s < 15) {
+            colorData[base400Index] = '#a8a8a8';
         } else {
             colorData[base400Index] = color;
         }
