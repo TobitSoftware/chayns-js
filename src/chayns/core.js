@@ -6,9 +6,10 @@ import {environment, setEnv} from './environment';
 import {getLogger} from '../utils/logger';
 import {isObject, isPresent, isString} from '../utils/is';
 import {addWidthChangeListener} from './calls/widthChangeListener';
-import {addAccessTokenChangeListener} from './calls';
+import {addAccessTokenChangeListener, addDesignSettingsChangeListener} from './calls';
 import {parseGlobalData} from '../utils/parseGlobalData';
 import throttle from 'lodash.throttle';
+import {getAvailableColorList, getColorFromPalette, hexToRgb} from '../utils/colors';
 
 const log = getLogger('chayns.core'),
     html = document.documentElement,
@@ -69,6 +70,23 @@ const accessTokenChangeListener = (data) => {
     setEnv(gd);
 };
 
+function designSettingsChangeListener({color = environment.site.color, colorMode = environment.site.colorMode}) {
+    let styles = '';
+    for (const colorName of getAvailableColorList()) {
+        const hexColor = getColorFromPalette(colorName, color, colorMode);
+        styles += `--chayns-color--${colorName}: ${hexColor}; `;
+        const rgbColor = hexToRgb(hexColor);
+        styles += `--chayns-color-rgb--${colorName}: ${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}; `;
+    }
+    document.documentElement.style.cssText = styles;
+    if(color !== environment.site.color) {
+        environment.site.color = color;
+    }
+    if(colorMode !== environment.site.colorMode) {
+        environment.site.colorMode = colorMode;
+    }
+}
+
 /**
  * When the DOM is ready
  * Chayns sets all the default classes and receives App/Chayns Web Information
@@ -126,6 +144,9 @@ const domReadySetup = () => new Promise((resolve, reject) => {
                 // }
                 chaynsReadySetup(data).then(resolve, reject);
                 addAccessTokenChangeListener(accessTokenChangeListener, true);
+                if (environment.isApp && environment.site.locationId === 378) {// register designSettingsChangeListener only in chayns app
+                    addDesignSettingsChangeListener(designSettingsChangeListener);
+                }
             })
             .catch(() => {
                 log.debug('Error: The App Information could not be received.');
