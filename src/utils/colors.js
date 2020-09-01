@@ -153,10 +153,13 @@ function hslToRgb({h, s, l}) {
 
 const specials = {
     'COLOR': -1,
-    'BRIGHTNESS': -2,
-    'NEW_BRIGHTNESS': -3,
-    'BASE400': -4,
-    'SECOND400': -5
+    'SECONDARY_COLOR': -2,
+    'BRIGHTNESS': -3,
+    'NEW_BRIGHTNESS': -4,
+    'BASE400': -5,
+    'ACCENT400': -6,
+    'SECONDARY_BASE400': -7,
+    'SECONDARY_ACCENT400': -8
 };
 const colorPalette = {
     '0': {
@@ -210,8 +213,49 @@ const colorPalette = {
         '407': [specials.BASE400, '#FFFFFF', 70],
         '408': [specials.BASE400, '#FFFFFF', 80],
         '409': [specials.BASE400, '#FFFFFF', 90],
+        'secondary-100': [specials.SECONDARY_COLOR, '#FFFFFF', 0],
+        'secondary-101': [specials.SECONDARY_COLOR, '#FFFFFF', 10],
+        'secondary-102': [specials.SECONDARY_COLOR, '#FFFFFF', 20],
+        'secondary-103': [specials.SECONDARY_COLOR, '#FFFFFF', 30],
+        'secondary-104': [specials.SECONDARY_COLOR, '#FFFFFF', 40],
+        'secondary-105': [specials.SECONDARY_COLOR, '#FFFFFF', 50],
+        'secondary-106': [specials.SECONDARY_COLOR, '#FFFFFF', 60],
+        'secondary-107': [specials.SECONDARY_COLOR, '#FFFFFF', 70],
+        'secondary-108': [specials.SECONDARY_COLOR, '#FFFFFF', 80],
+        'secondary-109': [specials.SECONDARY_COLOR, '#FFFFFF', 90],
+        'secondary-200': [specials.SECONDARY_COLOR, '#E4E4E4', 0],
+        'secondary-201': [specials.SECONDARY_COLOR, '#E4E4E4', 10],
+        'secondary-202': [specials.SECONDARY_COLOR, '#E4E4E4', 20],
+        'secondary-203': [specials.SECONDARY_COLOR, '#E4E4E4', 30],
+        'secondary-204': [specials.SECONDARY_COLOR, '#E4E4E4', 40],
+        'secondary-205': [specials.SECONDARY_COLOR, '#E4E4E4', 50],
+        'secondary-206': [specials.SECONDARY_COLOR, '#E4E4E4', 60],
+        'secondary-207': [specials.SECONDARY_COLOR, '#E4E4E4', 70],
+        'secondary-208': [specials.SECONDARY_COLOR, '#E4E4E4', 80],
+        'secondary-209': [specials.SECONDARY_COLOR, '#E4E4E4', 90],
+        'secondary-300': [specials.SECONDARY_COLOR, '#242424', 0],
+        'secondary-301': [specials.SECONDARY_COLOR, '#242424', 10],
+        'secondary-302': [specials.SECONDARY_COLOR, '#242424', 20],
+        'secondary-303': [specials.SECONDARY_COLOR, '#242424', 30],
+        'secondary-304': [specials.SECONDARY_COLOR, '#242424', 40],
+        'secondary-305': [specials.SECONDARY_COLOR, '#242424', 50],
+        'secondary-306': [specials.SECONDARY_COLOR, '#242424', 60],
+        'secondary-307': [specials.SECONDARY_COLOR, '#242424', 70],
+        'secondary-308': [specials.SECONDARY_COLOR, '#242424', 80],
+        'secondary-309': [specials.SECONDARY_COLOR, '#242424', 90],
+        'secondary-400': [specials.SECONDARY_BASE400, '#FFFFFF', 0],
+        'secondary-401': [specials.SECONDARY_BASE400, '#FFFFFF', 10],
+        'secondary-402': [specials.SECONDARY_BASE400, '#FFFFFF', 20],
+        'secondary-403': [specials.SECONDARY_BASE400, '#FFFFFF', 30],
+        'secondary-404': [specials.SECONDARY_BASE400, '#FFFFFF', 40],
+        'secondary-405': [specials.SECONDARY_BASE400, '#FFFFFF', 50],
+        'secondary-406': [specials.SECONDARY_BASE400, '#FFFFFF', 60],
+        'secondary-407': [specials.SECONDARY_BASE400, '#FFFFFF', 70],
+        'secondary-408': [specials.SECONDARY_BASE400, '#FFFFFF', 80],
+        'secondary-409': [specials.SECONDARY_BASE400, '#FFFFFF', 90],
         'primary': [specials.COLOR, '#FFFFFF', 100], // site color
-        'headline': [specials.COLOR, '#FFFFFF', 100], // site color
+        'secondary': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
+        'headline': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
         'text': '#222222',
         'cw-body-background': [specials.COLOR, '#FFFFFF', 10],
         'red': '#976464',
@@ -272,17 +316,58 @@ const colorPalette = {
         '307': [specials.COLOR, '#242424', 20],
         '308': [specials.COLOR, '#242424', 10],
         '309': [specials.COLOR, '#242424', 0],
-        '400': [specials.BASE400, specials.SECOND400, 20],
-        '401': [specials.BASE400, specials.SECOND400, 20],
-        '402': [specials.BASE400, specials.SECOND400, 30],
-        '403': [specials.BASE400, specials.SECOND400, 40],
-        '404': [specials.BASE400, specials.SECOND400, 50],
-        '405': [specials.BASE400, specials.SECOND400, 60],
-        '406': [specials.BASE400, specials.SECOND400, 70],
-        '407': [specials.BASE400, specials.SECOND400, 80],
-        '408': [specials.BASE400, specials.SECOND400, 90],
-        '409': [specials.BASE400, specials.SECOND400, 100],
+        '400': [specials.BASE400, specials.ACCENT400, 20],
+        '401': [specials.BASE400, specials.ACCENT400, 20],
+        '402': [specials.BASE400, specials.ACCENT400, 30],
+        '403': [specials.BASE400, specials.ACCENT400, 40],
+        '404': [specials.BASE400, specials.ACCENT400, 50],
+        '405': [specials.BASE400, specials.ACCENT400, 60],
+        '406': [specials.BASE400, specials.ACCENT400, 70],
+        '407': [specials.BASE400, specials.ACCENT400, 80],
+        '408': [specials.BASE400, specials.ACCENT400, 90],
+        '409': [specials.BASE400, specials.ACCENT400, 100],
+        'secondary-100': [specials.SECONDARY_COLOR, '#2F2F2F', 20],
+        'secondary-101': [specials.SECONDARY_COLOR, '#2F2F2F', 20],
+        'secondary-102': [specials.SECONDARY_COLOR, '#2F2F2F', 30],
+        'secondary-103': [specials.SECONDARY_COLOR, '#2F2F2F', 40],
+        'secondary-104': [specials.SECONDARY_COLOR, '#2F2F2F', 50],
+        'secondary-105': [specials.SECONDARY_COLOR, '#2F2F2F', 60],
+        'secondary-106': [specials.SECONDARY_COLOR, '#2F2F2F', 70],
+        'secondary-107': [specials.SECONDARY_COLOR, '#2F2F2F', 80],
+        'secondary-108': [specials.SECONDARY_COLOR, '#2F2F2F', 90],
+        'secondary-109': [specials.SECONDARY_COLOR, '#2F2F2F', 100],
+        'secondary-200': [specials.SECONDARY_COLOR, '#777777', 0],
+        'secondary-201': [specials.SECONDARY_COLOR, '#777777', 10],
+        'secondary-202': [specials.SECONDARY_COLOR, '#777777', 20],
+        'secondary-203': [specials.SECONDARY_COLOR, '#777777', 30],
+        'secondary-204': [specials.SECONDARY_COLOR, '#777777', 40],
+        'secondary-205': [specials.SECONDARY_COLOR, '#777777', 50],
+        'secondary-206': [specials.SECONDARY_COLOR, '#777777', 60],
+        'secondary-207': [specials.SECONDARY_COLOR, '#777777', 70],
+        'secondary-208': [specials.SECONDARY_COLOR, '#777777', 80],
+        'secondary-209': [specials.SECONDARY_COLOR, '#777777', 90],
+        'secondary-300': [specials.SECONDARY_COLOR, '#242424', 90],
+        'secondary-301': [specials.SECONDARY_COLOR, '#242424', 80],
+        'secondary-302': [specials.SECONDARY_COLOR, '#242424', 70],
+        'secondary-303': [specials.SECONDARY_COLOR, '#242424', 60],
+        'secondary-304': [specials.SECONDARY_COLOR, '#242424', 50],
+        'secondary-305': [specials.SECONDARY_COLOR, '#242424', 40],
+        'secondary-306': [specials.SECONDARY_COLOR, '#242424', 30],
+        'secondary-307': [specials.SECONDARY_COLOR, '#242424', 20],
+        'secondary-308': [specials.SECONDARY_COLOR, '#242424', 10],
+        'secondary-309': [specials.SECONDARY_COLOR, '#242424', 0],
+        'secondary-400': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 20],
+        'secondary-401': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 20],
+        'secondary-402': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 30],
+        'secondary-403': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 40],
+        'secondary-404': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 50],
+        'secondary-405': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 60],
+        'secondary-406': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 70],
+        'secondary-407': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 80],
+        'secondary-408': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 90],
+        'secondary-409': [specials.SECONDARY_BASE400, specials.SECONDARY_ACCENT400, 100],
         'primary': [specials.COLOR, '#FFFFFF', 100], // site color
+        'secondary': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
         'headline': '#FFFFFF',
         'text': '#FFFFFF',
         'cw-body-background': [specials.COLOR, '#222222', 10],
@@ -354,8 +439,49 @@ const colorPalette = {
         '407': [specials.BASE400, '#FFFFFF', 70],
         '408': [specials.BASE400, '#FFFFFF', 80],
         '409': [specials.BASE400, '#FFFFFF', 90],
+        'secondary-100': [specials.SECONDARY_COLOR, '#FFFFFF', 10],
+        'secondary-101': [specials.SECONDARY_COLOR, '#FFFFFF', 10],
+        'secondary-102': [specials.SECONDARY_COLOR, '#FFFFFF', 20],
+        'secondary-103': [specials.SECONDARY_COLOR, '#FFFFFF', 30],
+        'secondary-104': [specials.SECONDARY_COLOR, '#FFFFFF', 40],
+        'secondary-105': [specials.SECONDARY_COLOR, '#FFFFFF', 50],
+        'secondary-106': [specials.SECONDARY_COLOR, '#FFFFFF', 60],
+        'secondary-107': [specials.SECONDARY_COLOR, '#FFFFFF', 70],
+        'secondary-108': [specials.SECONDARY_COLOR, '#FFFFFF', 80],
+        'secondary-109': [specials.SECONDARY_COLOR, '#FFFFFF', 90],
+        'secondary-200': [specials.SECONDARY_COLOR, '#E4E4E4', 0],
+        'secondary-201': [specials.SECONDARY_COLOR, '#E4E4E4', 10],
+        'secondary-202': [specials.SECONDARY_COLOR, '#E4E4E4', 20],
+        'secondary-203': [specials.SECONDARY_COLOR, '#E4E4E4', 30],
+        'secondary-204': [specials.SECONDARY_COLOR, '#E4E4E4', 40],
+        'secondary-205': [specials.SECONDARY_COLOR, '#E4E4E4', 50],
+        'secondary-206': [specials.SECONDARY_COLOR, '#E4E4E4', 60],
+        'secondary-207': [specials.SECONDARY_COLOR, '#E4E4E4', 70],
+        'secondary-208': [specials.SECONDARY_COLOR, '#E4E4E4', 80],
+        'secondary-209': [specials.SECONDARY_COLOR, '#E4E4E4', 90],
+        'secondary-300': [specials.SECONDARY_COLOR, '#242424', 0],
+        'secondary-301': [specials.SECONDARY_COLOR, '#242424', 10],
+        'secondary-302': [specials.SECONDARY_COLOR, '#242424', 20],
+        'secondary-303': [specials.SECONDARY_COLOR, '#242424', 30],
+        'secondary-304': [specials.SECONDARY_COLOR, '#242424', 40],
+        'secondary-305': [specials.SECONDARY_COLOR, '#242424', 50],
+        'secondary-306': [specials.SECONDARY_COLOR, '#242424', 60],
+        'secondary-307': [specials.SECONDARY_COLOR, '#242424', 70],
+        'secondary-308': [specials.SECONDARY_COLOR, '#242424', 80],
+        'secondary-309': [specials.SECONDARY_COLOR, '#242424', 90],
+        'secondary-400': [specials.SECONDARY_BASE400, '#FFFFFF', 10],
+        'secondary-401': [specials.SECONDARY_BASE400, '#FFFFFF', 10],
+        'secondary-402': [specials.SECONDARY_BASE400, '#FFFFFF', 20],
+        'secondary-403': [specials.SECONDARY_BASE400, '#FFFFFF', 30],
+        'secondary-404': [specials.SECONDARY_BASE400, '#FFFFFF', 40],
+        'secondary-405': [specials.SECONDARY_BASE400, '#FFFFFF', 50],
+        'secondary-406': [specials.SECONDARY_BASE400, '#FFFFFF', 60],
+        'secondary-407': [specials.SECONDARY_BASE400, '#FFFFFF', 70],
+        'secondary-408': [specials.SECONDARY_BASE400, '#FFFFFF', 80],
+        'secondary-409': [specials.SECONDARY_BASE400, '#FFFFFF', 90],
         'primary': [specials.COLOR, '#FFFFFF', 100], // site color
-        'headline': [specials.COLOR, '#FFFFFF', 100], // site color
+        'secondary': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
+        'headline': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
         'text': '#222222',
         'cw-body-background': '#FFFFFF',
         'red': '#976464',
@@ -430,9 +556,18 @@ function darkenColor(color, percent) {
 export function getColorFromPalette(colorId, color = environment.site.color, colorMode = environment.site.colorMode) {
     const colorData = JSON.parse(JSON.stringify(colorPalette[colorMode][colorId])); // copy array
 
+    let secondaryColor = color;
+    if (environment.site.id === '60021-08989' && ((environment.isIOS && environment.appVersion >= 6260) || (environment.isAndroid && environment.appVersion >= 6338))) {
+        secondaryColor = '#8e8e93';
+    }
+
     const colorIndex = colorData.indexOf(specials.COLOR);
     if (colorIndex >= 0) {
         colorData[colorIndex] = color;
+    }
+    const secondaryColorIndex = colorData.indexOf(specials.SECONDARY_COLOR);
+    if (secondaryColorIndex >= 0) {
+        colorData[secondaryColorIndex] = secondaryColor;
     }
     const brightnessIndex = colorData.indexOf(specials.BRIGHTNESS);
     if (brightnessIndex >= 0) {
@@ -453,13 +588,33 @@ export function getColorFromPalette(colorId, color = environment.site.color, col
             colorData[base400Index] = color;
         }
     }
-    const second400Index = colorData.indexOf(specials.SECOND400);
-    if (second400Index >= 0) {
+    const accent400Index = colorData.indexOf(specials.ACCENT400);
+    if (accent400Index >= 0) {
         const brightness = getColorBrightness(color);
         if (brightness < 50) {
-            colorData[second400Index] = darkenColor('#2F2F2F', (brightness * -1 + 100) * 0.1);
+            colorData[accent400Index] = darkenColor('#2F2F2F', (brightness * -1 + 100) * 0.1);
         } else {
-            colorData[second400Index] = '#2F2F2F';
+            colorData[accent400Index] = '#2F2F2F';
+        }
+    }
+    const secondaryBase400Index = colorData.indexOf(specials.SECONDARY_BASE400);
+    if (secondaryBase400Index >= 0) {
+        const brightness = getColorBrightness(secondaryColor);
+        if (brightness < 50 && colorMode === 1) {
+            colorData[secondaryBase400Index] = lightenColor(secondaryColor, (brightness * -1 + 100) * 0.5);
+        } else if (brightness === 100 && rgbToHsl(hexToRgb(secondaryColor)).s < 15) {
+            colorData[secondaryBase400Index] = '#a8a8a8';
+        } else {
+            colorData[secondaryBase400Index] = secondaryColor;
+        }
+    }
+    const secondaryAccent400Index = colorData.indexOf(specials.SECONDARY_ACCENT400);
+    if (secondaryAccent400Index >= 0) {
+        const brightness = getColorBrightness(secondaryColor);
+        if (brightness < 50) {
+            colorData[secondaryAccent400Index] = darkenColor('#2F2F2F', (brightness * -1 + 100) * 0.1);
+        } else {
+            colorData[secondaryAccent400Index] = '#2F2F2F';
         }
     }
 
