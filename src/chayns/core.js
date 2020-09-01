@@ -71,6 +71,7 @@ const accessTokenChangeListener = (data) => {
 };
 
 function designSettingsChangeListener({color = environment.site.color, colorMode = environment.site.colorMode}) {
+    // css variables
     let styles = '';
     for (const colorName of getAvailableColorList()) {
         const hexColor = getColorFromPalette(colorName, color, colorMode);
@@ -78,11 +79,16 @@ function designSettingsChangeListener({color = environment.site.color, colorMode
         const rgbColor = hexToRgb(hexColor);
         styles += `--chayns-color-rgb--${colorName}: ${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}; `;
     }
+    let rgbColor = hexToRgb(color);
+    styles += `--chayns-color-rgb: ${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b};`;
+    rgbColor = hexToRgb(getColorFromPalette(100, color, colorMode));
+    styles += `--chayns-bg-rgb: ${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b};`;
     document.documentElement.style.cssText = styles;
-    if(color !== environment.site.color) {
+    // chayns environment
+    if (color !== environment.site.color) {
         environment.site.color = color;
     }
-    if(colorMode !== environment.site.colorMode) {
+    if (colorMode !== environment.site.colorMode) {
         environment.site.colorMode = colorMode;
     }
 }
