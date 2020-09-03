@@ -30,9 +30,9 @@ function _setAccessTokenChange(enabled) {
                 location.reload();
             }
 
-            for (let i = 0; i < listeners.length; i++) {
-                if (isFunction(listeners[i])) {
-                    listeners[i](data);
+            for (let i = 0, l = listeners.slice(); i < l.length; i++) {
+                if (isFunction(l[i])) {
+                    l[i](data);
                 }
             }
         },
