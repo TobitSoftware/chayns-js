@@ -3,6 +3,7 @@ import {getCallbackName} from '../callback';
 import {propTypes} from '../propTypes';
 import {environment} from '../environment';
 import {parseGlobalData} from '../../utils/parseGlobalData';
+import {isFunction} from '../../utils';
 
 export const listeners = [];
 let apiListenerCount = 0;
@@ -29,8 +30,10 @@ function _setAccessTokenChange(enabled) {
                 location.reload();
             }
 
-            for (let i = 0, l = listeners.length; i < l; i++) {
-                listeners[i](data);
+            for (let i = 0, l = listeners.slice(); i < l.length; i++) {
+                if (isFunction(l[i])) {
+                    l[i](data);
+                }
             }
         },
         'propTypes': {
