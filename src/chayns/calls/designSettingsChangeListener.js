@@ -18,7 +18,6 @@ function _setDesignSettingsChangeListener(enabled) {
         'app': {
             'support': {'android': 6336, 'ios': 6256}
         },
-        'web': false,
         callbackName,
         'callbackFunction': (data) => {
             for (let i = 0, l = listeners.length; i < l; i++) {
