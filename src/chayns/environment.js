@@ -8,24 +8,35 @@ const userAgent = (window.navigator && navigator.userAgent) || '',
     publicParameters = {},
     query = (window.chaynsParameters || location.search).substr(1).split('&');
 
+const
+    isIOS = (/iPhone|iPad|iPod/i).test(userAgent),
+    isMyChaynsApp = navigator.userAgent.toLowerCase().indexOf('mychayns') >= 0 && (!isIOS || navigator.userAgent.toLowerCase().indexOf('web;') >= 0);
+let myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+)/i)[2] : null;
+myChaynsAppVersion = myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined;
+
 if (query[0] !== '') {
     for (let i = 0, l = query.length; i < l; i++) {
         const item = query[i].split('=');
-        const key = item[0],
-            value = decodeURIComponent(item[1]);
+        const key = item[0];
+        let value = decodeURIComponent(item[1]);
+
+        // Temporary fix for iOS chayns app, version 6.266 - 6.271. Can be removed in october 2020
+        if (isIOS && isMyChaynsApp && myChaynsAppVersion >= 6266 && myChaynsAppVersion <= 6271) {
+            const match = value.match(/(.*)(\/\?deviceColorMode.*)/i);
+            if (match) {
+                value = match[1];
+            }
+        }
 
         if (INTERNAL_PARAMETERS.indexOf(key.toLowerCase()) === -1) {
             publicParameters[key] = value;
         }
-
         parameters[key.toLowerCase()] = value.toLowerCase();
     }
 }
 
 const
-    isIOS = (/iPhone|iPad|iPod/i).test(userAgent),
     isDface = (/dface|h96pp|jabiru|chaynsterminal|wayter/i).test(navigator.userAgent),
-    isMyChaynsApp = navigator.userAgent.toLowerCase().indexOf('mychayns') >= 0 && (!isIOS || navigator.userAgent.toLowerCase().indexOf('web;') >= 0),
     isApp = (!isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0) || isDface,
     isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || parameters.os === 'webshadowmobile',
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent),
@@ -33,8 +44,6 @@ const
     isChaynsWebMobile = !isApp && isMobile,
     isChaynsWebDesktop = !isApp && (!isMobile || parameters.os === 'webshadow'),
     isWidget = publicParameters.isWidget === 'true';
-
-const myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+)/i)[2] : null;
 
 export let environment = {
     'parameters': publicParameters,
@@ -64,7 +73,7 @@ export let environment = {
     'isInFrame': window.self !== window.top && !(window.cwInfo && window.name === 'mobileView'),
     'isInFacebookFrame': false,
     'appVersion': window.cwInfo ? parseFloat(window.cwInfo.version) : parseFloat(parameters.appversion),
-    'myChaynsAppVersion': myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined,
+    'myChaynsAppVersion': myChaynsAppVersion,
     'debugMode': !!parameters.debug,
     'apiVersion': 4000
 };
