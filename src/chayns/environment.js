@@ -10,8 +10,9 @@ const userAgent = (window.navigator && navigator.userAgent) || '',
 
 const
     isIOS = (/iPhone|iPad|iPod/i).test(userAgent),
-    isMyChaynsApp = navigator.userAgent.toLowerCase().indexOf('mychayns') >= 0 && (!isIOS || navigator.userAgent.toLowerCase().indexOf('web;') >= 0),
-    myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+)/i)[2] : null;
+    isMyChaynsApp = navigator.userAgent.toLowerCase().indexOf('mychayns') >= 0 && (!isIOS || navigator.userAgent.toLowerCase().indexOf('web;') >= 0);
+let myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+)/i)[2] : null;
+myChaynsAppVersion = myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined;
 
 if (query[0] !== '') {
     for (let i = 0, l = query.length; i < l; i++) {
@@ -19,18 +20,17 @@ if (query[0] !== '') {
         const key = item[0];
         let value = decodeURIComponent(item[1]);
 
-        if (INTERNAL_PARAMETERS.indexOf(key.toLowerCase()) === -1) {
-            publicParameters[key] = value;
-        }
-
         // Temporary fix for iOS chayns app, version 6.266 - 6.271. Can be removed in october 2020
-        if (isIOS && isMyChaynsApp && myChaynsAppVersion >= 6.266 && myChaynsAppVersion <= 6.271) {
-            const match = value.match(/(.)*(\/\?deviceColorMode.*)/i);
+        if (isIOS && isMyChaynsApp && myChaynsAppVersion >= 6266 && myChaynsAppVersion <= 6271) {
+            const match = value.match(/(.*)(\/\?deviceColorMode.*)/i);
             if (match) {
                 value = match[1];
             }
         }
 
+        if (INTERNAL_PARAMETERS.indexOf(key.toLowerCase()) === -1) {
+            publicParameters[key] = value;
+        }
         parameters[key.toLowerCase()] = value.toLowerCase();
     }
 }
@@ -73,7 +73,7 @@ export let environment = {
     'isInFrame': window.self !== window.top && !(window.cwInfo && window.name === 'mobileView'),
     'isInFacebookFrame': false,
     'appVersion': window.cwInfo ? parseFloat(window.cwInfo.version) : parseFloat(parameters.appversion),
-    'myChaynsAppVersion': myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined,
+    'myChaynsAppVersion': myChaynsAppVersion,
     'debugMode': !!parameters.debug,
     'apiVersion': 4000
 };
