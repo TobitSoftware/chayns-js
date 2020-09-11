@@ -2,12 +2,11 @@ import Config from './Config';
 import {messageListener} from './callback';
 import {getGlobalData} from './calls/getGlobalData';
 import {setHeight} from './calls/setHeight';
-import {environment, setEnv} from './environment';
+import {environment} from './environment';
 import {getLogger} from '../utils/logger';
 import {isObject, isPresent, isString} from '../utils/is';
 import {addWidthChangeListener} from './calls/widthChangeListener';
-import {addAccessTokenChangeListener, addDesignSettingsChangeListener} from './calls';
-import {parseGlobalData} from '../utils/parseGlobalData';
+import {addDesignSettingsChangeListener} from './calls';
 import throttle from 'lodash.throttle';
 import {getAvailableColorList, getColorFromPalette, hexToRgb} from '../utils/colors';
 
@@ -58,17 +57,6 @@ const setup = () => new Promise((resolve, reject) => {
     };
     window.addEventListener('DOMContentLoaded', domReady, true);
 });
-
-/**
- * Updates chayns.env when the user logs in/out or the token expires
- *
- * @param {object} data - New environment data
- * @returns {undefined}
- */
-const accessTokenChangeListener = (data) => {
-    const gd = parseGlobalData(data);
-    setEnv(gd);
-};
 
 function designSettingsChangeListener({color = environment.site.color, colorMode = environment.site.colorMode}) {
     // css variables
@@ -149,7 +137,6 @@ const domReadySetup = () => new Promise((resolve, reject) => {
                 dynamicFontSize();
                 // }
                 chaynsReadySetup(data).then(resolve, reject);
-                addAccessTokenChangeListener(accessTokenChangeListener, true);
                 if (environment.isApp && environment.site.locationId === 378) {// register designSettingsChangeListener only in chayns app
                     addDesignSettingsChangeListener(designSettingsChangeListener);
                 }
