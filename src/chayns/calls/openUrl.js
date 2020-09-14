@@ -24,7 +24,8 @@ export function openUrl(value) {
             'width': propTypes.number,
             'type': propTypes.number,
             'animation': propTypes.number,
-            'exclusiveView': propTypes.boolean
+            'exclusiveView': propTypes.boolean,
+            'chayns': propTypes.boolean
         }
     }).then((data) => Promise.resolve(data.closeParam));
 }

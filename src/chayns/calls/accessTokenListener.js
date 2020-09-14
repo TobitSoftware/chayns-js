@@ -1,12 +1,11 @@
 import {chaynsCall} from '../chaynsCall';
 import {getCallbackName} from '../callback';
 import {propTypes} from '../propTypes';
-import {environment} from '../environment';
+import {environment, setEnv} from '../environment';
 import {parseGlobalData} from '../../utils/parseGlobalData';
 import {isFunction} from '../../utils';
 
 export const listeners = [];
-let apiListenerCount = 0;
 
 function _setAccessTokenChange(enabled) {
     const callbackName = 'setAccessTokenChange';
@@ -25,10 +24,7 @@ function _setAccessTokenChange(enabled) {
         },
         callbackName,
         'callbackFunction': (data) => {
-            // reload if login status has changed and tapp has not set a listener
-            if (listeners.length - apiListenerCount <= 0 && environment.isInFrame && environment.user.id !== parseGlobalData(data).user.id) {
-                location.reload();
-            }
+            setEnv(parseGlobalData(data));
 
             for (let i = 0, l = listeners.slice(); i < l.length; i++) {
                 if (isFunction(l[i])) {
@@ -44,19 +40,16 @@ function _setAccessTokenChange(enabled) {
     });
 }
 
-export function addAccessTokenChangeListener(cb, isApiListener) {
+export function addAccessTokenChangeListener(cb) {
     if (listeners.length === 0) {
         _setAccessTokenChange(true);
-    }
-    if (isApiListener) {
-        apiListenerCount += 1;
     }
 
     listeners.push(cb);
     return true;
 }
 
-export function removeAccessTokenChangeListener(cb, isApiListener) {
+export function removeAccessTokenChangeListener(cb) {
     let index = listeners.indexOf(cb);
     if (index !== -1) {
         listeners.splice(index, 1);
@@ -64,9 +57,6 @@ export function removeAccessTokenChangeListener(cb, isApiListener) {
 
     if (listeners.length === 0) {
         _setAccessTokenChange(false);
-    }
-    if (isApiListener) {
-        apiListenerCount -= 1;
     }
 
     return index !== -1;
