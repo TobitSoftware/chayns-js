@@ -130,6 +130,7 @@ function parseTapp(tapp) {
         'customUrl': tapp.customUrl,
         'isHiddenFromMenu': tapp.HideFromMenu,
         'icon': tapp.Icon ? tapp.Icon.source : null,
-        'iconType': tapp.Icon ? tapp.Icon.type : null
+        'iconType': tapp.Icon ? tapp.Icon.type : null,
+        'minAge': tapp.minAge
     } : undefined;
 }
