@@ -32,6 +32,7 @@ export function getWindowMetrics() {
         'height': data.AvailHeight,
         'scrollTop': data.WindowScrollTop,
         'windowHeight': data.WindowInnerHeight,
+        'windowWidth': data.WindowInnerWidth,
         'pageYOffset': data.pageYOffset,
         'frameX': data.frameX,
         'frameY': data.frameY
