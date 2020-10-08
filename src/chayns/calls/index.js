@@ -43,4 +43,5 @@ export * from './setOverlay'; // 116
 export * from './getLastPushNotification'; // 119
 export * from './setAdminMode'; // 162
 export * from './designSettingsChangeListener'; // 254
+export * from './keyListener'; // 257
 
