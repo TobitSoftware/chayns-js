@@ -4,14 +4,15 @@ import { propTypes } from '../propTypes';
 
 const listeners = [];
 
-function _setKeyListener() {
+function _setKeyListener(throttle = 200) {
     const callbackName = 'setKeyListener';
 
     return chaynsCall({
         'call': {
             'action': 257,
             'value': {
-                'callback': getCallbackName(callbackName)
+                'callback': getCallbackName(callbackName),
+                'throttle': throttle
             }
         },
         'app': false,
@@ -22,14 +23,15 @@ function _setKeyListener() {
             }
         },
         'propTypes': {
-            'callback': propTypes.string.isRequired
+            'callback': propTypes.string.isRequired,
+            'throttle': propTypes.number
         }
     });
 }
 
-export function addKeyListener(callback) {
-    if (listeners.length === 0) {
-        _setKeyListener();
+export function addKeyListener(callback, throttle) {
+    if (throttle || listeners.length === 0) {
+        _setKeyListener(throttle);
     }
 
     listeners.push(callback);
