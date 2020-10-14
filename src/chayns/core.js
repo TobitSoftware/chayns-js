@@ -206,10 +206,11 @@ function resizeListener() {
     if (!Config.get('autoResize')) {
         return;
     }
+    let heightCache = Config.get('initialHeight');
 
     if (Config.get('initialHeight') > 0) {
         setHeight({
-            'height': Config.get('initialHeight'),
+            'height': heightCache,
             'growOnly': false
         }); // default value is 500
     }
@@ -224,10 +225,17 @@ function resizeListener() {
                 cleared = true;
             }
 
+            const height = parseInt(String(document.body.offsetHeight), 10);
+            if (heightCache === height) { // needed for site intercom in david client / chayns runtime
+                return;
+            }
+
             setHeight({
-                'height': document.body.offsetHeight,
+                'height': height,
                 'growOnly': false
             });
+
+            heightCache = height;
         };
 
         interval = setInterval(() => {
@@ -237,7 +245,7 @@ function resizeListener() {
         if (window.ResizeObserver) {
             const resizeObserver = new window.ResizeObserver(throttle(() => {
                 resize(true);
-            }, 200));
+            }, 100));
             resizeObserver.observe(document.body);
         }
     };
