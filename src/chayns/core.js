@@ -207,41 +207,32 @@ function resizeListener() {
         return;
     }
 
-    let heightCache;
     if (Config.get('initialHeight') > 0) {
-        heightCache = Config.get('initialHeight');
         setHeight({
-            'height': heightCache,
+            'height': Config.get('initialHeight'),
             'growOnly': false
         }); // default value is 500
     }
 
     const resizeHandler = function resizeHandler() {
-
         // ResizeObserver in iFrame does not work when iFrame not in view
-        let i = 0;
-        let count = 0;
+        let interval = null;
         let cleared = false;
-
         const resize = (clear = false) => {
-            if (heightCache === document.body.offsetHeight) {
-                return;
-            }
-
-            if (clear && count > 1 && cleared === false) {
-                clearInterval(i);
-                count = 0;
+            if (clear && cleared === false) {
+                clearInterval(interval);
                 cleared = true;
             }
-            log.debug('old height', heightCache, 'new height: ', document.body.offsetHeight);
-            heightCache = document.body.offsetHeight;
 
             setHeight({
-                'height': heightCache,
+                'height': document.body.offsetHeight,
                 'growOnly': false
             });
-            count++;
         };
+
+        interval = setInterval(() => {
+            resize();
+        }, 200);
 
         if (window.ResizeObserver) {
             const resizeObserver = new window.ResizeObserver(throttle(() => {
@@ -249,10 +240,6 @@ function resizeListener() {
             }, 200));
             resizeObserver.observe(document.body);
         }
-
-        i = setInterval(() => {
-            resize();
-        }, 200);
     };
 
     log.debug('start height observer interval');
