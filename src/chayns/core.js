@@ -206,7 +206,7 @@ function resizeListener() {
     if (!Config.get('autoResize')) {
         return;
     }
-    let heightCache = Config.get('initialHeight');
+    let heightCache = Math.max(Config.get('initialHeight'), document.body.offsetHeight);
 
     if (Config.get('initialHeight') > 0) {
         setHeight({
