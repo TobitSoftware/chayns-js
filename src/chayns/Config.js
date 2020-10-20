@@ -12,7 +12,8 @@ let _config = {
     'initialHeight': 500,                 // initial chayns web height
     'autoResize': true,                   // manages automatic resizing of the tapp
     'strictMode': 1,                      // cancels calls if parameters are wrong / missing
-    'forceAjaxCalls': false               // forces ajax calls even if chayns is in an iFrame
+    'forceAjaxCalls': false,              // forces ajax calls even if chayns is in an iFrame
+    'apiDialogs': true                    // enable api dialogs by default
 };
 
 class Config {
