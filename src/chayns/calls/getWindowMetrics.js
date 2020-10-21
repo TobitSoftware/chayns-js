@@ -36,7 +36,9 @@ export function getWindowMetrics() {
         'pageYOffset': data.pageYOffset,
         'frameX': data.frameX,
         'frameY': data.frameY,
-        'offsetTop': data.offsetTop
+        'offsetTop': data.offsetTop,
+        'coverHeight': data.coverHeight,
+        'menuHeight': data.menuHeight
     }));
 }
 
