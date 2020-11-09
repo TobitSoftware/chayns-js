@@ -51,7 +51,7 @@ export function chaynsDialog(config) {
     if (isDialogPermitted()) {
         if (config.dialog) {
             config.dialog.callType = dialogAction.ALERT_CONFIRM;
-            return open(config.dialog).then((data) => Promise.resolve(data.buttonType));
+            return open(config.dialog).then((data) => Promise.resolve(data.selection ? data : data.buttonType));
         }
         const externalDialogUrl = Config.get('externalDialogUrl');
         if (externalDialogUrl) {
