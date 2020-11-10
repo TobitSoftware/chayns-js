@@ -33,7 +33,7 @@ function setWaitCursor(enabled, text, timeout) {
 }
 
 function getConfig() {
-    if (window.chaynsLoggerConfigs) {
+    if (window.chaynsLoggerConfigs && window.chaynsLoggerConfigs.length > 0) {
         return window.chaynsLoggerConfigs[0];
     }
     return { 'applicationUid': undefined, 'useDevServer': false };
