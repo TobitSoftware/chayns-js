@@ -50,17 +50,17 @@ export function showWaitCursor(text, timeout, action) {
         currentText = text;
         currentAction = action;
         tappUrl = !appUid ? window.location.host + window.location.pathname : null;
+        const body = {
+            appUid,
+            'startTime': startDate.toISOString(),
+            'message': currentText || null,
+            'tappId': chayns.env.site.tapp.id,
+            'siteId': chayns.env.site.id,
+            action,
+            cursorUid,
+            tappUrl
+        };
         logTimeout = setTimeout(() => {
-            const body = {
-                appUid,
-                'startTime': startDate.toISOString(),
-                'message': currentText || null,
-                'tappId': chayns.env.site.tapp.id,
-                'siteId': chayns.env.site.id,
-                action,
-                cursorUid,
-                tappUrl
-            };
             sendWaitCursorLog(useDevServer, body);
         }, 1000);
     }
