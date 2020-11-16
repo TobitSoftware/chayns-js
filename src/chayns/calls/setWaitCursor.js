@@ -40,55 +40,64 @@ function getConfig() {
 }
 
 export function showWaitCursor(text, timeout, action) {
-    if (typeof window !== 'undefined') {
-        const { applicationUid, useDevServer } = getConfig();
-        if (!startDate) {
-            startDate = new Date();
-            cursorUid = generateGuid();
+    try {
+        if (typeof window !== 'undefined') {
+            const { applicationUid, useDevServer } = getConfig();
+            if (!startDate) {
+                startDate = new Date();
+                cursorUid = generateGuid();
+            }
+            appUid = applicationUid;
+            currentText = text;
+            currentAction = action;
+            tappUrl = !appUid ? window.location.host + window.location.pathname : null;
+            const body = {
+                appUid,
+                'startTime': startDate.toISOString(),
+                'message': currentText || null,
+                'tappId': chayns.env.site.tapp.id,
+                'siteId': chayns.env.site.id,
+                action,
+                cursorUid,
+                tappUrl
+            };
+            logTimeout = setTimeout(() => {
+                sendWaitCursorLog(useDevServer, body);
+            }, 1000);
         }
-        appUid = applicationUid;
-        currentText = text;
-        currentAction = action;
-        tappUrl = !appUid ? window.location.host + window.location.pathname : null;
-        const body = {
-            appUid,
-            'startTime': startDate.toISOString(),
-            'message': currentText || null,
-            'tappId': chayns.env.site.tapp.id,
-            'siteId': chayns.env.site.id,
-            action,
-            cursorUid,
-            tappUrl
-        };
-        logTimeout = setTimeout(() => {
-            sendWaitCursorLog(useDevServer, body);
-        }, 1000);
+    } catch (e) {
+        console.error(e);
     }
     return setWaitCursor(true, text, timeout);
 }
 
 export function hideWaitCursor() {
-    if (typeof window !== 'undefined' && startDate) {
-        clearTimeout(logTimeout);
-        const { useDevServer } = getConfig();
-        const body = {
-            appUid,
-            'startTime': startDate.toISOString(),
-            'endTime': new Date().toISOString(),
-            'message': currentText || null,
-            'tappId': chayns.env.site.tapp.id,
-            'siteId': chayns.env.site.id,
-            'action': currentAction,
-            cursorUid,
-            tappUrl
-        };
-        sendWaitCursorLog(useDevServer, body);
-        startDate = undefined;
-        appUid = undefined;
-        currentText = undefined;
-        cursorUid = undefined;
-        currentAction = undefined;
-        tappUrl = undefined;
+    try {
+        if (typeof window !== 'undefined' && startDate) {
+            clearTimeout(logTimeout);
+            const { useDevServer } = getConfig();
+            const body = {
+                appUid,
+                'startTime': startDate.toISOString(),
+                'endTime': new Date().toISOString(),
+                'message': currentText || null,
+                'tappId': chayns.env.site.tapp.id,
+                'siteId': chayns.env.site.id,
+                'action': currentAction,
+                cursorUid,
+                tappUrl
+            };
+            sendWaitCursorLog(useDevServer, body);
+            startDate = undefined;
+            appUid = undefined;
+            currentText = undefined;
+            cursorUid = undefined;
+            currentAction = undefined;
+            tappUrl = undefined;
+        }
+    } catch (e) {
+        console.error(e);
     }
+
     return setWaitCursor(false);
 }
