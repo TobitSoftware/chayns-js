@@ -17,8 +17,8 @@ myChaynsAppVersion = myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : und
 if (query[0] !== '') {
     for (let i = 0, l = query.length; i < l; i++) {
         const item = query[i].split('=');
-        const key = item[0];
-        let value = decodeURIComponent(item[1]);
+        const key = item.shift();
+        let value = decodeURIComponent(item.join('='));
 
         // Temporary fix for iOS chayns app, version 6.266 - 6.271. Can be removed in october 2020
         if (isIOS && isMyChaynsApp && myChaynsAppVersion >= 6266 && myChaynsAppVersion <= 6271) {
