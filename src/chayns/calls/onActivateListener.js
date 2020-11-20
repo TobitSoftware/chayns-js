@@ -27,8 +27,10 @@ if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and 
 function handleVisibilityChange(data) {
     const retVal = {'date': new Date().toISOString()};
     if (document[hidden]) {
+        retVal.tappEvent = 1;
         retVal.data = {'tappEvent': 1};
     } else {
+        retVal.tappEvent = 0;
         retVal.data = {'tappEvent': 0};
     }
     callbackFunction(retVal);

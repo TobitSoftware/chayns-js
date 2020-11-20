@@ -1,8 +1,11 @@
 import {chaynsCall} from '../chaynsCall';
 import {getCallbackName} from '../callback';
 import {propTypes} from '../propTypes';
+import {isObject} from '../../utils';
 
-function qrCode(cancel, cameraType, timeout, dialogTitle, dialogSubtitle) {
+function qrCode(cancel, cameraType, timeout, {
+    dialogTitle, dialogSubtitle, enableFlashToggle, enableCameraSwitch, ccAnimation, geoLocation, showInput, codeType
+} = {}) {
     const callbackName = 'scanQRCode';
 
     return chaynsCall({
@@ -15,7 +18,13 @@ function qrCode(cancel, cameraType, timeout, dialogTitle, dialogSubtitle) {
                 cancel,
                 dialogTitle,
                 dialogSubtitle,
-                'dialogSubitle': dialogSubtitle // Remove until android app typo is fixed
+                'dialogSubitle': dialogSubtitle, // Remove until android app typo is fixed
+                enableFlashToggle,
+                enableCameraSwitch,
+                ccAnimation,
+                geoLocation,
+                showInput,
+                codeType
             }
         },
         'app': {
@@ -37,8 +46,11 @@ function qrCode(cancel, cameraType, timeout, dialogTitle, dialogSubtitle) {
     }).then((data) => Promise.resolve(data.qrCode));
 }
 
-export function scanQRCode(cameraType, timeout, dialogTitle, dialogSubtitle) {
-    return qrCode(false, cameraType, timeout, dialogTitle, dialogSubtitle);
+export function scanQRCode(cameraType, timeout, config = {}, dialogSubtitle = undefined) {
+    if (isObject(config)) {
+        return qrCode(false, cameraType, timeout, config);
+    }
+    return qrCode(false, cameraType, timeout, { 'dialogTitle': config, dialogSubtitle});
 }
 
 export function cancelScanQrCode() {
