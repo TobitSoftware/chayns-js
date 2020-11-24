@@ -137,7 +137,12 @@ const domReadySetup = () => new Promise((resolve, reject) => {
                 dynamicFontSize();
                 // }
                 chaynsReadySetup(data).then(resolve, reject);
-                if (environment.isApp && environment.site.locationId === 378) {// register designSettingsChangeListener only in chayns app
+
+                /**
+                 * Register the designSettingsChangeListener in chayns-App (locationId=378)
+                 * and Intercom-App (locationId=186225)
+                 */
+                if (environment.isApp && [378, 186225].indexOf(environment.site.locationId) > -1) {
                     addDesignSettingsChangeListener(designSettingsChangeListener);
                 }
             })
