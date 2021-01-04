@@ -44,11 +44,13 @@ if (query[0] !== '') {
 const
     isDface = (/dface|h96pp|jabiru|chaynsterminal|wayter/i).test(navigator.userAgent),
     isApp = (!isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0) || isDface,
+    isDavidClientApp = (/((mychayns)(.)*(77892-10814))/i).test(navigator.userAgent),
     isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || parameters.os === 'webshadowmobile',
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent) && !(/android.*mobile/i).test(userAgent),
     isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime' || (window.chaynsInfo && window.chaynsInfo.isChaynsnetRuntime),
     isChaynsWebMobile = !isApp && isMobile,
     isChaynsWebDesktop = !isApp && (!isMobile || parameters.os === 'webshadow'),
+    isLocationApp = isMyChaynsApp && !isDavidClientApp && !(/((mychayns)(.)*(60021-08989))/i).test(navigator.userAgent),
     isWidget = publicParameters.isWidget === 'true';
 
 export let environment = {
@@ -75,6 +77,7 @@ export let environment = {
     'isChaynsWeb': isChaynsWebMobile || isChaynsWebDesktop || isChaynsnetRuntime,
     'isChaynsParent': window.self === window.top || (window.cwInfo && window.name === 'mobileView'),
     'isMyChaynsApp': isMyChaynsApp,
+    'isLocationApp': isLocationApp,
     'isWidget': isWidget,
     'isInFrame': window.self !== window.top && !(window.cwInfo && window.name === 'mobileView'),
     'isInFacebookFrame': false,
