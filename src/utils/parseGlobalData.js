@@ -19,6 +19,7 @@ export function parseGlobalData(data) {
             'locationPersonId': appInfo.LocationPersonID,
             'title': appInfo.Title,
             'language': appInfo.Language,
+            'translang': appInfo.TransLang,
             'tapps': (appInfo.Tapps || []).map(parseTapp),
             'facebookAppId': appInfo.FacebookAppID,
             'facebookPageId': appInfo.FacebookPageID,
