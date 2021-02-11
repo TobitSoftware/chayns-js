@@ -86,6 +86,9 @@ function callback(callbackName, fn) {
  *
  * @returns {undefined}
  */
+
+let counter = 0;
+
 export function messageListener() {
     if (messageListening) {
         log.info('there is already a message listener attached to the window');
@@ -126,11 +129,12 @@ export function messageListener() {
             params.call.value.callback += '_' + (params.call.action || '');
             const preCallInformation = prefix[0].split('@');
             let fn = postToFrame.bind(this, preCallInformation[1], params, cb, preCallInformation[0]);
-            setCallback('postToFrame' + '_' + (params.call.action || ''), fn, preCallInformation[1]);
+            setCallback('postToFrame' + '_' + (params.call.action || '') + '_' + counter, fn, preCallInformation[1]);
             let webObj = {};
             webObj.app = params.app;
             webObj.call = params.call;
-            webObj.call.value.callback = getCallbackName('postToFrame' + '_' + (params.call.action || ''), preCallInformation[1]);
+            webObj.call.value.callback = getCallbackName('postToFrame' + '_' + (params.call.action || '') + '_' + counter, preCallInformation[1]);
+            counter++;
             chaynsCall(webObj);
         } else if (data.indexOf(namespace) !== -1) {
             log.debug('new message', data);
