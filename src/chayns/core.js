@@ -9,6 +9,7 @@ import {addWidthChangeListener} from './calls/widthChangeListener';
 import {addDesignSettingsChangeListener} from './calls';
 import throttle from 'lodash.throttle';
 import {getAvailableColorList, getColorFromPalette, hexToRgb} from '../utils/colors';
+import {dynamicFontSize} from './calls/dynamicFontSize';
 
 const log = getLogger('chayns.core'),
     html = document.documentElement,
@@ -133,9 +134,6 @@ const domReadySetup = () => new Promise((resolve, reject) => {
         // get the App Information
         getGlobalData()
             .then((data) => {
-                // if (environment.isInFrame) {// TODO activate dynamicFontSize only if it's activated in getGlobalData
-                dynamicFontSize();
-                // }
                 chaynsReadySetup(data).then(resolve, reject);
 
                 /**
@@ -181,6 +179,10 @@ const chaynsReadySetup = (data) => {
     }
 
     chaynsTranslate();
+
+    if (data.site.dynamicFontSize) {
+        dynamicFontSize();
+    }
 
     // chayns is ready
     html.classList.add(`${prefix}ready`);
@@ -257,70 +259,6 @@ function resizeListener() {
 
     log.debug('start height observer interval');
     resizeHandler();
-}
-
-const callbacks = {};
-
-const setWidthVariable = (data) => {
-    if (data.width < 1400) { // max width
-        document.documentElement.style.setProperty('--width', data.width + 'px');
-    }
-};
-
-export function activateDynamicFontSize() {
-    const callFrames = (width) => {
-        document.querySelectorAll('iframe').forEach((iframe) => {
-            if (callbacks[iframe.name]) {
-                callbacks[iframe.name].forEach((callbackName) => {
-                    let message = `chayns.${(!environment.isWidget ? 'customTab' : 'widget')}.jsoncall:`;
-                    message += JSON.stringify({'callback': callbackName, 'retVal': {width}});
-                    iframe.contentWindow.postMessage(message, '*');
-                });
-            }
-        });
-    };
-
-    window.addEventListener('resize', (data) => {
-        const width = data.target.innerWidth;
-        callFrames(width);
-        setWidthVariable({width});
-    });
-
-    const width = window.innerWidth;
-    callFrames(width);
-    setWidthVariable({width});
-}
-
-function dynamicFontSize() {
-    if (environment.isInFrame) {
-        addWidthChangeListener(setWidthVariable);
-    } else {
-        window.addEventListener('message', (event) => {
-            try {
-                const data = event.data;
-
-                if (!data || !isString(data)) {
-                    return;
-                }
-
-                let callPrefix = data.split(':', 1);
-                let prefixLength = callPrefix[0].length + 1; // also cut the first :
-                let params = JSON.parse(data.substr(prefixLength, data.length - prefixLength));
-                if (params.action === 237) {
-                    const frameName = callPrefix[0].split('@')[1];
-                    if (!callbacks[frameName]) {
-                        callbacks[frameName] = [];
-                    }
-                    callbacks[frameName].push(params.value.callback);
-                }
-            } catch (ex) {
-                log.warn(ex);
-            }
-
-        });
-
-
-    }
 }
 
 export const ready = setup();
