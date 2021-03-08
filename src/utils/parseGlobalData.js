@@ -32,7 +32,8 @@ export function parseGlobalData(data) {
             'tapp': {},
             'disposition': appInfo.Disposition,
             'headlineFontId': appInfo.headlineFontId,
-            'urlHash': appInfo.urlHash
+            'urlHash': appInfo.urlHash,
+            'dynamicFontSize': appInfo.dynamicFontSize,
         };
 
         if (appInfo.TappSelected) {
