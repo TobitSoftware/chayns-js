@@ -1,5 +1,5 @@
 import {environment} from '../chayns/environment';
-import {isHex, isArray} from './is';
+import {isHex, isArray, isNumber} from './is';
 
 export function get(saturation, color) {
     color = color || environment.site.color;
@@ -256,7 +256,13 @@ const colorPalette = {
         'primary': [specials.COLOR, '#FFFFFF', 100], // site color
         'secondary': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
         'headline': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
+        'headline-1': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
+        'headline-2': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
+        'headline-3': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
+        'headline-4': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
+        'headline-5': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
         'text': '#222222',
+        'footer': ['#000000', '#FFFFFF', 50],
         'cw-body-background': [specials.COLOR, '#FFFFFF', 10],
         'red': '#976464',
         'green': '#349044',
@@ -369,7 +375,13 @@ const colorPalette = {
         'primary': [specials.COLOR, '#FFFFFF', 100], // site color
         'secondary': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
         'headline': '#FFFFFF',
+        'headline-1': '#FFFFFF',
+        'headline-2': '#FFFFFF',
+        'headline-3': '#FFFFFF',
+        'headline-4': '#FFFFFF',
+        'headline-5': '#FFFFFF',
         'text': '#FFFFFF',
+        'footer': ['#000000', '#FFFFFF', 50],
         'cw-body-background': [specials.COLOR, '#222222', 10],
         'red': '#723F3F',
         'green': '#198B2C',
@@ -481,8 +493,14 @@ const colorPalette = {
         'secondary-409': [specials.SECONDARY_BASE400, '#FFFFFF', 90],
         'primary': [specials.COLOR, '#FFFFFF', 100], // site color
         'secondary': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
-        'headline': [specials.SECONDARY_COLOR, '#FFFFFF', 100], // secondary color
+        'headline': [specials.SECONDARY_COLOR, '#FFFFFF', 100],
+        'headline-1': [specials.SECONDARY_COLOR, '#FFFFFF', 100],
+        'headline-2': [specials.SECONDARY_COLOR, '#FFFFFF', 100],
+        'headline-3': [specials.SECONDARY_COLOR, '#FFFFFF', 100],
+        'headline-4': [specials.SECONDARY_COLOR, '#FFFFFF', 100],
+        'headline-5': [specials.SECONDARY_COLOR, '#FFFFFF', 100],
         'text': '#222222',
+        'footer': ['#000000', '#FFFFFF', 50],
         'cw-body-background': '#FFFFFF',
         'red': '#976464',
         'green': '#349044',
@@ -553,7 +571,32 @@ function darkenColor(color, percent) {
     return lightenColor(color, percent * -1);
 }
 
-export function getColorFromPalette(colorId, color = environment.site.color, colorMode = environment.site.colorMode) {
+function normalizeColor(color) {
+    if (color.startsWith('#')) {
+        if (color.length === 4) {
+            return (color + color.substring(1)).toUpperCase();
+        }
+        return color.toUpperCase();
+
+    }
+    if (color === 'gray') {
+        return '#808080';
+    }
+    return color;
+}
+
+export function getColorFromPalette(colorId, colorParameter, colorModeParameter) {
+    const color = colorParameter ? colorParameter : environment.site.color;
+    const colorMode = colorModeParameter ? colorModeParameter : environment.site.colorMode;
+
+    if (!colorPalette[colorMode][colorId]) {
+        return null;
+    }
+
+    if (!colorParameter && !isNumber(colorModeParameter)) {
+        return normalizeColor(getComputedStyle(document.documentElement).getPropertyValue(`--chayns-color--${colorId}`).trim());
+    }
+
     const colorData = JSON.parse(JSON.stringify(colorPalette[colorMode][colorId])); // copy array
 
     let secondaryColor = color;
