@@ -594,7 +594,10 @@ export function getColorFromPalette(colorId, colorParameter, colorModeParameter)
     }
 
     if (!colorParameter && !isNumber(colorModeParameter)) {
-        return normalizeColor(getComputedStyle(document.documentElement).getPropertyValue(`--chayns-color--${colorId}`).trim());
+        const returnColor = normalizeColor(getComputedStyle(document.documentElement).getPropertyValue(`--chayns-color--${colorId}`).trim());
+        if (returnColor) {
+            return returnColor;
+        }
     }
 
     const colorData = JSON.parse(JSON.stringify(colorPalette[colorMode][colorId])); // copy array
