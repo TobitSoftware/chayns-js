@@ -6,7 +6,7 @@ import {getWindowMetrics} from './getWindowMetrics';
 const callbacks = {};
 
 const setWidthVariable = (data) => {
-    document.documentElement.style.setProperty('--width', data.width + 'px');
+    document.documentElement.style.setProperty('--browser-width', data.width + 'px');
 };
 
 export function activateDynamicFontSize() {
