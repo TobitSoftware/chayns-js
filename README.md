@@ -14,7 +14,7 @@ If you want to use the chayns® JavaScript API in your own tapp, we suggest usin
 <!-- To get started, load the chayns API styles and JavaScript from the CDN -->
 
 <!-- css styles -->
-<link rel="stylesheet" href="https://api.chayns.net/css/">
+<script src="https://api.chayns-static.space/css/v4/compatibility/compatibility.min.js" version="4.2"></script>
 
 <!-- js api -->
 <script src="https://api.chayns-static.space/js/v4.0/chayns.min.js"></script>
