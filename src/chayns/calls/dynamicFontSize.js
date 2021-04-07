@@ -58,8 +58,8 @@ function dynamicFontSize() {
                     }
                     callbacks[frameName].push(params.value.callback);
                 }
-            } catch (ex) {
-                log.warn(ex);
+                // eslint-disable-next-line no-empty
+            } catch (ignore) {
             }
 
         });
