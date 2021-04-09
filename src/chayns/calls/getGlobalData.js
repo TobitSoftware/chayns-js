@@ -6,15 +6,26 @@ import {parseGlobalData} from '../../utils/parseGlobalData';
 
 let id = 0;
 
-export function getGlobalData(raw = false) {
+export function getGlobalData(raw = false, loadAllTapps = false) {
     const callbackName = 'getGlobalData' + (++id);
+
+    let loadAllTappInfos = false;
+
+    try {
+        if (loadAllTapps) {
+            loadAllTappInfos = [...document.querySelectorAll('script')].some(x => x && x.src && x.src.includes('#chayns-load-all-tapp-infos'));
+        }
+    } catch(e) {
+        console.error(e);
+    }
 
     return chaynsCall({
         'call': {
             'action': 18,
             'value': {
                 'callback': getCallbackName(callbackName),
-                'apiVersion': environment.apiVersion
+                'apiVersion': environment.apiVersion,
+                'loadAllTappInfos': loadAllTappInfos
             }
         },
         'app': {

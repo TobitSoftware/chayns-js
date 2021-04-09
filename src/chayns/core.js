@@ -129,7 +129,7 @@ const domReadySetup = () => new Promise((resolve, reject) => {
     setTimeout(() => {
         // get chayns data (either from Chayns Web (parent frame) or chayns app)
         // get the App Information
-        getGlobalData()
+        getGlobalData(undefined, true)
             .then((data) => {
                 chaynsReadySetup(data).then(resolve, reject);
 
