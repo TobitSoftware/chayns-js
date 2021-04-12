@@ -55,7 +55,7 @@ function parsePush(data) {
 
         return {
             'push': {
-                'alert': push.aps.alert,
+                'alert': push.aps && push.aps.alert,
                 'payload': {
                     'tappId': push.tp1.t,
                     'actions': push.tp1.a.map(parsePushAction)
