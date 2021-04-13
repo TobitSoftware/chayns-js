@@ -121,6 +121,9 @@ const domReadySetup = () => new Promise((resolve, reject) => {
     if (environment.isTablet) {
         html.classList.add(`${prefix}-tablet`);
     }
+    if (environment.isChaynsDe) {
+        html.classList.add(`${prefix}-chayns_de`);
+    }
 
     // start window.on('message') listener for iFrame communication
     messageListener();
