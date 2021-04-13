@@ -191,8 +191,6 @@ function chaynsWebCall(obj) {
             func(obj.call.value, [window, 'chayns.ajaxTab.']);
         } else if (obj.call.action === 184 && window.dialog && isFunction(window.dialog.receiveApiCall)) {
             window.dialog.receiveApiCall(obj.call);
-        } else if (obj.call.action === 276 && window.dialog && isFunction(window.dialog.receiveApiCall)) {
-            window.dialog.receiveApiCall(obj.call.value, undefined, obj.call.action);
         } else {
             log.error('chaynsWebCall: no function found');
             return Promise.reject();

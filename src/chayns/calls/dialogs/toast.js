@@ -1,20 +1,7 @@
-import {chaynsCall} from '../../chaynsCall';
-import {getCallbackName} from '../../callback';
+import { dialogAction } from './chaynsDialog';
+import { open } from './open';
 
 export function toast(config = {}) {
-    const callbackName = 'toastCallback';
-
-    return chaynsCall({
-        'call': {
-            'action': 276,
-            'value': {
-                'callback': getCallbackName(callbackName),
-                ...config
-            }
-        },
-        'app': {
-            'support': {'android': 1, 'ios': 1}
-        },
-        callbackName,
-    });
+    config.callType = dialogAction.TOAST;
+    return open(config);
 }
