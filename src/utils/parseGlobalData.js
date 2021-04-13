@@ -21,6 +21,7 @@ export function parseGlobalData(data) {
             'language': appInfo.Language,
             'translang': appInfo.TransLang,
             'tapps': (appInfo.Tapps || []).map(parseTapp),
+            'allTappInfos': appInfo.AllTappInfos,
             'facebookAppId': appInfo.FacebookAppID,
             'facebookPageId': appInfo.FacebookPageID,
             'color': appInfo.color || `#${environment.parameters.color}`,
