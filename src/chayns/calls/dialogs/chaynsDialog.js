@@ -40,7 +40,6 @@ export const dialogAction = {
     'DROP_UP_ALERT': 177,
     'MEDIA_SELECT': 179,
     'FILE_SELECT': 180,
-    'TOAST': 181,
     'IFRAME': 191
 };
 
