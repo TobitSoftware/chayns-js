@@ -10,3 +10,4 @@ export * from './iFrame';
 export * from './mediaSelect';
 export * from './fileSelect';
 export * from './communication';
+export * from './toast';
