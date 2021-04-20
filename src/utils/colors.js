@@ -4,7 +4,8 @@ import {
     getAvailableColorList,
     getColorFromPalette as getColorFromPaletteNpm,
     normalizeHexString,
-    mixHex as mix, hexToRgb255
+    mixHex,
+    hexToRgb255, isHex
 } from '@chayns/colors';
 
 function get(saturation, color) {
@@ -27,6 +28,14 @@ function get(saturation, color) {
     }
 
     return color;
+}
+
+function mix(color1, color2, weight = 100) {
+    if (!isHex(color1) || !isHex(color2)) {
+        return color1;
+    }
+
+    return mixHex(color1, color2, weight);
 }
 
 function hexToRgb(hex) {
