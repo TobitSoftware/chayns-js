@@ -197,7 +197,7 @@ const chaynsReadySetup = (data) => {
 };
 
 function chaynsTranslate() {
-    if (!document.querySelector('script[src*="chaynsTranslate.min.js"]')) {
+    if (!document.querySelector('script[src*="chaynsTranslate.min.js"]') && environment._parameters.lang && environment._parameters.translang && environment._parameters.lang !== environment._parameters.translang) {
         const script = document.createElement('script');
         script.setAttribute('src', 'https://api.chayns-static.space/translate/js/chaynsTranslate.min.js');
         script.setAttribute('onload', 'chayns.utils.translate.init();');
