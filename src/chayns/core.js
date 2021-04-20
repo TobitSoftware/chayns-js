@@ -1,12 +1,9 @@
 import Config from './Config';
 import {messageListener} from './callback';
-import {getGlobalData} from './calls/getGlobalData';
-import {setHeight} from './calls/setHeight';
+import {setHeight, getGlobalData, addDesignSettingsChangeListener} from './calls';
 import {environment} from './environment';
 import {getLogger} from '../utils/logger';
-import {isObject, isPresent, isString} from '../utils/is';
-import {addWidthChangeListener} from './calls/widthChangeListener';
-import {addDesignSettingsChangeListener} from './calls';
+import {isObject, isPresent} from '../utils';
 import throttle from 'lodash.throttle';
 import {getAvailableColorList, getColorFromPalette, hexToRgb} from '../utils/colors';
 import {dynamicFontSize} from './calls/dynamicFontSize';
@@ -179,6 +176,10 @@ const chaynsReadySetup = (data) => {
 
     if (isPresent(environment.site.colorMode)) {
         html.classList.add(`${prefix}color-mode--${environment.site.colorMode}`);
+    }
+
+    if (isPresent(environment.site.generalComponentDesign)) {
+        html.classList.add(`${prefix}general-component-design--${environment.site.generalComponentDesign}`);
     }
 
     chaynsTranslate();

@@ -35,6 +35,7 @@ export function parseGlobalData(data) {
             'headlineFontId': appInfo.headlineFontId,
             'urlHash': appInfo.urlHash,
             'dynamicFontSize': appInfo.dynamicFontSize,
+            'generalComponentDesign': appInfo.generalComponentDesign,
         };
 
         if (appInfo.TappSelected) {
@@ -79,7 +80,7 @@ export function parseGlobalData(data) {
         globalData = {
             ...globalData,
             user
-        }
+        };
     }
 
     if (isObject(data.Device)) {
@@ -106,7 +107,7 @@ export function parseGlobalData(data) {
             ...globalData,
             device,
             app
-        }
+        };
     }
 
     return globalData;
