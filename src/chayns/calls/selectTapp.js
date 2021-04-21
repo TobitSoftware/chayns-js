@@ -13,6 +13,10 @@ export function selectTapp(tapp, param) {
         value.params = isArray(param) ? param : [param];
     }
 
+    if (environment.isAndroid && environment.isApp && environment.appVersion >= 6464 && value.customDomain) {
+        delete value.customDomain;
+    }
+
     if (value.siteId) {
         const params = value.params ? value.params.join('&') : '';
         if (value.siteId !== environment.site.id) {
