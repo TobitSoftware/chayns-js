@@ -44,7 +44,7 @@ function hexToRgb(hex) {
 
 function getColorFromPalette(colorId, colorParameter, colorModeParameter) {
     const color = colorParameter ? colorParameter : environment.site.color;
-    const colorMode = colorModeParameter ? colorModeParameter : environment.site.colorMode;
+    const colorMode = isNumber(colorModeParameter) ? colorModeParameter : environment.site.colorMode;
 
     if (!colorParameter && !isNumber(colorModeParameter)) {
         const returnColor = normalizeHexString(getComputedStyle(document.documentElement).getPropertyValue(`--chayns-color--${colorId}`).trim());
