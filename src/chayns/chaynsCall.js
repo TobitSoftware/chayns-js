@@ -6,7 +6,6 @@ import {environment} from './environment';
 import Config from './Config';
 import {getCallbackName, setCallback} from './callback';
 import {validatePropTypes} from './propTypes';
-import {isString} from '../utils';
 
 let log = getLogger('chayns.core.chayns_calls');
 export const widgetTappCalls = [133];
