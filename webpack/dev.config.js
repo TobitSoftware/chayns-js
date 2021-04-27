@@ -26,7 +26,7 @@ module.exports = {
     'devtool': 'cheap-module-eval-source-map',
     'devServer': {
         'host': '0.0.0.0',
-        'port': 8070,
+        'port': 8080,
         'disableHostCheck': true,
         'historyApiFallback': true,
         'hot': true,
