@@ -11,3 +11,4 @@ export * from './mediaSelect';
 export * from './fileSelect';
 export * from './communication';
 export * from './toast';
+export * from './signature';
