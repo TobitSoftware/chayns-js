@@ -23,6 +23,7 @@ export function confirm(title = '', message = '', config = {}) {
             title,
             message,
             'buttons': config.buttons,
+            'links': config.links,
             'select': config.select
         }
     });
