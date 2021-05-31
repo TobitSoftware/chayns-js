@@ -11,7 +11,7 @@ const userAgent = (window.navigator && navigator.userAgent) || '',
 const
     isIOS = (/iPhone|iPad|iPod/i).test(userAgent),
     isMyChaynsApp = navigator.userAgent.toLowerCase().indexOf('mychayns') >= 0 && (!isIOS || navigator.userAgent.toLowerCase().indexOf('web;') >= 0);
-let myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+)/i)[2] : null;
+let myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+\.?\d*)/i)[2].replace('.', '') : null;
 myChaynsAppVersion = myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined;
 
 if (query[0] !== '') {
