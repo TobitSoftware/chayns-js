@@ -28,7 +28,7 @@ export function chaynsCall(obj) {
         const myChaynsAppObj = obj.myChaynsApp;
         const os = environment.isAndroid ? 'android' : environment.isIOS ? 'ios' : environment.os;
         const version = navigator.userAgent.match(/(mychayns\/)(\d+)/i);
-        if (!myChaynsAppObj.support || isPermitted(myChaynsAppObj.support, os, version[2])) {
+        if (!myChaynsAppObj.support || isPermitted(myChaynsAppObj.support, os, environment.myChaynsAppVersion)) {
             if (environment.isWidget) {
                 log.debug('isMyChaynsApp Call in widget');
                 obj.call.isWidget = true;
