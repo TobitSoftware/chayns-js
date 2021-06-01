@@ -33,7 +33,7 @@ function _setAdminSwitchListener(callback) {
             environment.user.adminMode = data.mode === adminSwitchStatus.ADMIN;
 
             for (let i = 0, l = listeners.length; i < l; i++) {
-                listeners[i](data);
+                listeners[i].cb(data);
             }
         },
         'propTypes': {
@@ -42,19 +42,19 @@ function _setAdminSwitchListener(callback) {
     });
 }
 
-export function addAdminSwitchListener(cb) {
-    if (listeners.length === 0) {
+export function addAdminSwitchListener(cb, forceReload = true) {
+    if (listeners.filter(x => x.forceReload).length === 0 && forceReload) {
         _setAdminSwitchListener(true);
     }
 
-    listeners.push(cb);
+    listeners.push({cb, forceReload});
     return true;
 }
 
 export function removeAdminSwitchListener(cb) {
     let index = listeners.indexOf(cb);
     if (index !== -1) {
-        listeners.splice(index, 1)
+        listeners.splice(index, 1);
     }
 
     if (listeners.length === 0) {
