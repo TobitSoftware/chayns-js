@@ -75,7 +75,7 @@ export let environment = {
     'isChaynsWebMobile': isChaynsWebMobile,
     'isChaynsWebDesktop': isChaynsWebDesktop,
     'isChaynsWeb': isChaynsWebMobile || isChaynsWebDesktop || isChaynsnetRuntime,
-    'isChaynsParent': window.self === window.top || !!(window.cwInfo && (window.name === 'mobileView' || window.name === 'davidSmartClient')),
+    'isChaynsParent': window.self === window.top || !!(window.cwInfo && (window.name === 'mobileView' || parameters.forcechaynsparent === '1')),
     'isChaynsDe': !isApp && !!(window.ChaynsInfo && window.ChaynsInfo.LocationID === 378),
     'isMyChaynsApp': isMyChaynsApp,
     'isLocationApp': isLocationApp,
