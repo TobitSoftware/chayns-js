@@ -1,6 +1,11 @@
 import Config from './Config';
 import {messageListener} from './callback';
-import {setHeight, getGlobalData, addDesignSettingsChangeListener} from './calls';
+import {
+    setHeight,
+    getGlobalData,
+    addDesignSettingsChangeListener,
+    addAccessTokenChangeListener
+} from './calls';
 import {environment} from './environment';
 import {getLogger} from '../utils/logger';
 import {isObject, isPresent} from '../utils';
@@ -190,6 +195,10 @@ const chaynsReadySetup = (data) => {
 
     if (data.site.dynamicFontSize) {
         dynamicFontSize();
+    }
+
+    if (environment.isApp) {
+        addAccessTokenChangeListener();
     }
 
     // chayns is ready
