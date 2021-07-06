@@ -3,7 +3,7 @@ import {getLogger} from '../utils/logger';
 import {environment} from './environment';
 import Config from './Config';
 import {chaynsCall, widgetTappCalls} from './chaynsCall';
-import { listeners as accessTokenListener } from './calls';
+import { addDesignSettingsChangeListener, listeners as accessTokenListener } from './calls';
 
 
 const log = getLogger('chayns.core.callback'),
@@ -135,6 +135,12 @@ export function messageListener() {
             webObj.call = params.call;
             webObj.call.value.callback = getCallbackName('postToFrame' + '_' + (params.call.action || '') + '_' + counter, preCallInformation[1]);
             counter++;
+
+            // Prevent widget design settings change listeners to override the app callback
+            if (webObj.call.action === 254) {
+                addDesignSettingsChangeListener(fn);
+                return;
+            }
             chaynsCall(webObj);
         } else if (data.indexOf(namespace) !== -1) {
             log.debug('new message', data);
