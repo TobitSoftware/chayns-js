@@ -72,7 +72,8 @@ export function parseGlobalData(data) {
             'tobitAccessToken': appUser.TobitAccessToken || '',
             'groups': (appUser.UACGroups || []).map(parseGroup),
             'isAuthenticated': !!(appUser.TobitAccessToken && appUser.TobitAccessToken.length > 0),
-            'adminMode': !!appUser.AdminMode
+            'adminMode': !!appUser.AdminMode,
+            'gender': appUser.Gender
         };
 
         user.isAdmin = user.groups.findIndex((g) => g.id === 1) !== -1;
