@@ -6,8 +6,10 @@ import {removeDialogDataListener} from './communication';
 import {_chaynsCallResponder} from './iFrame';
 import Config from '../../Config';
 
+let id = 0;
+
 export function open(json, config = {}) {
-    const callbackName = `openDialog_${json.callType}`;
+    const callbackName = `openDialog_${json.callType}_${++id}`;
     if (!isDialogPermitted()) {
         Promise.reject('chaynsCall not supported. New Dialogs are available in Web, android appVersion 5.833 and ios appVersion x.xxx');
     }
@@ -34,9 +36,15 @@ export function open(json, config = {}) {
         }).then((e) => {
             removeDialogDataListener(_chaynsCallResponder, true);
             resolve(e);
+            if (window._chaynsCallbacks) {
+                delete window._chaynsCallbacks[callbackName];
+            }
         }, (e) => {
             removeDialogDataListener(_chaynsCallResponder, true);
             reject(e);
+            if (window._chaynsCallbacks) {
+                delete window._chaynsCallbacks[callbackName];
+            }
         });
     });
 }
