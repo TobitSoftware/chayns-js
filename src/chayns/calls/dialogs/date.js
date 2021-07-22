@@ -37,7 +37,7 @@ import {open} from './open';
 
 export function date(config = {}) {
     const callbackName = 'date';
-    let {preSelect, minDate, maxDate, title, message, minuteInterval} = config,
+    let {preSelect, minDate, maxDate, title, message, minuteInterval, autoSelectDate} = config,
         type = config.dateType || dateType.DATE;
 
     // This will fix the iOS problem with not preselectedDate without user interaction. That it return the wrog time.
@@ -64,7 +64,8 @@ export function date(config = {}) {
             title,
             message,
             buttons,
-            minuteInterval
+            minuteInterval,
+            autoSelectDate
         }).then((data) => {
             return Promise.resolve(data.selectedDate);
         });
@@ -81,7 +82,8 @@ export function date(config = {}) {
                 maxDate,
                 title,
                 message,
-                minuteInterval
+                minuteInterval,
+                autoSelectDate
             }
         },
         'app': {
@@ -95,13 +97,14 @@ export function date(config = {}) {
             'minDate': propTypes.date.isRequired,
             'maxDate': propTypes.date.isRequired,
             'text': propTypes.string,
-            'message': propTypes.string
+            'message': propTypes.string,
+            'autoSelectDate': propTypes.boolean
         }
     }).then((data) => Promise.resolve(data.selectedDate));
 }
 
 export function advancedDate(config = {}) {
-    let {preSelect, minDate, maxDate, title, message, minuteInterval, buttons, multiselect, disabledDates, textBlocks, monthSelect, yearSelect, interval, maxInterval, minInterval, disabledIntervals, disabledWeekDayIntervals, getLocalTime} = config, // minInterval and maxInterval in minutes
+    let {preSelect, minDate, maxDate, title, message, minuteInterval, buttons, multiselect, disabledDates, textBlocks, monthSelect, yearSelect, interval, maxInterval, minInterval, disabledIntervals, disabledWeekDayIntervals, getLocalTime, autoSelectDate} = config, // minInterval and maxInterval in minutes
         type = config.dateType || dateType.DATE;
 
     minDate = validateValue(minDate);
@@ -159,7 +162,8 @@ export function advancedDate(config = {}) {
         maxInterval,
         disabledIntervals,
         disabledWeekDayIntervals,
-        getLocalTime
+        getLocalTime,
+        autoSelectDate
     }).then((data) => {
         return Promise.resolve(data);
     });
