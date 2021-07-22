@@ -54,6 +54,7 @@ export function select(config) {
             'title': config.title || '',
             'message': config.message || '',
             'buttons': config.buttons,
+            'links': config.links,
             'multiselect': !!config.multiselect,
             'quickfind': !!config.quickfind,
             'type': config.type,
