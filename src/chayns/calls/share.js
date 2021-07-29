@@ -24,7 +24,13 @@ export function getAvailableSharingServices() {
             'web': false,
             callbackName
         }).then((response)=>{
-            resolve(response.retVal || response);
+            const newResponse = response.retVal || response;
+
+            // newer android chayns app versions return availableAndroidApps instead of availableSharingApps
+            if(newResponse && !response.availableSharingApps && response.availableAndroidApps) {
+                newResponse.availableSharingApps = response.availableAndroidApps;
+            }
+            resolve(newResponse);
 
             if (window._chaynsCallbacks) {
                 delete window._chaynsCallbacks[callbackName];
