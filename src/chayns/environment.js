@@ -41,17 +41,28 @@ if (query[0] !== '') {
     }
 }
 
+const isMobileMediaQuery = matchMedia('(max-height: 599px), (orientation: portrait)');
+
 const
     isDface = (/dface|h96pp|jabiru|chaynsterminal|wayter/i).test(navigator.userAgent),
     isApp = (!isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0) || isDface,
     isDavidClientApp = (/((mychayns)(.)*(77892-10814))/i).test(navigator.userAgent),
-    isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || parameters.os === 'webshadowmobile',
+    isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || ((/android/i).test(userAgent) && isMobileMediaQuery.matches) || parameters.os === 'webshadowmobile',
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent) && !(/android.*mobile/i).test(userAgent),
     isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime' || (window.chaynsInfo && window.chaynsInfo.isChaynsnetRuntime),
     isChaynsWebMobile = !isApp && isMobile,
     isChaynsWebDesktop = !isApp && (!isMobile || parameters.os === 'webshadow'),
     isLocationApp = isMyChaynsApp && !isDavidClientApp && !(/((mychayns)(.)*(60021-08989))/i).test(navigator.userAgent),
     isWidget = publicParameters.isWidget === 'true';
+
+if ((/android/i).test(userAgent)) {
+    isMobileMediaQuery.addEventListener('change', (ev) => {
+        environment.isMobile = ev.matches;
+        document.documentElement.classList.add(ev.matches ? 'chayns--mobile' : 'chayns--tablet');
+        document.documentElement.classList.remove(!ev.matches ? 'chayns--mobile' : 'chayns--tablet');
+        document.documentElement.classList[ev.matches ? 'remove' : 'add']('chayns--desktop');
+    });
+}
 
 export let environment = {
     'parameters': publicParameters,
