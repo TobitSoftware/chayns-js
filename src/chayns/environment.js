@@ -49,13 +49,14 @@ const
     isDavidClientApp = (/((mychayns)(.)*(77892-10814))/i).test(navigator.userAgent),
     isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || ((/android/i).test(userAgent) && isMobileMediaQuery.matches) || parameters.os === 'webshadowmobile',
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent) && !(/android.*mobile/i).test(userAgent),
+    isChaynsParent = window.self === window.top || !!(window.cwInfo && (window.name === 'mobileView' || parameters.forcechaynsparent === '1')),
     isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime' || (window.chaynsInfo && window.chaynsInfo.isChaynsnetRuntime),
     isChaynsWebMobile = !isApp && isMobile,
     isChaynsWebDesktop = !isApp && (!isMobile || parameters.os === 'webshadow'),
     isLocationApp = isMyChaynsApp && !isDavidClientApp && !(/((mychayns)(.)*(60021-08989))/i).test(navigator.userAgent),
     isWidget = publicParameters.isWidget === 'true';
 
-if ((/android/i).test(userAgent)) {
+if ((/android/i).test(userAgent) && isChaynsParent) {
     isMobileMediaQuery.addEventListener('change', (ev) => {
         environment.isMobile = ev.matches;
         document.documentElement.classList.add(ev.matches ? 'chayns--mobile' : 'chayns--tablet');
@@ -86,7 +87,7 @@ export let environment = {
     'isChaynsWebMobile': isChaynsWebMobile,
     'isChaynsWebDesktop': isChaynsWebDesktop,
     'isChaynsWeb': isChaynsWebMobile || isChaynsWebDesktop || isChaynsnetRuntime,
-    'isChaynsParent': window.self === window.top || !!(window.cwInfo && (window.name === 'mobileView' || parameters.forcechaynsparent === '1')),
+    'isChaynsParent': isChaynsParent,
     'isChaynsDe': !isApp && !!(window.ChaynsInfo && window.ChaynsInfo.LocationID === 378),
     'isMyChaynsApp': isMyChaynsApp,
     'isLocationApp': isLocationApp,
