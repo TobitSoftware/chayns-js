@@ -41,7 +41,7 @@ if (query[0] !== '') {
     }
 }
 
-const isMobileMediaQuery = matchMedia('(max-height: 599px), (orientation: portrait)');
+const isMobileMediaQuery = matchMedia('(max-height: 719px), (orientation: portrait)');
 
 const
     isDface = (/dface|h96pp|jabiru|chaynsterminal|wayter/i).test(navigator.userAgent),
