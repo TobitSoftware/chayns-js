@@ -126,15 +126,15 @@ function parseGroup(group) {
 
 function parseTapp(tapp) {
     return tapp ? {
-        'id': tapp.TappID || tapp.Id,
-        'showName': tapp.ShowName,
-        'internalName': tapp.InternalName,
+        'id': tapp.TappID || tapp.Id || tapp.id,
+        'showName': tapp.ShowName || tapp.showName,
+        'internalName': tapp.InternalName || tapp.internalName,
         'isExclusiveView': tapp.ExclusiveMode || tapp.isExclusiveView,
         'isSubTapp': tapp.isSubTapp,
-        'sortId': tapp.SortID,
+        'sortId': tapp.SortID || tapp.sortId,
         'userGroupIds': tapp.UserGroupIds || tapp.UACGroupIDs,
         'customUrl': tapp.customUrl,
-        'isHiddenFromMenu': tapp.HideFromMenu,
+        'isHiddenFromMenu': tapp.HideFromMenu || tapp.hideFromMenu,
         'icon': tapp.Icon ? tapp.Icon.source : null,
         'iconType': tapp.Icon ? tapp.Icon.type : null,
         'minAge': tapp.minAge
