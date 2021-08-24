@@ -30,7 +30,10 @@ function setWaitCursor({enabled, text, timeout, progress, progressText, disappea
         'propTypes': {
             'enabled': propTypes.boolean.isRequired,
             'text': propTypes.string,
-            'timeout': propTypes.number
+            'timeout': propTypes.number,
+            'disappearTimeout': propTypes.number,
+            'progress': propTypes.number,
+            'progressText': propTypes.string
         }
     });
 }
