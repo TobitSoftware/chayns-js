@@ -88,6 +88,7 @@ export function parseGlobalData(data) {
         const deviceData = data.Device;
 
         const app = {
+            'storePackageName': data.AppInfo.storePackageName,
             'flavor': data.AppInfo.AppFlavor
         };
 
