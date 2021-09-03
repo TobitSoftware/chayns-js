@@ -11,14 +11,17 @@ let currentText;
 let currentAction;
 let tappUrl;
 
-function setWaitCursor(enabled, text, timeout) {
+function setWaitCursor({enabled, text, timeout, progress, progressText, disappearTimeout}) {
     return chaynsCall({
         'call': {
             'action': 1,
             'value': {
                 enabled,
                 text,
-                timeout
+                timeout,
+                progress,
+                progressText,
+                disappearTimeout
             }
         },
         'app': {
@@ -27,7 +30,10 @@ function setWaitCursor(enabled, text, timeout) {
         'propTypes': {
             'enabled': propTypes.boolean.isRequired,
             'text': propTypes.string,
-            'timeout': propTypes.number
+            'timeout': propTypes.number,
+            'disappearTimeout': propTypes.number,
+            'progress': propTypes.number,
+            'progressText': propTypes.string
         }
     });
 }
@@ -36,13 +42,19 @@ function getConfig() {
     if (window.chaynsLoggerConfigs && window.chaynsLoggerConfigs.length > 0) {
         return window.chaynsLoggerConfigs[0];
     }
-    return { 'applicationUid': undefined, 'useDevServer': false };
+    return {'applicationUid': undefined, 'useDevServer': false};
 }
 
-export function showWaitCursor(text, timeout, action) {
+export function showWaitCursor(text, timeout, action, {progress, progressText} = {}) {
+    let validatedProgress = progress;
+    if (progress < 0) {
+        validatedProgress = 0;
+    } else if (progress > 100) {
+        validatedProgress = 100;
+    }
     try {
         if (typeof window !== 'undefined') {
-            const { applicationUid, useDevServer } = getConfig();
+            const {applicationUid, useDevServer} = getConfig();
             if (!startDate) {
                 startDate = new Date();
                 cursorUid = generateGuid();
@@ -68,14 +80,20 @@ export function showWaitCursor(text, timeout, action) {
     } catch (e) {
         console.error(e);
     }
-    return setWaitCursor(true, text, timeout);
+    return setWaitCursor({'enabled': true, text, timeout, 'progress': validatedProgress, progressText});
 }
 
-export function hideWaitCursor() {
+export function hideWaitCursor(disappearTimeout = 0) {
+    let validatedDisappearTimeout = disappearTimeout;
+    if (disappearTimeout < 0) {
+        validatedDisappearTimeout = 0;
+    } else if (disappearTimeout > 3000) {
+        validatedDisappearTimeout = 3000;
+    }
     try {
         if (typeof window !== 'undefined' && startDate) {
             clearTimeout(logTimeout);
-            const { useDevServer } = getConfig();
+            const {useDevServer} = getConfig();
             const body = {
                 appUid,
                 'startTime': startDate.toISOString(),
@@ -99,5 +117,5 @@ export function hideWaitCursor() {
         console.error(e);
     }
 
-    return setWaitCursor(false);
+    return setWaitCursor({'enabled': false, 'disappearTimeout': validatedDisappearTimeout});
 }
