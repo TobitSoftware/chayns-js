@@ -83,7 +83,7 @@ export function showWaitCursor(text, timeout, action, {progress, progressText} =
     return setWaitCursor({'enabled': true, text, timeout, 'progress': validatedProgress, progressText});
 }
 
-export function hideWaitCursor(disappearTimeout = 200) {
+export function hideWaitCursor(disappearTimeout = 0) {
     let validatedDisappearTimeout = disappearTimeout;
     if (disappearTimeout < 0) {
         validatedDisappearTimeout = 0;
