@@ -7,7 +7,7 @@ export function getScaledImageUrl(url, height, width, preventWebp) {
 
     const lastDot = url.lastIndexOf('.');
     const extension = url.substr(lastDot + 1, url.length - lastDot).toLowerCase();
-    const baseName = url.substr(0, lastDot).toLowerCase();
+    const baseName = url.substr(0, lastDot);
 
     if (height && width && url && url.indexOf('tsimg.space') >= 0 && lastDot) {
         return `${baseName}_s${shortEdgeSize}-mshortedgescale.${extension}`;
