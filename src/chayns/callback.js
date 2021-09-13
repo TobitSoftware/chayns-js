@@ -98,7 +98,7 @@ export function messageListener() {
     window.addEventListener('message', (event) => {
         log.debug('event', event);
         const data = event.data,
-            namespace = `chayns.${(environment.isInFrame && !Config.get('forceAjaxCalls')) || environment.isApp ? (!environment.isWidget ? 'customTab' : 'widget') : 'ajaxTab'}.jsoncall:`;
+            namespace = `chayns.${(environment.isInFrame && !Config.get('forceAjaxCalls') && !environment.isChaynsParent) || environment.isApp ? (!environment.isWidget ? 'customTab' : 'widget') : 'ajaxTab'}.jsoncall:`;
 
         if (!data || !isString(data)) {
             return;
