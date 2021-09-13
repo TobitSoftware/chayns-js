@@ -199,7 +199,7 @@ function chaynsWebCall(obj) {
     } else {
         try {
             let call = 'ajaxTab';
-            if (environment.isInFrame && !Config.get('forceAjaxCalls')) {
+            if (environment.isInFrame && !Config.get('forceAjaxCalls') && !environment.isChaynsParent) {
                 call = 'customTab';
             }
 
