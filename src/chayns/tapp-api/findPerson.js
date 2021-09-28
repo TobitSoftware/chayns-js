@@ -1,13 +1,16 @@
 import {environment} from '../environment';
-import {tappApi} from './tappApi';
 
-export function findPerson(query, location = -1) {
-    let data = `?SearchString=${query}&CurrentLocationId=${location}`;
-
-    if (environment.user.isAuthenticated) {
-        data += `&AccessToken=${environment.user.tobitAccessToken}`;
-    }
-
-    return tappApi(`User/FindUser${data}`, true)
-        .then((json) => json);
+export function findPerson(query) {
+    return fetch(`https://relations.chayns.net/relations/user/findUser?searchString=${query}`, {
+        'headers': {
+            'authorization': `bearer ${environment.user.tobitAccessToken}`
+        }
+    }).then(response => response.json()).then((json) => ({
+        'Status': {
+            'ResultCode': json.length === 0 ? 1 : 0,
+            'RestultText': json.length === 0 ? 'No Match' : 'Ok',
+            'Exception': null
+        },
+        'Value': json
+    }));
 }
