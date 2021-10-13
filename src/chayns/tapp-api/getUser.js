@@ -1,5 +1,5 @@
-import {isArray, isObject, isPresent} from '../../utils/is';
-import {tappApi} from './tappApi';
+import {isObject, isPresent} from '../../utils';
+import {environment} from '../environment';
 
 export function getUser(obj) {
     if (!obj || !isObject(obj)) {
@@ -7,32 +7,37 @@ export function getUser(obj) {
         return Promise.reject(new Error('There was no parameter Object'));
     }
 
-    let data = '';
+    let query = '';
     if (isPresent(obj.userId)) {
-        data = 'UserID=' + obj.userId;
-    }
-    if (isPresent(obj.facebookId)) {
-        data = 'FBID=' + obj.facebookId;
-    }
-    if (isPresent(obj.personId)) {
-        data = 'PersonID=' + obj.personId;
-    }
-    if (isPresent(obj.accessToken)) {
-        data = 'AccessToken=' + obj.accessToken;
+        query = obj.userId;
+    } else if (isPresent(obj.personId)) {
+        query = obj.personId;
+    } else {
+        return Promise.reject(new Error('Invalid Parameters - You have to provide at least one of these Parameters: userId, personId'));
     }
 
-    return tappApi(`User/BasicInfo?${data}`)
-        .then((json) => isArray(json) ? json.map((user) => parseUser(user)) : json);
-}
-
-function parseUser(user) {
-    return {
-        'userId': user.UserID,
-        'facebookId': user.ID || user.FacebookID,
-        'name': user.Name || user.UserFullName,
-        'firstName': user.FirstName,
-        'lastName': user.Lastname,
-        'picture': `https://graph.facebook.com/${user.ID}/picture`,
-        'chaynsLogin': user.ChaynsLogin
-    };
+    return fetch(`https://relations.chayns.net/relations/user/findUser?searchString=${query}`, {
+        'headers': {
+            'authorization': `bearer ${environment.user.tobitAccessToken}`
+        }
+    }).then(response => response.json()).then((json) => {
+        if (json.length === 0) {
+            return ({
+                'Error': {
+                    'ResultCode': json.length === 0 ? 4 : 0,
+                    'RestultText': null,
+                    'Exception': null
+                }
+            });
+        } else if (json.length === 1) {
+            return {
+                FirstName: json[0].firstName,
+                LastName: json[0].lastName,
+                PersonID: json[0].personId,
+                UserID: json[0].userId,
+                UserFullName: json[0].name
+            };
+        }
+        return json;
+    });
 }
