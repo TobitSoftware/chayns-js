@@ -18,7 +18,7 @@ function _setScrollListener(throttle = 200) {
         'app': false,
         callbackName,
         'callbackFunction': (data) => {
-            for (let i = 0, l = listeners.length; i < l; i++) {
+            for (let i = 0; i < listeners.length; i++) {
                 listeners[i](data);
             }
         },
