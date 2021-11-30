@@ -136,7 +136,7 @@ const domReadySetup = () => new Promise((resolve, reject) => {
 
 
     // wait for the ios javascript interface to be ready
-    const shouldWait = (environment.isIOS && (!window.webkit || !window.webkit.messageHandlers || !window.webkit.messageHandlers.jsonCall)) || (environment.isAndroid && (/^[56]\./).test(environment.device.version));
+    const shouldWait = (environment.isIOS && (!window.webkit || !window.webkit.messageHandlers || !window.webkit.messageHandlers.jsonCall)) || (/Android\s[56]\./i).test(navigator.userAgent);
 
     setTimeout(() => {
         // get chayns data (either from Chayns Web (parent frame) or chayns app)
