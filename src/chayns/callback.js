@@ -134,6 +134,9 @@ export function messageListener() {
             webObj.app = params.app;
             webObj.call = params.call;
             webObj.call.value.callback = getCallbackName('postToFrame' + '_' + (params.call.action || '') + '_' + counter, preCallInformation[1]);
+            if (webObj.call.action === 281 && webObj.call.value.directExport && webObj.call.value.directExport.callback) {
+                webObj.call.value.directExport.callback = webObj.call.value.callback;
+            }
             counter++;
 
             // Prevent widget design settings change listeners to override the app callback
