@@ -14,12 +14,16 @@ const
 let myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+\.?\d*)/i)[2].replace('.', '') : null;
 myChaynsAppVersion = myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined;
 
-new URLSearchParams(query).forEach((value, key) => {
-    if (INTERNAL_PARAMETERS.indexOf(key.toLowerCase()) === -1) {
-        publicParameters[key] = value;
-    }
-    parameters[key.toLowerCase()] = value.toLowerCase();
-});
+try {
+    new URLSearchParams(query).forEach((value, key) => {
+        if (INTERNAL_PARAMETERS.indexOf(key.toLowerCase()) === -1) {
+            publicParameters[key] = value;
+        }
+        parameters[key.toLowerCase()] = value.toLowerCase();
+    });
+} catch(e) {
+    console.error('error on parsing search params', e);
+}
 
 const isMobileMediaQuery = matchMedia('(max-height: 719px), (orientation: portrait)');
 
