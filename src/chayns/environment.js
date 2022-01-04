@@ -6,7 +6,7 @@ const userAgent = (window.navigator && navigator.userAgent) || '',
     ],
     parameters = {},
     publicParameters = {},
-    query = (window.chaynsParameters || location.search).substr(1).split('&');
+    query = (window.chaynsParameters || location.search).substr(1);
 
 const
     isIOS = (/iPhone|iPad|iPod/i).test(userAgent),
@@ -14,32 +14,12 @@ const
 let myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+\.?\d*)/i)[2].replace('.', '') : null;
 myChaynsAppVersion = myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined;
 
-if (query[0] !== '') {
-    for (let i = 0, l = query.length; i < l; i++) {
-        const item = query[i].split('=');
-        const key = item.shift();
-        let value = item.join('=');
-        try {
-            value = decodeURIComponent(value);
-        } catch (e) {
-            console.warn(`omitted malformed urlParameter: "${value}"`);
-            continue;
-        }
-
-        // Temporary fix for iOS chayns app, version 6.266 - 6.271. Can be removed in october 2020
-        if (isIOS && isMyChaynsApp && myChaynsAppVersion >= 6266 && myChaynsAppVersion <= 6271) {
-            const match = value.match(/(.*)(\/\?deviceColorMode.*)/i);
-            if (match) {
-                value = match[1];
-            }
-        }
-
-        if (INTERNAL_PARAMETERS.indexOf(key.toLowerCase()) === -1) {
-            publicParameters[key] = value;
-        }
-        parameters[key.toLowerCase()] = value.toLowerCase();
+new URLSearchParams(query).forEach((value, key) => {
+    if (INTERNAL_PARAMETERS.indexOf(key.toLowerCase()) === -1) {
+        publicParameters[key] = value;
     }
-}
+    parameters[key.toLowerCase()] = value.toLowerCase();
+});
 
 const isMobileMediaQuery = matchMedia('(max-height: 719px), (orientation: portrait)');
 
