@@ -13,6 +13,10 @@ export function selectTapp(tapp, param) {
         value.params = isArray(param) ? param : [param];
     }
 
+    if (value.params && !isArray(value.params)) {
+        value.params = [value.params];
+    }
+
     if (environment.isAndroid && environment.isApp && environment.appVersion >= 6464 && environment.appVersion < 6513 && value.customDomain) {
         delete value.customDomain;
     }
