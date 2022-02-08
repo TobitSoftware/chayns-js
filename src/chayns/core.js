@@ -149,7 +149,7 @@ const domReadySetup = () => new Promise((resolve, reject) => {
                  * Register the designSettingsChangeListener in chayns-App (locationId=378)
                  * and Intercom-App (locationId=186225)
                  */
-                if (environment.isApp && [378, 186225].indexOf(environment.site.locationId) > -1) {
+                if ([378, 186225].indexOf(environment.site.locationId) > -1) {
                     addDesignSettingsChangeListener(designSettingsChangeListener);
                 }
             })
