@@ -23,7 +23,7 @@ export function input(dialog = {}) {
         dialog.formatter = dialog.formatter.toString();
     }
     if (dialog.regex instanceof RegExp) {
-        dialog.regex = dialog.regex.toString();
+        dialog.regex = dialog.regex.source;
     }
 
     if (isDialogPermitted()) {
