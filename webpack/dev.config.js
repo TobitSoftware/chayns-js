@@ -2,14 +2,14 @@ const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 
-let sslCert;
-let sslKey;
-try {
-    sslCert = fs.readFileSync(path.join(__dirname, 'ssl', 'ssl.crt'));
-    sslKey = fs.readFileSync(path.join(__dirname, 'ssl', 'ssl.key'));
-} catch (err) {
-    sslCert = undefined;
+let sslKey = path.join(__dirname, 'ssl', 'ssl.key');
+let sslCert = path.join(__dirname, 'ssl', 'ssl.crt');
+let serverType = 'https';
+
+if (!fs.existsSync(sslKey) || !fs.existsSync(sslCert)) {
     sslKey = undefined;
+    sslCert = undefined;
+    serverType = 'http';
 }
 
 const BASE_PATH = path.resolve('./');
@@ -23,16 +23,20 @@ module.exports = {
         'filename': 'chayns.js'
     },
     'mode': 'development',
-    'devtool': 'cheap-module-eval-source-map',
+    'devtool': 'eval-cheap-module-source-map',
     'devServer': {
+        'allowedHosts': 'all',
         'host': '0.0.0.0',
         'port': 8080,
-        'disableHostCheck': true,
         'historyApiFallback': true,
         'hot': true,
-        'https': !!(sslCert && sslKey),
-        'cert': sslCert,
-        'key': sslKey
+        'server': {
+            'type': serverType,
+            'options': {
+                'key': sslKey,
+                'cert': sslCert
+            }
+        }
     },
     'module': {
         'rules': [
@@ -46,7 +50,6 @@ module.exports = {
     'plugins': [
         new webpack.DefinePlugin({
             '__DEV__': true
-        }),
-        new webpack.HotModuleReplacementPlugin()
+        })
     ]
 };
