@@ -5,25 +5,11 @@ import {environment} from '../../environment';
 import {isDialogPermitted} from '../../../utils/isPermitted';
 import {open} from './open';
 import Config from '../../Config';
+import languages from '../../../constants/buttonText';
 
-export const buttonText = {
-    'YES': {
-        'de': 'Ja',
-        'en': 'Yes',
-        'nl': 'Ja'
-    }[environment.language] || 'Yes',
-    'NO': {
-        'de': 'Nein',
-        'en': 'No',
-        'nl': 'Nee'
-    }[environment.language] || 'No',
-    'OK': 'OK',
-    'CANCEL': {
-        'de': 'Abbrechen',
-        'en': 'Cancel',
-        'nl': 'Annuleren'
-    }[environment.language] || 'Cancel'
-};
+export const buttonText = new Proxy(languages.en, {
+    'get': (target, prop) => (languages[environment.site.translang || environment.language] || languages.de)[prop]
+});
 
 export const buttonType = {
     'CANCEL': -1,
