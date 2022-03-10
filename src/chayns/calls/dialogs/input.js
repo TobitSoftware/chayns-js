@@ -22,6 +22,9 @@ export function input(dialog = {}) {
     if (dialog.formatter) {
         dialog.formatter = dialog.formatter.toString();
     }
+    if (dialog.regex instanceof RegExp) {
+        dialog.regex = dialog.regex.source;
+    }
 
     if (isDialogPermitted()) {
         dialog.callType = dialogAction.INPUT;
