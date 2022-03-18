@@ -53,10 +53,10 @@ function getColorFromPalette(colorId, colorParameter, colorModeParameter) {
         }
     }
 
-    let secondaryColor = color;
-    if (environment.site.id === '60021-08989' && ((environment.isIOS && environment.appVersion >= 6260) || (environment.isAndroid && environment.appVersion >= 6338))) {
-        secondaryColor = '#8e8e93';
-    }
+    const secondaryColor = color;
+    // if (environment.site.id === '60021-08989' && ((environment.isIOS && environment.appVersion >= 6260) || (environment.isAndroid && environment.appVersion >= 6338))) {
+    //     secondaryColor = '#8e8e93';
+    // }
 
     return getColorFromPaletteNpm(colorId, {color, colorMode, secondaryColor});
 }
