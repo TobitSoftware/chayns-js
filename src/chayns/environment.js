@@ -43,6 +43,8 @@ const
 if ((/android/i).test(userAgent) && isChaynsParent) {
     isMobileMediaQuery.addEventListener('change', (ev) => {
         environment.isMobile = ev.matches;
+        environment.isDesktop = !ev.matches;
+        environment.isTablet = !ev.matches;
         document.documentElement.classList.add(ev.matches ? 'chayns--mobile' : 'chayns--tablet');
         document.documentElement.classList.remove(!ev.matches ? 'chayns--mobile' : 'chayns--tablet');
         document.documentElement.classList[ev.matches ? 'remove' : 'add']('chayns--desktop');
