@@ -41,7 +41,7 @@ const
     isWidget = publicParameters.isWidget === 'true';
 
 if (isChaynsParent) {
-    isMobileMediaQuery.addEventListener('change', (ev) => {
+    isMobileMediaQuery.addListener((ev) => {
         environment.isMobile = ev.matches;
         environment.isDesktop = !ev.matches;
         environment.isTablet = !ev.matches;
