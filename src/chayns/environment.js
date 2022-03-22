@@ -25,13 +25,13 @@ try {
     console.error('error on parsing search params', e);
 }
 
-const isMobileMediaQuery = matchMedia('(max-height: 719px), (orientation: portrait)');
+const isMobileMediaQuery = matchMedia('screen and (max-width: 850px), (max-width: 1000px) and (max-height: 400px)');
 
 const
     isDface = (/dface|h96pp|jabiru|chaynsterminal|wayter|odroidn2p/i).test(navigator.userAgent),
     isApp = (!isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0) || isDface,
     isDavidClientApp = (/((mychayns)(.)*(77892-10814))/i).test(navigator.userAgent),
-    isMobile = (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || parameters.os === 'webshadowmobile',
+    isMobile = parameters.os === 'webshadowmobile' || ((window.self === window.top || parameters.os === 'chaynsnet-runtime') ? isMobileMediaQuery.matches : (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || ((/android/i).test(userAgent) && isMobileMediaQuery.matches)),
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent) && !(/android.*mobile/i).test(userAgent),
     isChaynsParent = window.self === window.top || !!(window.cwInfo && (window.name === 'mobileView' || parameters.forcechaynsparent === '1')),
     isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime' || (window.chaynsInfo && window.chaynsInfo.isChaynsnetRuntime),
@@ -40,7 +40,7 @@ const
     isLocationApp = isMyChaynsApp && !isDavidClientApp && !(/((mychayns)(.)*(60021-08989))/i).test(navigator.userAgent),
     isWidget = publicParameters.isWidget === 'true';
 
-if ((/android/i).test(userAgent) && isChaynsParent && isTablet) {
+if (isChaynsParent) {
     isMobileMediaQuery.addEventListener('change', (ev) => {
         environment.isMobile = ev.matches;
         environment.isDesktop = !ev.matches;
