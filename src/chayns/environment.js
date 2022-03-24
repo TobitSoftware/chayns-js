@@ -31,7 +31,7 @@ const
     isDface = (/dface|h96pp|jabiru|chaynsterminal|wayter|odroidn2p/i).test(navigator.userAgent),
     isApp = (!isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0) || isDface,
     isDavidClientApp = (/((mychayns)(.)*(77892-10814))/i).test(navigator.userAgent),
-    isMobile = parameters.os === 'webshadowmobile' || ((window.self === window.top && parameters.os === 'chaynsnet-runtime') ? isMobileMediaQuery.matches : (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || ((/android/i).test(userAgent) && isMobileMediaQuery.matches)),
+    isMobile = parameters.os === 'webshadowmobile' || ((window.self === window.top || parameters.os === 'chaynsnet-runtime') ? isMobileMediaQuery.matches : (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || ((/android/i).test(userAgent) && isMobileMediaQuery.matches)),
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent) && !(/android.*mobile/i).test(userAgent),
     isChaynsParent = window.self === window.top || !!(window.cwInfo && (window.name === 'mobileView' || parameters.forcechaynsparent === '1')),
     isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime' || (window.chaynsInfo && window.chaynsInfo.isChaynsnetRuntime),
