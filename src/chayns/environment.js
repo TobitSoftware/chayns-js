@@ -40,7 +40,7 @@ const
     isLocationApp = isMyChaynsApp && !isDavidClientApp && !(/((mychayns)(.)*(60021-08989))/i).test(navigator.userAgent),
     isWidget = publicParameters.isWidget === 'true';
 
-if (isChaynsParent || parameters.os === 'chaynsnet-runtime') {
+if (isChaynsParent || (parameters.os === 'chaynsnet-runtime' && !parameters.davidclient)) {
     isMobileMediaQuery.addListener((ev) => {
         environment.isMobile = ev.matches;
         environment.isDesktop = !ev.matches;
