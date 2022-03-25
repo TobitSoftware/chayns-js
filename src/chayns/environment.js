@@ -27,6 +27,8 @@ try {
 
 const isMobileMediaQuery = matchMedia('screen and (max-width: 850px), (max-width: 1000px) and (max-height: 400px)');
 
+console.log("use mobile", parameters.os === 'webshadowmobile', (window.self === window.top || (parameters.os === 'chaynsnet-runtime' && !parameters.davidclient)), isMobileMediaQuery.matches);
+
 const
     isDface = (/dface|h96pp|jabiru|chaynsterminal|wayter|odroidn2p/i).test(navigator.userAgent),
     isApp = (!isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0) || isDface,
@@ -39,6 +41,7 @@ const
     isChaynsWebDesktop = !isApp && (!isMobile || parameters.os === 'webshadow'),
     isLocationApp = isMyChaynsApp && !isDavidClientApp && !(/((mychayns)(.)*(60021-08989))/i).test(navigator.userAgent),
     isWidget = publicParameters.isWidget === 'true';
+console.log("isMobile", isMobile);
 
 if (isChaynsParent || (parameters.os === 'chaynsnet-runtime' && !parameters.davidclient)) {
     isMobileMediaQuery.addListener((ev) => {
