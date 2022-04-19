@@ -28,7 +28,7 @@ try {
 const isMobileMediaQuery = matchMedia('screen and (max-width: 850px), (max-width: 1000px) and (max-height: 400px)');
 
 const
-    isDface = (/dface|h96pp|jabiru|chaynsterminal|wayter|odroidn2p/i).test(navigator.userAgent),
+    isDface = (/dface|h96pp|h96max|jabiru|chaynsterminal|wayter|odroidn2p/i).test(navigator.userAgent),
     isApp = (!isMyChaynsApp && ['android', 'ios', 'wp'].indexOf(parameters.os) > -1 && navigator.userAgent.toLowerCase().indexOf('chayns') >= 0) || isDface,
     isDavidClientApp = (/((mychayns)(.)*(77892-10814))/i).test(navigator.userAgent),
     isMobile = parameters.os === 'webshadowmobile' || ((window.self === window.top || (parameters.os === 'chaynsnet-runtime' && !parameters.davidclient)) ? isMobileMediaQuery.matches : (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || ((/android/i).test(userAgent) && isMobileMediaQuery.matches)), // Temporary workaround for intercom in david
