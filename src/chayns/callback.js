@@ -137,6 +137,12 @@ export function messageListener() {
             if (webObj.call.action === 281 && webObj.call.value.directExport && webObj.call.value.directExport.callback) {
                 webObj.call.value.directExport.callback = webObj.call.value.callback;
             }
+            if (webObj.call.action === 18) {
+                if (!Array.isArray(webObj.call.value.urls)) {
+                    webObj.call.value.urls = [];
+                }
+                webObj.call.value.urls.unshift(event.origin);
+            }
             counter++;
 
             // Prevent widget design settings change listeners to override the app callback
