@@ -169,7 +169,7 @@ export function messageListener() {
                 func(params);
             }
         } else if(window.chaynsElectron && window.chaynsElectron.jsonCall && (params && params.value && params.value.invokeInTop)) {
-            window.chaynsElectron.jsonCall(params.call);
+            window.chaynsElectron.jsonCall(params);
         }
     });
 
