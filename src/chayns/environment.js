@@ -41,7 +41,7 @@ const
     isWidget = publicParameters.isWidget === 'true';
 
 if (isChaynsParent || (parameters.os === 'chaynsnet-runtime' && !parameters.davidclient)) {
-    isMobileMediaQuery.addListener((ev) => {
+    isMobileMediaQuery.addEventListener('change', (ev) => {
         environment.isMobile = ev.matches;
         environment.isDesktop = !ev.matches;
         environment.isTablet = !ev.matches;
