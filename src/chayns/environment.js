@@ -38,10 +38,11 @@ const
     isChaynsWebMobile = !isApp && isMobile,
     isChaynsWebDesktop = !isApp && (!isMobile || parameters.os === 'webshadow'),
     isLocationApp = isMyChaynsApp && !isDavidClientApp && !(/((mychayns)(.)*(60021-08989))/i).test(navigator.userAgent),
+    isSTB = (/h96pp|h96max|odroidn2p/i).test(navigator.userAgent),
     isWidget = publicParameters.isWidget === 'true';
 
 if (isChaynsParent || (parameters.os === 'chaynsnet-runtime' && !parameters.davidclient)) {
-    isMobileMediaQuery.addListener((ev) => {
+    isMobileMediaQuery.addEventListener('change', (ev) => {
         environment.isMobile = ev.matches;
         environment.isDesktop = !ev.matches;
         environment.isTablet = !ev.matches;
@@ -77,6 +78,7 @@ export let environment = {
     'isChaynsDe': !isApp && !!(window.ChaynsInfo && window.ChaynsInfo.LocationID === 378),
     'isMyChaynsApp': isMyChaynsApp,
     'isLocationApp': isLocationApp,
+    'isSTB': isSTB,
     'isWidget': isWidget,
     'isInFrame': window.self !== window.top && !(window.cwInfo && (window.name === 'mobileView' || window.name === 'davidSmartClient')),
     'isInFacebookFrame': false,
