@@ -42,14 +42,19 @@ const
     isWidget = publicParameters.isWidget === 'true';
 
 if (isChaynsParent || (parameters.os === 'chaynsnet-runtime' && !parameters.davidclient)) {
-    isMobileMediaQuery.addEventListener('change', (ev) => {
+    const listener = (ev) => {
         environment.isMobile = ev.matches;
         environment.isDesktop = !ev.matches;
         environment.isTablet = !ev.matches;
         document.documentElement.classList.add(ev.matches ? 'chayns--mobile' : 'chayns--tablet');
         document.documentElement.classList.remove(!ev.matches ? 'chayns--mobile' : 'chayns--tablet');
         document.documentElement.classList[ev.matches ? 'remove' : 'add']('chayns--desktop');
-    });
+    };
+    if ('addEventListener' in isMobileMediaQuery) {
+        isMobileMediaQuery.addEventListener('change', listener);
+    } else {
+        isMobileMediaQuery.addListener(listener);
+    }
 }
 
 export let environment = {
