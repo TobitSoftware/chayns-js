@@ -262,7 +262,6 @@ function chaynsWebCall(obj) {
         } else if (obj.call.action === 276 && window.dialog && isFunction(window.dialog.receiveApiCall)) {
             window.dialog.receiveApiCall(obj.call.value, undefined, obj.call.action);
         } else if (window.chaynsElectron && window.chaynsElectron.jsonCall) {
-            console.error("erorr", obj)
             new Promise((resolve) => {
                 createChaynsCallForwarding('et', obj.call.action, ({ retVal }) => resolve(retVal))(obj.call.value, window.name);
             })
