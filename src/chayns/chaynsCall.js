@@ -164,6 +164,75 @@ function chaynsAppCall(obj) {
     }
 }
 
+
+
+export function postMessage(method, params, source) {
+    let win = null;
+    const $customTappIframe = document.querySelector('iframe[id^="CustomTappIframe"]');
+    let iframe = (source === window ? window : (typeof source === 'object' ? source : (source && source.length && source[0])) || $customTappIframe);
+
+    if (iframe && iframe.nodeName && !document.body.contains(iframe)) {
+        iframe = $customTappIframe;
+    }
+
+    if (iframe !== null) {
+        win = iframe.contentWindow ? iframe.contentWindow : iframe;
+    }
+
+    const target = win === window ? 'ajaxTab' : 'customTab';
+
+    if (win && typeof win.postMessage === 'function') {
+        // eslint-disable-next-line no-param-reassign
+        params = params || '';
+        try {
+            win.postMessage(`${(typeof source !== 'object' && source && source.length > 1) ? source[1] : `chayns.${target}.`}${method}:${params.toString()}`, '*');
+        } catch (e) {
+            console.error(e);
+        }
+    }
+}
+
+export function answerJsonCall(request, response, srcIframe) {
+    const params = JSON.stringify({
+        addJSONParam: request.addJSONParam || {},
+        retVal: response || {},
+        callback: request.callback
+    });
+    postMessage('jsoncall', params, srcIframe);
+}
+
+export function electronCall(call) {
+    return new Promise((resolve, reject) => {
+        try {
+            if (window.chaynsElectron && window.chaynsElectron.jsonCall) {
+                window.chaynsElectron.jsonCall(call);
+            }
+            resolve();
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
+let id = 0;
+export function createChaynsCallForwarding(name, action, customFn = null) {
+    const callbackName = `${name.toLowerCase()}callback${++id}`;
+
+    return function chaynsCallForwarding(value, srcIframe) {
+        const call = {
+            action,
+            value: {
+                ...value,
+                callback: `window.${callbackName}`
+            }
+        };
+
+        window[callbackName] = typeof customFn === 'function' ? customFn : (result => answerJsonCall(value, (result && result?.retVal) || {}, srcIframe));
+
+        electronCall(call);
+    };
+}
+
 /**
  * Execute a ChaynsWeb Call in the parent window.
  *
@@ -193,7 +262,9 @@ function chaynsWebCall(obj) {
         } else if (obj.call.action === 276 && window.dialog && isFunction(window.dialog.receiveApiCall)) {
             window.dialog.receiveApiCall(obj.call.value, undefined, obj.call.action);
         } else if (window.chaynsElectron && window.chaynsElectron.jsonCall) {
-            window.chaynsElectron.jsonCall(obj.call);
+            new Promise((resolve) => {
+                createChaynsCallForwarding('et', obj.call.action, ({ retVal }) => resolve(retVal))(obj.call.value, window.name);
+            })
         } else {
             log.error('chaynsWebCall: no function found');
             return Promise.reject();
