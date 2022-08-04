@@ -4,9 +4,10 @@ import {propTypes} from '../propTypes';
 import {environment} from '../environment';
 
 const listeners = [];
+let id = 0;
 
 export function getWindowMetrics() {
-    const callbackName = 'getWindowMetrics';
+    const callbackName = 'getWindowMetrics' + (++id);
 
     return chaynsCall({
         'call': {
@@ -28,21 +29,26 @@ export function getWindowMetrics() {
         'propTypes': {
             'callback': propTypes.string.isRequired
         }
-    }).then((data) => Promise.resolve({
-        'height': data.AvailHeight,
-        'scrollTop': data.WindowScrollTop,
-        'windowHeight': data.WindowInnerHeight,
-        'windowWidth': data.WindowInnerWidth,
-        'pageYOffset': data.pageYOffset,
-        'frameX': data.frameX,
-        'frameY': data.frameY,
-        'offsetTop': data.offsetTop,
-        'coverHeight': data.coverHeight,
-        'menuHeight': data.menuHeight,
-        'coverTop': data.coverTop,
-        'frameYBottom': data.frameYBottom,
-        'bottomBarHeight': data.bottomBarHeight
-    }));
+    }).then((data) => {
+        if (window._chaynsCallbacks) {
+            delete window._chaynsCallbacks[callbackName];
+        }
+        return Promise.resolve({
+            'height': data.AvailHeight,
+            'scrollTop': data.WindowScrollTop,
+            'windowHeight': data.WindowInnerHeight,
+            'windowWidth': data.WindowInnerWidth,
+            'pageYOffset': data.pageYOffset,
+            'frameX': data.frameX,
+            'frameY': data.frameY,
+            'offsetTop': data.offsetTop,
+            'coverHeight': data.coverHeight,
+            'menuHeight': data.menuHeight,
+            'coverTop': data.coverTop,
+            'frameYBottom': data.frameYBottom,
+            'bottomBarHeight': data.bottomBarHeight
+        });
+    });
 }
 
 function setWindowMetricListener(permanent, callback) {
