@@ -9,10 +9,10 @@ let id = 0;
 export function getGlobalData(raw = false, loadAllTapps = false) {
     const callbackName = 'getGlobalData' + (++id);
 
-    let loadAllTappInfos = false;
+    let loadAllTappInfos = loadAllTapps;
 
     try {
-        if (loadAllTapps) {
+        if (!loadAllTapps) {
             loadAllTappInfos = [...document.querySelectorAll('script')].some(x => x && x.src && x.src.includes('#chayns-load-all-tapp-infos'));
         }
     } catch(e) {
