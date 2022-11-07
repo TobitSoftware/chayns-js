@@ -138,6 +138,7 @@ function parseTapp(tapp) {
         'isHiddenFromMenu': tapp.HideFromMenu || tapp.hideFromMenu,
         'icon': tapp.Icon ? tapp.Icon.source : null,
         'iconType': tapp.Icon ? tapp.Icon.type : null,
-        'minAge': tapp.minAge
+        'minAge': tapp.minAge,
+        'viewMode': tapp.viewMode,
     } : undefined;
 }
