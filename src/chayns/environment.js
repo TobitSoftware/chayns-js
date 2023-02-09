@@ -33,7 +33,7 @@ const
     isDavidClientApp = (/((mychayns)(.)*(77892-10814))/i).test(navigator.userAgent),
     isMobile = parameters.os === 'webshadowmobile' || ((window.self === window.top || (parameters.os === 'chaynsnet-runtime' && !parameters.davidclient)) ? isMobileMediaQuery.matches : (/(?!.*ipad)^.*(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i).test(userAgent) || ((/android/i).test(userAgent) && isMobileMediaQuery.matches)), // Temporary workaround for intercom in david
     isTablet = (/(ipad|android(?!.*mobile)|nexus 7)/i).test(userAgent) && !(/android.*mobile/i).test(userAgent),
-    isChaynsParent = window.self === window.top || !!(window.cwInfo && (window.name === 'mobileView' || parameters.forcechaynsparent === '1')),
+    isChaynsParent = window.self === window.top || !!(window.cwInfo && (window.name === 'mobileView' || parameters.forcechaynsparent === '1' || window.name === 'fullscreen-view')),
     isChaynsnetRuntime = parameters.os === 'webshadowlight' || parameters.os === 'chaynsnet-runtime' || (window.chaynsInfo && window.chaynsInfo.isChaynsnetRuntime),
     isChaynsWebMobile = !isApp && isMobile,
     isChaynsWebDesktop = !isApp && (!isMobile || parameters.os === 'webshadow'),
