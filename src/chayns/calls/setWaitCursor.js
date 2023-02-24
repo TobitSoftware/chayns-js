@@ -67,7 +67,7 @@ export function showWaitCursor(text, timeout, action, {progress, progressText} =
                 appUid,
                 'startTime': startDate.toISOString(),
                 'message': currentText || null,
-                'tappId': chayns.env.site.tapp.id,
+                'tappId': chayns.env.site.tapp && chayns.env.site.tapp.id,
                 'siteId': chayns.env.site.id,
                 action,
                 cursorUid,
