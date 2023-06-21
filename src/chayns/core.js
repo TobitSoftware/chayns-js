@@ -85,6 +85,7 @@ function designSettingsChangeListener({color = environment.site.color, colorMode
     }
     if (colorMode !== environment.site.colorMode) {
         environment.site.colorMode = colorMode;
+        environment._parameters.colormode = colorMode.toString();
     }
 }
 
