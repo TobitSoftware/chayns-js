@@ -32,6 +32,9 @@ function _setDesignSettingsChangeListener(enabled) {
 }
 
 export function addDesignSettingsChangeListener(cb) {
+    if(window.disablev4DesignSettingsChangeListener) {
+        return;
+    }
     if (listeners.length === 0) {
         _setDesignSettingsChangeListener(true);
     }
