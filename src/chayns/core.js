@@ -64,10 +64,6 @@ const setup = () => new Promise((resolve, reject) => {
 function designSettingsChangeListener({color = environment.site.color, colorMode = environment.site.colorMode}) {
     // css variables
     let styles = '';
-    // because iOS chayns app uses colorMode 2 but chaynsCall returns 0 instead
-    if (environment.isApp && environment.isIOS && environment.site.locationId === 378 && colorMode === 0) {
-        colorMode = 2;
-    }
     for (const colorName of getAvailableColorList()) {
         const hexColor = getColorFromPalette(colorName, color, colorMode);
         styles += `--chayns-color--${colorName}: ${hexColor}; `;
