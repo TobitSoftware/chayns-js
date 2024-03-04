@@ -2,11 +2,18 @@ import {chaynsCall} from '../chaynsCall';
 import {propTypes} from '../propTypes';
 
 export function openUrlInBrowser(url, target) {
+    let cleanedUrl = url;
+    try {
+        cleanedUrl = new URL(url).toString();
+    } catch (ex) {
+        console.warn('cannot parse url:', url);
+    }
+
     return chaynsCall({
         'call': {
             'action': 9,
             'value': {
-                url,
+                'url': cleanedUrl,
                 target
             }
         },
