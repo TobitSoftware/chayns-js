@@ -41,6 +41,9 @@ function _setAccessTokenChange(enabled) {
 }
 
 export function addAccessTokenChangeListener(cb) {
+    if (window.disablev4AccessTokenChangeListener) {
+        return;
+    }
     if (listeners.length === 0) {
         _setAccessTokenChange(true);
     }
