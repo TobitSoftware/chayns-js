@@ -18,7 +18,7 @@ export function parseGlobalData(data) {
             'locationId': appInfo.LocationID,
             'locationPersonId': appInfo.LocationPersonID,
             'title': appInfo.Title,
-            'language': appInfo.Language,
+            'language': environment.isApp ? (environment._parameters.lang || appInfo.Language) : appInfo.Language,
             'translang': appInfo.TransLang,
             'tapps': (appInfo.Tapps || []).map(parseTapp),
             'allTappInfos': appInfo.AllTappInfos,
