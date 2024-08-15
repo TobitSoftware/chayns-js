@@ -10,6 +10,7 @@ const userAgent = (window.navigator && navigator.userAgent) || '',
 
 const
     isIOS = (/iPhone|iPad|iPod/i).test(userAgent),
+    isMacOS = (/Mac OS/i).test(userAgent),
     isMyChaynsApp = navigator.userAgent.toLowerCase().indexOf('mychayns') >= 0 && (!isIOS || navigator.userAgent.toLowerCase().indexOf('web;') >= 0);
 let myChaynsAppVersion = isMyChaynsApp ? navigator.userAgent.match(/(mychayns\/)(\d+\.?\d*)/i)[2].replace('.', '') : null;
 myChaynsAppVersion = myChaynsAppVersion ? parseInt(myChaynsAppVersion, 10) : undefined;
@@ -66,7 +67,7 @@ export let environment = {
     'user': {},
     'app': {},
     'device': {},
-    'isIOS': isIOS,
+    'isIOS': isIOS || (isApp || isMyChaynsApp) && isMacOS,
     'isAndroid': (/Android/i).test(userAgent),
     'isWP': (/windows phone/i).test(userAgent),
     'isMobile': isMobile,
