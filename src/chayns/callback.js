@@ -146,7 +146,7 @@ export function messageListener() {
             if (webObj.call.action === 18) {
                 const $frame = getFrameByEvent(event);
                 const $tapp = $frame && $frame.closest('.cw-fade-tapp');
-                if ($tapp && getComputedStyle($tapp).position === 'absolute') {
+                if ($tapp && $tapp.classList.contains('cw-fade-tapp-out')) {
                     // do not answer get global data calls from widgets inside out fading tapps
                     // this should prevent that the out fading tapp gets the wrong tappId
                     console.warn('ignoring getGlobalData-call from widget cause tapp is fading out');
