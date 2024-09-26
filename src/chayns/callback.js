@@ -89,6 +89,12 @@ function callback(callbackName, fn) {
 
 let counter = 0;
 
+function getFrameByEvent(event) {
+    return Array.from(document.getElementsByTagName('iframe')).find(iframe => {
+        return iframe.contentWindow === event.source;
+    });
+}
+
 export function messageListener() {
     if (messageListening) {
         log.info('there is already a message listener attached to the window');
@@ -138,6 +144,14 @@ export function messageListener() {
                 webObj.call.value.directExport.callback = webObj.call.value.callback;
             }
             if (webObj.call.action === 18) {
+                const $frame = getFrameByEvent(event);
+                const $tapp = $frame && $frame.closest('.cw-fade-tapp');
+                if ($tapp && $tapp.classList.contains('cw-fade-tapp-out')) {
+                    // do not answer get global data calls from widgets inside out fading tapps
+                    // this should prevent that the out fading tapp gets the wrong tappId
+                    console.warn('ignoring getGlobalData-call from widget cause tapp is fading out');
+                    return;
+                }
                 if (!Array.isArray(webObj.call.value.urls)) {
                     webObj.call.value.urls = [];
                 }
