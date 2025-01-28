@@ -135,25 +135,44 @@ const domReadySetup = () => new Promise((resolve, reject) => {
     // wait for the ios javascript interface to be ready
     const shouldWait = (environment.isIOS && (!window.webkit || !window.webkit.messageHandlers || !window.webkit.messageHandlers.jsonCall)) || (/Android\s[56]\./i).test(navigator.userAgent);
 
-    setTimeout(() => {
+    setTimeout(async () => {
         // get chayns data (either from Chayns Web (parent frame) or chayns app)
         // get the App Information
-        getGlobalData(undefined)
-            .then((data) => {
-                chaynsReadySetup(data).then(resolve, reject);
-
-                /**
-                 * Register the designSettingsChangeListener in chayns-App (locationId=378)
-                 * and Intercom-App (locationId=186225)
-                 */
-                if ([378, 186225].indexOf(environment.site.locationId) > -1) {
-                    addDesignSettingsChangeListener(designSettingsChangeListener);
+        // getGlobalData can possibly be executed before the ChaynsWeb registers the message listener, in which case
+        // the promise would not be resolved. Mostly relevant for pages using the v5 api which wait for chayns.ready
+        try {
+            const maxRetries = 6;
+            let retryCount = -1; // first iteration is not a retry
+            let data;
+            while (retryCount < maxRetries) {
+                retryCount++;
+                try {
+                    const timeoutPromise = new Promise((_, reject) => {
+                        setTimeout(reject, 500, new DOMException('getGlobalData timed out', 'TimeoutError'));
+                    });
+                    data = await Promise.race([getGlobalData(undefined), timeoutPromise]);
+                    break;
+                } catch (ex) {
+                    if (!(ex instanceof DOMException && ex.name === 'TimeoutError') || retryCount === maxRetries) {
+                        log.debug('Error: The App Information could not be received.');
+                        reject('The App Information could not be received.');
+                        return;
+                    }
                 }
-            })
-            .catch(() => {
-                log.debug('Error: The App Information could not be received.');
-                reject('The App Information could not be received.');
-            });
+            }
+            chaynsReadySetup(data).then(resolve, reject);
+
+            /**
+             * Register the designSettingsChangeListener in chayns-App (locationId=378)
+             * and Intercom-App (locationId=186225)
+             */
+            if ([378, 186225].indexOf(environment.site.locationId) > -1) {
+                addDesignSettingsChangeListener(designSettingsChangeListener);
+            }
+        } catch {
+            log.debug('Error: The App Information could not be received.');
+            reject('The App Information could not be received.');
+        }
     }, shouldWait ? 200 : 0);
 });
 
