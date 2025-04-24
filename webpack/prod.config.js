@@ -37,8 +37,5 @@ module.exports = {
         new webpack.DefinePlugin({
             '__DEV__': false
         }),
-        new webpack.ProvidePlugin({
-            'fetch': 'exports-loader?self.fetch!whatwg-fetch/dist/fetch.umd'
-        })
     ]
 };
