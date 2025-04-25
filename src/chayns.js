@@ -1,3 +1,5 @@
+import '@babel/polyfill';
+
 import * as calls from './chayns/calls';
 import * as event from './chayns/events';
 import * as tappApi from './chayns/tapp-api';
