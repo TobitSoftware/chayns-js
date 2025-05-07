@@ -1,3 +1,6 @@
+// DO NOT REMOVE! Some other projects (e.g. microshop-frontend) might rely on the chayns-js to provide the regenerator-runtime from these polyfills
+import '@babel/polyfill';
+
 import * as calls from './chayns/calls';
 import * as event from './chayns/events';
 import * as tappApi from './chayns/tapp-api';
