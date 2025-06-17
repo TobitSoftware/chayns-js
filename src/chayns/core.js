@@ -144,19 +144,25 @@ const domReadySetup = () => new Promise((resolve, reject) => {
             const maxRetries = 6;
             let retryCount = -1; // first iteration is not a retry
             let data;
-            while (retryCount < maxRetries) {
-                retryCount++;
-                try {
-                    const timeoutPromise = new Promise((_, reject) => {
-                        setTimeout(reject, 500, new DOMException('getGlobalData timed out', 'TimeoutError'));
-                    });
-                    data = await Promise.race([getGlobalData(undefined), timeoutPromise]);
-                    break;
-                } catch (ex) {
-                    if (!(ex instanceof DOMException && ex.name === 'TimeoutError') || retryCount === maxRetries) {
-                        log.debug('Error: The App Information could not be received.');
-                        reject('The App Information could not be received.');
-                        return;
+            if (environment.isApp) {
+                const start = Date.now();
+                data = await getGlobalData(undefined);
+                console.debug('getGlobalData took', Date.now() - start, 'ms');
+            } else {
+                while (retryCount < maxRetries) {
+                    retryCount++;
+                    try {
+                        const timeoutPromise = new Promise((_, reject) => {
+                            setTimeout(reject, 500, new DOMException('getGlobalData timed out', 'TimeoutError'));
+                        });
+                        data = await Promise.race([getGlobalData(undefined), timeoutPromise]);
+                        break;
+                    } catch (ex) {
+                        if (!(ex instanceof DOMException && ex.name === 'TimeoutError') || retryCount === maxRetries) {
+                            log.debug('Error: The App Information could not be received.');
+                            reject('The App Information could not be received.');
+                            return;
+                        }
                     }
                 }
             }
