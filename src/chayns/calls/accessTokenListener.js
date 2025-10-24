@@ -1,9 +1,9 @@
 import {chaynsCall} from '../chaynsCall';
 import {getCallbackName} from '../callback';
 import {propTypes} from '../propTypes';
-import {environment, setEnv} from '../environment';
-import {parseGlobalData} from '../../utils/parseGlobalData';
+import {environment} from '../environment';
 import {isFunction} from '../../utils';
+import { getGlobalData } from './getGlobalData';
 
 export const listeners = [];
 
@@ -23,14 +23,14 @@ function _setAccessTokenChange(enabled) {
             'support': {'android': 4728, 'ios': 4301}
         },
         callbackName,
-        'callbackFunction': (data) => {
-            setEnv(parseGlobalData(data));
-
-            for (let i = 0, l = listeners.slice(); i < l.length; i++) {
-                if (isFunction(l[i])) {
-                    l[i](data);
+        'callbackFunction': () => {
+            getGlobalData(true).then((data) => {
+                for (let i = 0, l = listeners.slice(); i < l.length; i++) {
+                    if (isFunction(l[i])) {
+                        l[i](data);
+                    }
                 }
-            }
+            });
         },
         'propTypes': {
             'enabled': propTypes.boolean.isRequired,
