@@ -1,10 +1,16 @@
+import { getLogger } from '../../utils/logger';
 import {chaynsCall} from '../chaynsCall';
 import {getCallbackName} from '../callback';
+import { environment } from '../environment';
 import {propTypes} from '../propTypes';
 
 let counter = 0;
 
 export function set(key, object, accessMode, tappIds) {
+    if (environment.isApp && environment.isIOS && object) {
+        object = JSON.stringify(object);
+    }
+
     return chaynsCall({
         'call': {
             'action': 73,
@@ -52,6 +58,16 @@ export function get(key, accessMode) {
             'accessMode': propTypes.number,
             'callback': propTypes.string.isRequired
         }
+    }).then((data) => {
+        if (environment.isApp && environment.isIOS && data && typeof data.object === 'string') {
+            try {
+                data.object = JSON.parse(data.object);
+            } catch (ex) {
+                const log = getLogger('chayns.core.chayns_calls.storage');
+                log.warn('storage.get: could not parse result', data.object);
+            }
+        }
+        return data;
     });
 }
 
