@@ -7,7 +7,7 @@ import {propTypes} from '../propTypes';
 let counter = 0;
 
 export function set(key, object, accessMode, tappIds) {
-    if (environment.isApp && environment.isIOS && object) {
+    if (environment.isApp && environment.isIOS) {
         object = JSON.stringify(object);
     }
 
