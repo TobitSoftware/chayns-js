@@ -141,7 +141,7 @@ const domReadySetup = () => new Promise((resolve, reject) => {
         // getGlobalData can possibly be executed before the ChaynsWeb registers the message listener, in which case
         // the promise would not be resolved. Mostly relevant for pages using the v5 api which wait for chayns.ready
         try {
-            const maxRetries = 6;
+            const maxRetries = 60;
             let retryCount = -1; // first iteration is not a retry
             let data;
             if (environment.isApp) {
